@@ -57,9 +57,11 @@ Makefile
 *_pb2.py
 *_pb2_grpc.py
 
-# Test data (large files)
+# Test data (large files - regenerate with data.py)
 test_data/data_100k.csv
 test_data/data_1m.csv
+test_data/data_10m.csv
+test_data/data_10k.csv
 
 # Results
 results/*.csv
