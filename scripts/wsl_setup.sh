@@ -140,11 +140,35 @@ cd "$PROJECT_DIR"
 # Generate protobuf files
 echo ""
 echo -e "${GREEN}Step 9: Generating protobuf files...${NC}"
-if [ -f "scripts/gen_proto.sh" ]; then
-    chmod +x scripts/gen_proto.sh
-    ./scripts/gen_proto.sh
+cd "$PROJECT_DIR"
+
+# Create directory for generated files if it doesn't exist
+mkdir -p src/cpp/common
+
+# Generate C++ protobuf files
+echo "Generating C++ protobuf files..."
+protoc --proto_path=protos \
+       --cpp_out=src/cpp/common \
+       --grpc_out=src/cpp/common \
+       --plugin=protoc-gen-grpc=$(which grpc_cpp_plugin) \
+       protos/minitwo.proto
+
+if [ -f "src/cpp/common/minitwo.pb.cc" ]; then
+    echo -e "${GREEN}✓ C++ protobuf files generated successfully${NC}"
 else
-    echo -e "${YELLOW}gen_proto.sh not found, will generate during build${NC}"
+    echo -e "${RED}✗ Failed to generate C++ protobuf files${NC}"
+    exit 1
+fi
+
+# Generate Python protobuf files (optional)
+if [ -d "src/python" ]; then
+    echo "Generating Python protobuf files..."
+    mkdir -p src/python/common
+    python3 -m grpc_tools.protoc --proto_path=protos \
+            --python_out=src/python/common \
+            --grpc_python_out=src/python/common \
+            protos/minitwo.proto
+    echo -e "${GREEN}✓ Python protobuf files generated${NC}"
 fi
 
 # Generate test data
