@@ -28,7 +28,7 @@ add_library(mini2_processor
     server/WorkerQueue.h
 )
 target_include_directories(mini2_processor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/server)
-target_link_libraries(mini2_processor PUBLIC mini2_proto gRPC::grpc++ protobuf::libprotobuf)
+target_link_libraries(mini2_processor PUBLIC mini2_common mini2_proto gRPC::grpc++ protobuf::libprotobuf)
 
 add_executable(mini2_server server/ServerMain.cpp server/Handlers.cpp)
 target_link_libraries(mini2_server PRIVATE mini2_common mini2_proto mini2_processor gRPC::grpc++ protobuf::libprotobuf)
