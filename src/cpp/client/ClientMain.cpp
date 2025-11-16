@@ -287,7 +287,7 @@ int main(int argc, char** argv){
     
     for (int i=1;i<argc;i++){
         std::string a = argv[i];
-        if (a=="--gateway" && i+1<argc) gateway = argv[++i];
+        if ((a=="--gateway" || a=="--server") && i+1<argc) gateway = argv[++i];
         else if (a=="--mode" && i+1<argc) mode = argv[++i];
         else if (a=="--dataset" && i+1<argc) dataset_path = argv[++i];
     }
