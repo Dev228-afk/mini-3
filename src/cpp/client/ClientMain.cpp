@@ -317,6 +317,7 @@ int main(int argc, char** argv){
         if ((a=="--gateway" || a=="--server") && i+1<argc) gateway = argv[++i];
         else if (a=="--mode" && i+1<argc) mode = argv[++i];
         else if (a=="--dataset" && i+1<argc) dataset_path = argv[++i];
+        else if (a=="--query" && i+1<argc) dataset_path = argv[++i];  // Accept --query as alias
     }
     
     std::cout << "=== Mini2 Client ===" << std::endl;
@@ -330,7 +331,12 @@ int main(int argc, char** argv){
     if (mode == "ping") {
         testPing(gateway);
     } else if (mode == "session") {
-        testOpenSession(gateway);
+        if (dataset_path.empty()) {
+            std::cout << "Warning: No dataset specified, using connection test only" << std::endl;
+            testOpenSession(gateway);
+        } else {
+            testStrategyB_GetNext(gateway, dataset_path);
+        }
     } else if (mode == "all") {
         // Test all 6 processes using config addresses
         std::cout << "Testing all processes:" << std::endl;
