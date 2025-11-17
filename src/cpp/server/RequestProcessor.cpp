@@ -112,9 +112,11 @@ mini2::AggregatedResult RequestProcessor::ProcessRequestOnce(const mini2::Reques
     // Forward to team leaders
     ForwardToTeamLeaders(req, req.need_green(), req.need_pink());
 
-    // Wait for results - increased timeout for large datasets
-    // Team leaders wait 200ms for workers, so we need more time
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // Wait for results - adaptive timeout based on expected processing time
+    // For large datasets (10M rows), loading + processing can take 30-60 seconds
+    // Team leaders load dataset, process chunks, and send back results
+    // Use generous timeout to allow for large dataset processing
+    std::this_thread::sleep_for(std::chrono::seconds(90));  // 90 second timeout for large datasets
 
     // Collect and combine results
     mini2::AggregatedResult aggregated;
@@ -182,8 +184,10 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& req) {
         ForwardToWorkers(req);
         
         // Wait for workers to respond (they will call PushWorkerResult)
+        // For large datasets, workers need time to load data and process chunks
+        // 10M rows can take 30-60 seconds to load and process
         std::cout << "[TeamLeader " << node_id_ << "] Waiting for worker results..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::seconds(60));  // 60 second timeout for worker processing
         
     } else {
         // Fallback: Team leader processes data directly (Phase 2 behavior)
