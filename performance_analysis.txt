@@ -1,0 +1,150 @@
+root@DESKTOP-F0TMIC2:/home/meghpatel/dev/mini-2# ./build/src/cpp/mini2_client --server 169.254.239.138:50050 --mode session --query 'test_data/data_1m.csv'
+=== Mini2 Client ===
+Gateway: 169.254.239.138:50050
+Mode: session
+Dataset: test_data/data_1m.csv
+
+
+📦 PROCESSING DATASET: test_data/data_1m.csv
+Using Strategy B: GetNext (Sequential chunk retrieval)
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+
+Step 1: Starting session...
+Session started: session-1763418012251-5972
+  Session creation time: 4 ms
+
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 40859283 bytes (latency: 11638 ms) (has_more: yes)
+  ✓ Chunk 1: 40866708 bytes (latency: 1166 ms) (has_more: yes)
+  ✓ Chunk 2: 40862299 bytes (latency: 848 ms) (has_more: no)
+
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 3
+Total bytes: 122588290
+Time to first chunk: 11644 ms ⚡
+Total time: 13673 ms
+RPC calls made: 4 (1 StartRequest + 3 GetNext)
+========================================
+
+
+root@DESKTOP-F0TMIC2:/home/meghpatel/dev/mini-2# ./build/src/cpp/mini2_client --server 169.254.239.138:50050 --mode session --query 'test_data/data_100k.csv'
+=== Mini2 Client ===
+Gateway: 169.254.239.138:50050
+Mode: session
+Dataset: test_data/data_100k.csv
+
+
+📦 PROCESSING DATASET: test_data/data_100k.csv
+Using Strategy B: GetNext (Sequential chunk retrieval)
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+
+Step 1: Starting session...
+Session started: session-1763418037395-9236
+  Session creation time: 4 ms
+
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 4086720 bytes (latency: 1450 ms) (has_more: yes)
+  ✓ Chunk 1: 4088500 bytes (latency: 78 ms) (has_more: yes)
+  ✓ Chunk 2: 4087333 bytes (latency: 70 ms) (has_more: no)
+
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 3
+Total bytes: 12262553
+Time to first chunk: 1456 ms ⚡
+Total time: 1607 ms
+RPC calls made: 4 (1 StartRequest + 3 GetNext)
+========================================
+
+
+root@DESKTOP-F0TMIC2:/home/meghpatel/dev/mini-2# ./build/src/cpp/mini2_client --server 169.254.239.138:50050 --mode session --query 'test_data/data_100k.csv'
+=== Mini2 Client ===
+Gateway: 169.254.239.138:50050
+Mode: session
+Dataset: test_data/data_100k.csv
+
+
+📦 PROCESSING DATASET: test_data/data_100k.csv
+Using Strategy B: GetNext (Sequential chunk retrieval)
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+
+Step 1: Starting session...
+Session started: session-1763418043801-4924
+  Session creation time: 6 ms
+
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 4086720 bytes (latency: 579 ms) (has_more: yes)
+  ✓ Chunk 1: 4088500 bytes (latency: 25 ms) (has_more: yes)
+  ✓ Chunk 2: 4087333 bytes (latency: 224 ms) (has_more: no)
+
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 3
+Total bytes: 12262553
+Time to first chunk: 586 ms ⚡
+Total time: 839 ms
+RPC calls made: 4 (1 StartRequest + 3 GetNext)
+========================================
+
+
+root@DESKTOP-F0TMIC2:/home/meghpatel/dev/mini-2# ./build/src/cpp/mini2_client --server 169.254.239.138:50050 --mode session --query 'test_data/data_100k.csv'
+=== Mini2 Client ===
+Gateway: 169.254.239.138:50050
+Mode: session
+Dataset: test_data/data_100k.csv
+
+
+📦 PROCESSING DATASET: test_data/data_100k.csv
+Using Strategy B: GetNext (Sequential chunk retrieval)
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+
+Step 1: Starting session...
+Session started: session-1763418049091-7577
+  Session creation time: 6 ms
+
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 4086720 bytes (latency: 645 ms) (has_more: yes)
+  ✓ Chunk 1: 4088500 bytes (latency: 54 ms) (has_more: yes)
+  ✓ Chunk 2: 4087333 bytes (latency: 93 ms) (has_more: no)
+
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 3
+Total bytes: 12262553
+Time to first chunk: 653 ms ⚡
+Total time: 803 ms
+RPC calls made: 4 (1 StartRequest + 3 GetNext)
+========================================

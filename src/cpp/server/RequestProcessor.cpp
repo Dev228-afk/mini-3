@@ -197,7 +197,7 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& req) {
         
         // Wait for worker results with condition variable (efficient waiting)
         std::unique_lock<std::mutex> lock(results_mutex_);
-        bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(60), 
+        bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(180), 
             [this, &req, expected_workers]() {
                 return pending_results_.count(req.request_id()) && 
                        pending_results_[req.request_id()].size() >= (size_t)expected_workers;
