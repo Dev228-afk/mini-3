@@ -89,23 +89,32 @@ echo ""
 echo "=========================================="
 echo "STEP 4: Test Windows IP (requires port forwarding)"
 echo "=========================================="
-echo "Testing if port forwarding works (Windows IP → WSL)..."
-echo ""
 
-FORWARD_WORKS=0
-for port in "${MY_PORTS[@]}"; do
-    echo -n "  Testing $WIN_IP:$port ... "
-    timeout 2 bash -c "echo > /dev/tcp/$WIN_IP/$port" 2>/dev/null
-    if [ $? -eq 0 ]; then
-        echo "✓ WORKS"
-        FORWARD_WORKS=$((FORWARD_WORKS + 1))
-    else
-        echo "❌ FAILED (port forwarding missing!)"
-    fi
-done
-echo ""
+# Check if WSL IP matches Windows IP (Computer 1 scenario)
+if [ "$MY_IP" == "$WIN_IP" ]; then
+    echo "WSL IP matches Windows IP ($MY_IP) - Port forwarding NOT NEEDED"
+    echo "This is normal for Computer 1 in WSL NAT mode."
+    echo ""
+    FORWARD_WORKS=${#MY_PORTS[@]}  # Mark as working since not needed
+else
+    echo "Testing if port forwarding works (Windows IP → WSL)..."
+    echo ""
+    
+    FORWARD_WORKS=0
+    for port in "${MY_PORTS[@]}"; do
+        echo -n "  Testing $WIN_IP:$port ... "
+        timeout 2 bash -c "echo > /dev/tcp/$WIN_IP/$port" 2>/dev/null
+        if [ $? -eq 0 ]; then
+            echo "✓ WORKS"
+            FORWARD_WORKS=$((FORWARD_WORKS + 1))
+        else
+            echo "❌ FAILED (port forwarding missing!)"
+        fi
+    done
+    echo ""
+fi
 
-if [ $FORWARD_WORKS -eq 0 ]; then
+if [ $FORWARD_WORKS -eq 0 ] && [ "$MY_IP" != "$WIN_IP" ]; then
     echo "❌ CRITICAL: Port forwarding NOT configured!"
     echo ""
     echo "You MUST run these commands in Windows PowerShell as Administrator:"
