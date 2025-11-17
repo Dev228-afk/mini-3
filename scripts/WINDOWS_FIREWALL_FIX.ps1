@@ -34,7 +34,7 @@ New-NetFirewallRule -DisplayName "$ruleName-TCP-In" `
     -Enabled True `
     -Description "Allow inbound TCP connections to Mini-2 gRPC servers (ports 50050-50055)"
 
-Write-Host "  ✓ TCP Inbound rule created (ports 50050-50055)" -ForegroundColor Green
+Write-Host "  TCP Inbound rule created (ports 50050-50055)" -ForegroundColor Green
 
 # Step 3: Create outbound rules for connections to other computer
 Write-Host ""
@@ -50,7 +50,7 @@ New-NetFirewallRule -DisplayName "$ruleName-TCP-Out" `
     -Enabled True `
     -Description "Allow outbound TCP connections from Mini-2 gRPC servers to remote (ports 50050-50055)"
 
-Write-Host "  ✓ TCP Outbound rule created (ports 50050-50055)" -ForegroundColor Green
+Write-Host "  TCP Outbound rule created (ports 50050-50055)" -ForegroundColor Green
 
 # Step 4: Create WSL-specific rules
 Write-Host ""
@@ -67,26 +67,26 @@ New-NetFirewallRule -DisplayName "$ruleName-WSL" `
     -Enabled True `
     -Description "Allow WSL to Windows communication for Mini-2"
 
-Write-Host "  ✓ WSL interface rule created" -ForegroundColor Green
+Write-Host "  WSL interface rule created" -ForegroundColor Green
 
-# Step 5: Disable Windows Defender Firewall for Private networks (TEMPORARY - for testing)
+# Step 5: Check firewall status
 Write-Host ""
 Write-Host "Step 5: Checking firewall status..." -ForegroundColor Yellow
 $firewallStatus = Get-NetFirewallProfile -Profile Private | Select-Object -ExpandProperty Enabled
 
 if ($firewallStatus) {
-    Write-Host "  ⚠️  Private firewall is ENABLED" -ForegroundColor Yellow
+    Write-Host "  Private firewall is ENABLED" -ForegroundColor Yellow
     Write-Host "  If issues persist, temporarily disable with:" -ForegroundColor Yellow
     Write-Host "    Set-NetFirewallProfile -Profile Private -Enabled False" -ForegroundColor Cyan
 } else {
-    Write-Host "  ✓ Private firewall already disabled" -ForegroundColor Green
+    Write-Host "  Private firewall already disabled" -ForegroundColor Green
 }
 
 # Step 6: Verify rules were created
 Write-Host ""
 Write-Host "Step 6: Verifying rules..." -ForegroundColor Yellow
 $rules = Get-NetFirewallRule -DisplayName "$ruleName*"
-Write-Host "  ✓ Created $($rules.Count) firewall rules" -ForegroundColor Green
+Write-Host "  Created $($rules.Count) firewall rules" -ForegroundColor Green
 
 # Step 7: Show current listening ports
 Write-Host ""
@@ -95,7 +95,7 @@ $listening = netstat -an | Select-String ":5005[0-5].*LISTENING"
 if ($listening) {
     Write-Host $listening -ForegroundColor Gray
 } else {
-    Write-Host "  ⚠️  No servers listening on ports 50050-50055" -ForegroundColor Yellow
+    Write-Host "  No servers listening on ports 50050-50055" -ForegroundColor Yellow
     Write-Host "  Make sure WSL servers are running!" -ForegroundColor Yellow
 }
 
@@ -119,9 +119,9 @@ if ($myIP -like "192.168.137.189") {
     foreach ($port in 50052, 50054, 50055) {
         $result = Test-NetConnection -ComputerName "192.168.137.1" -Port $port -InformationLevel Quiet -WarningAction SilentlyContinue
         if ($result) {
-            Write-Host "  ✓ Port $port reachable" -ForegroundColor Green
+            Write-Host "  Port $port reachable" -ForegroundColor Green
         } else {
-            Write-Host "  ✗ Port $port NOT reachable" -ForegroundColor Red
+            Write-Host "  Port $port NOT reachable" -ForegroundColor Red
         }
     }
 } elseif ($myIP -like "192.168.137.1") {
@@ -132,13 +132,13 @@ if ($myIP -like "192.168.137.189") {
     foreach ($port in 50050, 50051, 50053) {
         $result = Test-NetConnection -ComputerName "192.168.137.189" -Port $port -InformationLevel Quiet -WarningAction SilentlyContinue
         if ($result) {
-            Write-Host "  ✓ Port $port reachable" -ForegroundColor Green
+            Write-Host "  Port $port reachable" -ForegroundColor Green
         } else {
-            Write-Host "  ✗ Port $port NOT reachable" -ForegroundColor Red
+            Write-Host "  Port $port NOT reachable" -ForegroundColor Red
         }
     }
 } else {
-    Write-Host "  ⚠️  Could not determine computer (IP: $myIP)" -ForegroundColor Yellow
+    Write-Host "  Could not determine computer (IP: $myIP)" -ForegroundColor Yellow
 }
 
 Write-Host ""
