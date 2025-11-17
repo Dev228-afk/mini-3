@@ -172,7 +172,7 @@ public:
         
         return Status::OK;
     }
-    
+
     Status PollNext(ServerContext*, const mini2::PollReq* req, mini2::PollResp* resp) override {
         std::cout << "[ClientGateway] PollNext: " << req->request_id() << std::endl;
         
