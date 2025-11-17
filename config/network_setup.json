@@ -17,7 +17,7 @@
     {
       "id": "C",
       "role": "WORKER",
-      "host": "169.254.233.33",
+      "host": "192.168.137.1",
       "port": 50052,
       "team": "GREEN"
     },
@@ -31,14 +31,14 @@
     {
       "id": "E",
       "role": "TEAM_LEADER",
-      "host": "169.254.233.33",
+      "host": "192.168.137.1",
       "port": 50054,
       "team": "PINK"
     },
     {
       "id": "F",
       "role": "WORKER",
-      "host": "169.254.233.33",
+      "host": "192.168.137.1",
       "port": 50055,
       "team": "PINK"
     }

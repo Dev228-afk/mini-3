@@ -19,11 +19,11 @@ echo ""
 # Determine computer and remote IP
 if [[ "$MY_IP" == "192.168.137.110" ]]; then
     COMPUTER="1"
-    REMOTE_IP="169.254.233.33"
+    REMOTE_IP="192.168.137.1"
     MY_SERVERS="A B D"
     MY_PORTS="50050 50051 50053"
     REMOTE_PORTS="50052 50054 50055"
-elif [[ "$MY_IP" == "169.254.233.33" ]]; then
+elif [[ "$MY_IP" == "192.168.137.1" ]] || [[ "$MY_IP" == "169.254.233.33" ]] || [[ "$MY_IP" == "172.22.208.1" ]]; then
     COMPUTER="2"
     REMOTE_IP="192.168.137.110"
     MY_SERVERS="C E F"

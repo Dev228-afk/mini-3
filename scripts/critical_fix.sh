@@ -40,11 +40,11 @@ fi
 echo "My IP: $MY_IP"
 
 # Determine which computer
-if [[ "$MY_IP" == "192.168.137.110" ]]; then
+if [[ "$MY_IP" == "192.168.137.110" ]] || [[ "$MY_IP" =~ ^192\.168\.137\. && "$MY_IP" != "192.168.137.1" ]]; then
     COMPUTER="1"
     MY_SERVERS="A B D"
-    OTHER_IP="169.254.233.33"
-elif [[ "$MY_IP" == "169.254.233.33" ]]; then
+    OTHER_IP="192.168.137.1"
+elif [[ "$MY_IP" == "192.168.137.1" ]] || [[ "$MY_IP" == "169.254.233.33" ]]; then
     COMPUTER="2"
     MY_SERVERS="C E F"
     OTHER_IP="192.168.137.110"

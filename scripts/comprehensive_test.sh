@@ -205,8 +205,8 @@ ps aux | grep mini2_server | grep -v grep | awk '{print $11, "(PID " $2 ") - Mem
 
 echo ""
 echo "Network Latency (approximate):"
-echo "  Ping to gateway:"
-ping -c 3 192.168.137.110 2>/dev/null | tail -1 || echo "  [Unable to measure]"
+echo "  Computer 1 to Computer 2:"
+ping -c 3 192.168.137.1 2>/dev/null | tail -1 || echo "  [Unable to measure]"
 
 echo ""
 echo "=========================================="

@@ -18,9 +18,9 @@ if [[ "$MY_IP" == "192.168.137.110" ]]; then
     COMPUTER="1"
     WIN_IP="192.168.137.110"
     PORTS="50050 50051 50053"
-elif [[ "$MY_IP" == "169.254.233.33" ]]; then
+elif [[ "$MY_IP" == "192.168.137.1" ]] || [[ "$MY_IP" == "169.254.233.33" ]] || [[ "$MY_IP" == "172.22.208.1" ]]; then
     COMPUTER="2"
-    WIN_IP="169.254.233.33"
+    WIN_IP="192.168.137.1"
     PORTS="50052 50054 50055"
 else
     echo "Cannot detect computer. Please run manually."

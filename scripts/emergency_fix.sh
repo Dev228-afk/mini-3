@@ -7,7 +7,7 @@ echo ""
 
 # IP addresses
 CMP1_IP="192.168.137.110"
-CMP2_IP="169.254.233.33"
+CMP2_IP="192.168.137.1"
 
 echo "Expected IPs:"
 echo "  Computer 1: $CMP1_IP"
