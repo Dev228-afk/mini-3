@@ -190,13 +190,27 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& req) {
         // Real data processing: Forward to workers
         std::cout << "[TeamLeader " << node_id_ << "] Forwarding to " 
                   << worker_stubs_.size() << " worker(s)..." << std::endl;
-        ForwardToWorkers(req);
+        int expected_workers = ForwardToWorkers(req);
         
-        // Wait for workers to respond (they will call PushWorkerResult)
-        // For large datasets, workers need time to load data and process chunks
-        // 10M rows can take 30-60 seconds to load and process
-        std::cout << "[TeamLeader " << node_id_ << "] Waiting for worker results..." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(60));  // 60 second timeout for worker processing
+        std::cout << "[TeamLeader " << node_id_ << "] Waiting for " << expected_workers 
+                  << " worker results..." << std::endl;
+        
+        // Wait for worker results with condition variable (efficient waiting)
+        std::unique_lock<std::mutex> lock(results_mutex_);
+        bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(60), 
+            [this, &req, expected_workers]() {
+                return pending_results_.count(req.request_id()) && 
+                       pending_results_[req.request_id()].size() >= (size_t)expected_workers;
+            });
+        
+        if (!got_results) {
+            std::cerr << "[TeamLeader " << node_id_ << "] WARNING: Timeout waiting for worker results" 
+                      << std::endl;
+        } else {
+            std::cout << "[TeamLeader " << node_id_ << "] Received all " << expected_workers 
+                      << " worker results" << std::endl;
+        }
+        lock.unlock();
         
     } else {
         // Fallback: Team leader processes data directly (Phase 2 behavior)
@@ -246,7 +260,7 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& req) {
     }
 }
 
-void RequestProcessor::ForwardToWorkers(const mini2::Request& req) {
+int RequestProcessor::ForwardToWorkers(const mini2::Request& req) {
     int forwarded = 0;
     for (auto& [addr, stub] : worker_stubs_) {
         ClientContext ctx;
@@ -262,6 +276,7 @@ void RequestProcessor::ForwardToWorkers(const mini2::Request& req) {
         }
     }
     std::cout << "[TeamLeader " << node_id_ << "] Forwarded request to " << forwarded << " worker(s)" << std::endl;
+    return forwarded;
 }
 
 // ============================================================================

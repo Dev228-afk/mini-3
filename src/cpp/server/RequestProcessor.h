@@ -111,7 +111,7 @@ private:
     
     // Helper methods
     int ForwardToTeamLeaders(const mini2::Request& req, bool need_green, bool need_pink);
-    void ForwardToWorkers(const mini2::Request& req);
+    int ForwardToWorkers(const mini2::Request& req);
     mini2::WorkerResult GenerateMockData(const std::string& request_id, uint32_t part_index);
     mini2::WorkerResult ProcessRealData(const mini2::Request& req, size_t start_idx, size_t count);
     mini2::AggregatedResult CombineResults(const std::vector<mini2::WorkerResult>& results);
