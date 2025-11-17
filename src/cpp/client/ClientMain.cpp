@@ -2,6 +2,7 @@
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"
 #include "../common/MemoryTracker.h"
+#include "../common/NetworkTopology.h"
 #include <iostream>
 #include <chrono>
 #include <iomanip>
@@ -281,7 +282,18 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
 }
 
 int main(int argc, char** argv){
+    // Load network configuration
+    NetworkTopology config;
+    if (!config.LoadFromFile("../config/network_setup.json")) {
+        std::cerr << "Warning: Could not load config, using localhost defaults" << std::endl;
+    }
+    
+    // Default gateway: Node A from config, fallback to localhost
     std::string gateway = "localhost:50050";
+    if (config.nodes.size() > 0) {
+        gateway = config.nodes[0].host + ":" + std::to_string(config.nodes[0].port);
+    }
+    
     std::string mode = "session";
     std::string dataset_path = "";  // Dataset path for query field
     
@@ -305,14 +317,13 @@ int main(int argc, char** argv){
     } else if (mode == "session") {
         testOpenSession(gateway);
     } else if (mode == "all") {
-        // Test all 6 processes
+        // Test all 6 processes using config addresses
         std::cout << "Testing all processes:" << std::endl;
-        testPing("localhost:50050");  // A
-        testPing("localhost:50051");  // B
-        testPing("localhost:50052");  // C
-        testPing("localhost:50053");  // D
-        testPing("localhost:50054");  // E
-        testPing("localhost:50055");  // F
+        for (const auto& node : config.nodes) {
+            std::string addr = node.host + ":" + std::to_string(node.port);
+            std::cout << "Node " << node.node_id << ": ";
+            testPing(addr);
+        }
     } else if (mode == "request") {
         // Test Phase 2: Full request processing
         std::cout << "Testing RequestOnce (Phase 2):" << std::endl;
