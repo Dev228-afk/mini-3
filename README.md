@@ -1,12 +1,4 @@
-xxxxx pc1xxxxx
-New-NetFirewallRule -DisplayName "WSL gRPC 50050" -Direction Inbound -LocalPort 50050 -Protocol TCP -Action Allow
-New-NetFirewallRule -DisplayName "WSL gRPC 50051" -Direction Inbound -LocalPort 50051 -Protocol TCP -Action Allow
-New-NetFirewallRule -DisplayName "WSL gRPC 50053" -Direction Inbound -LocalPort 50053 -Protocol TCP -Action Allow
-
-xxxx pc2 xxxxx
-New-NetFirewallRule -DisplayName "WSL gRPC 50052" -Direction Inbound -LocalPort 50052 -Protocol TCP -Action Allow
-New-NetFirewallRule -DisplayName "WSL gRPC 50054" -Direction Inbound -LocalPort 50054 -Protocol TCP -Action Allow
-New-NetFirewallRule -DisplayName "WSL gRPC 50055" -Direction Inbound -LocalPort 50055 -Protocol TCP -Action Allow
+(https://docs.google.com/document/d/1LU8uzzWR1DGf-8nPK2aiHZ9cL2YLvkIROUUMZ3y3kx8/edit?usp=sharing)
 
 # Mini-2 Project
 
