@@ -334,7 +334,7 @@ fi
 if [ -f ./build/src/cpp/inspect_shm ]; then
     echo "Test 4.2: Inspect Shared Memory Content"
     echo "---------------------------------------------------------------"
-    ./build/src/cpp/inspect_shm > "$LOG_DIR/shared_memory_content.txt" 2>&1 || true
+    ./build/src/cpp/inspect_shm shm_host1 > "$LOG_DIR/shared_memory_content.txt" 2>&1 || true
     cat "$LOG_DIR/shared_memory_content.txt"
     echo ""
 else

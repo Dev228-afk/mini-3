@@ -1,12 +1,17 @@
 
 #include "config.h"
 #include <fstream>
+#include <iostream>
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
 NetworkConfig LoadConfig(const std::string& path){
     NetworkConfig out;
     std::ifstream f(path);
+    if (!f.is_open() || f.peek() == std::ifstream::traits_type::eof()) {
+        std::cerr << "Error: Cannot read config file: " << path << std::endl;
+        return out; // Return empty config
+    }
     json j; f >> j;
 
     for (auto &n : j["nodes"]) {

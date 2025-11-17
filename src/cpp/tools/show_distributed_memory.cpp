@@ -13,6 +13,11 @@ int main() {
     // Load network configuration
     auto config = LoadConfig("../config/network_setup.json");
     
+    if (config.nodes.empty()) {
+        std::cerr << "Error: No nodes found in config. Please check ../config/network_setup.json exists." << std::endl;
+        return 1;
+    }
+    
     std::vector<MemoryInfo> nodes;
     
     std::cout << "\n=== Distributed Memory Across All Nodes ===" << std::endl;
