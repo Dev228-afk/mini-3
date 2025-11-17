@@ -282,13 +282,28 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
 }
 
 int main(int argc, char** argv){
-    // Load network configuration
+    // Load network configuration - try multiple paths
     std::string gateway = "localhost:50050";
     try {
-        auto config = LoadConfig("../config/network_setup.json");
-        if (config.nodes.find("A") != config.nodes.end()) {
-            const auto& nodeA = config.nodes["A"];
-            gateway = nodeA.host + ":" + std::to_string(nodeA.port);
+        std::vector<std::string> config_paths = {
+            "config/network_setup.json",
+            "../config/network_setup.json",
+            "../../config/network_setup.json"
+        };
+        bool loaded = false;
+        for (const auto& path : config_paths) {
+            try {
+                auto config = LoadConfig(path);
+                if (!config.nodes.empty() && config.nodes.find("A") != config.nodes.end()) {
+                    const auto& nodeA = config.nodes["A"];
+                    gateway = nodeA.host + ":" + std::to_string(nodeA.port);
+                    loaded = true;
+                    break;
+                }
+            } catch (...) { continue; }
+        }
+        if (!loaded) {
+            std::cerr << "Warning: Could not load config, using localhost defaults" << std::endl;
         }
     } catch (...) {
         std::cerr << "Warning: Could not load config, using localhost defaults" << std::endl;
