@@ -38,7 +38,32 @@ int main(int argc, char** argv){
         }
     }
     
-    auto cfg = LoadConfig(config_path);
+    // Try multiple config paths
+    std::vector<std::string> config_paths = {
+        config_path,
+        "../config/network_setup.json",
+        "../../config/network_setup.json",
+        "../../../config/network_setup.json"
+    };
+    
+    NetworkConfig cfg;
+    bool config_loaded = false;
+    for (const auto& path : config_paths) {
+        try {
+            cfg = LoadConfig(path);
+            if (!cfg.nodes.empty()) {
+                config_loaded = true;
+                std::cout << "[Server] Loaded config from: " << path << std::endl;
+                break;
+            }
+        } catch (...) { continue; }
+    }
+    
+    if (!config_loaded) {
+        std::cerr << "[Server] FATAL: Could not load config from any path. Server cannot start." << std::endl;
+        return 1;
+    }
+    
     auto it = cfg.nodes.find(node_id);
     if (it==cfg.nodes.end()){ std::cerr<<"Unknown node "<<node_id<<"\n"; return 1; }
     const auto& me = it->second;
