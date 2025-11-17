@@ -155,7 +155,7 @@ if [ "$COMPUTER" == "1" ]; then
     echo "  2. Test connectivity:"
     echo "     telnet 192.168.137.1 50052"
     echo "  3. Run client test:"
-    echo "     ./build/src/cpp/mini2_client --server 192.168.137.189:50050 --query 'test'"
+    echo "     ./build/src/cpp/mini2_client --server 192.168.137.169:50050 --query 'test'"
 else
     echo "  1. Wait for Computer 1 to start servers A, B, D"
     echo "  2. Test connectivity:"

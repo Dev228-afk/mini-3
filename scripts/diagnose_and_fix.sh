@@ -13,7 +13,7 @@ fi
 
 if [[ "$MY_IP" =~ 192\.168\.137\. ]] && [[ "$MY_IP" != "192.168.137.1" ]]; then
     COMPUTER="1"
-    WIN_IP="192.168.137.189"
+    WIN_IP="192.168.137.169"
     MY_PORTS=(50050 50051 50053)
     REMOTE_IP="192.168.137.1"
     REMOTE_PORTS=(50052 50054 50055)
@@ -21,7 +21,7 @@ elif [[ "$MY_IP" =~ (192\.168\.137\.1|169\.254\.|172\.22\.) ]]; then
     COMPUTER="2"
     WIN_IP="192.168.137.1"
     MY_PORTS=(50052 50054 50055)
-    REMOTE_IP="192.168.137.189"
+    REMOTE_IP="192.168.137.169"
     REMOTE_PORTS=(50050 50051 50053)
 else
     echo "Cannot determine computer from IP: $MY_IP"
@@ -251,7 +251,7 @@ if [ $FORWARD_WORKS -eq ${#MY_PORTS[@]} ] && [ $REMOTE_WORKS -eq ${#REMOTE_PORTS
     echo ""
     echo "Run client test:"
     if [ "$COMPUTER" == "1" ]; then
-        echo "  ./build/src/cpp/mini2_client --server 192.168.137.189:50050 --mode ping"
+        echo "  ./build/src/cpp/mini2_client --server 192.168.137.169:50050 --mode ping"
     else
         echo "  Computer 1 should run client tests"
     fi

@@ -2,7 +2,7 @@
 # Run ALL tests quickly - use this after servers are started
 
 # Gateway server (adjust if needed)
-GATEWAY="192.168.137.189:50050"
+GATEWAY="192.168.137.169:50050"
 CLIENT="./build/src/cpp/mini2_client"
 
 echo "========== QUICK TEST ALL PHASES =========="
