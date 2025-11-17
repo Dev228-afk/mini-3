@@ -2,7 +2,7 @@
 # Comprehensive test script - runs ALL phases with detailed output
 
 # Gateway server (adjust if needed)
-GATEWAY="192.168.137.110:50050"
+GATEWAY="192.168.137.189:50050"
 CLIENT="./build/src/cpp/mini2_client"
 
 echo "============================================"

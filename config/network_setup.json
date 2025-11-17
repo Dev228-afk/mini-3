@@ -3,14 +3,14 @@
     {
       "id": "A",
       "role": "LEADER",
-      "host": "192.168.137.110",
+      "host": "192.168.137.189",
       "port": 50050,
       "team": "GREEN"
     },
     {
       "id": "B",
       "role": "TEAM_LEADER",
-      "host": "192.168.137.110",
+      "host": "192.168.137.189",
       "port": 50051,
       "team": "GREEN"
     },
@@ -24,7 +24,7 @@
     {
       "id": "D",
       "role": "TEAM_LEADER",
-      "host": "192.168.137.110",
+      "host": "192.168.137.189",
       "port": 50053,
       "team": "PINK"
     },

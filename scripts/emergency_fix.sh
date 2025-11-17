@@ -6,7 +6,7 @@ echo "=== EMERGENCY FIX FOR MINI-2 ==="
 echo ""
 
 # IP addresses
-CMP1_IP="192.168.137.110"
+CMP1_IP="192.168.137.189"
 CMP2_IP="192.168.137.1"
 
 echo "Expected IPs:"

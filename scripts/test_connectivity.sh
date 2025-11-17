@@ -17,7 +17,7 @@ echo "WSL IP: $MY_IP"
 echo ""
 
 # Determine computer and remote IP
-if [[ "$MY_IP" == "192.168.137.110" ]]; then
+if [[ "$MY_IP" == "192.168.137.189" ]] || [[ "$MY_IP" == "192.168.137.1" && -d "/home/meghpatel" ]]; then
     COMPUTER="1"
     REMOTE_IP="192.168.137.1"
     MY_SERVERS="A B D"
@@ -25,7 +25,7 @@ if [[ "$MY_IP" == "192.168.137.110" ]]; then
     REMOTE_PORTS="50052 50054 50055"
 elif [[ "$MY_IP" == "192.168.137.1" ]] || [[ "$MY_IP" == "169.254.233.33" ]] || [[ "$MY_IP" == "172.22.208.1" ]]; then
     COMPUTER="2"
-    REMOTE_IP="192.168.137.110"
+    REMOTE_IP="192.168.137.189"
     MY_SERVERS="C E F"
     MY_PORTS="50052 50054 50055"
     REMOTE_PORTS="50050 50051 50053"

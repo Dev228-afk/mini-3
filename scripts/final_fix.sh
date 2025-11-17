@@ -30,7 +30,7 @@ echo ""
 
 # IPs
 # Computer IPs
-CMP1="192.168.137.110"
+CMP1="192.168.137.189"
 CMP2="192.168.137.1"
 
 echo -e "${YELLOW}Step 1: KILL ALL SERVERS${NC}"
