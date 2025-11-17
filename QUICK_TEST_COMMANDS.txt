@@ -1,0 +1,20 @@
+============================================================
+COPY-PASTE THESE COMMANDS - Fast Testing Workflow
+============================================================
+
+# ========== ON PC-1 (root@DESKTOP-F0TMIC2) ==========
+cd /home/meghpatel/dev/mini-2 && ./scripts/rebuild_restart_pc1.sh && ./scripts/quick_test_pc1.sh
+
+# ========== ON PC-2 (dev@Dev) ==========
+cd /mnt/c/Users/devan/mini-2 && ./scripts/rebuild_restart_pc2.sh && ./scripts/quick_test_pc2.sh
+
+============================================================
+THEN: Copy the FULL output from both terminals and paste here
+============================================================
+
+# To test different datasets on PC-1:
+./scripts/quick_test_pc1.sh Data/worldbank/10k_Dataset.csv
+./scripts/quick_test_pc1.sh Data/worldbank/100k_Dataset.csv
+./scripts/quick_test_pc1.sh Data/worldbank/1m_Dataset.csv
+
+============================================================
