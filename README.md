@@ -1,32 +1,12 @@
 xxxxx pc1xxxxx
-# Get WSL IP
-$wslIP = (wsl hostname -I).Trim()
-
-# Clear old rules
-netsh interface portproxy reset
-
-# Add port forwarding for servers A, B, D
-netsh interface portproxy add v4tov4 listenport=50050 listenaddress=0.0.0.0 connectport=50050 connectaddress=$wslIP
-netsh interface portproxy add v4tov4 listenport=50051 listenaddress=0.0.0.0 connectport=50051 connectaddress=$wslIP
-netsh interface portproxy add v4tov4 listenport=50053 listenaddress=0.0.0.0 connectport=50053 connectaddress=$wslIP
-
-# Verify
-netsh interface portproxy show all
+New-NetFirewallRule -DisplayName "WSL gRPC 50050" -Direction Inbound -LocalPort 50050 -Protocol TCP -Action Allow
+New-NetFirewallRule -DisplayName "WSL gRPC 50051" -Direction Inbound -LocalPort 50051 -Protocol TCP -Action Allow
+New-NetFirewallRule -DisplayName "WSL gRPC 50053" -Direction Inbound -LocalPort 50053 -Protocol TCP -Action Allow
 
 xxxx pc2 xxxxx
-# Get WSL IP
-$wslIP = (wsl hostname -I).Trim()
-
-# Clear old rules
-netsh interface portproxy reset
-
-# Add port forwarding for servers C, E, F
-netsh interface portproxy add v4tov4 listenport=50052 listenaddress=0.0.0.0 connectport=50052 connectaddress=$wslIP
-netsh interface portproxy add v4tov4 listenport=50054 listenaddress=0.0.0.0 connectport=50054 connectaddress=$wslIP
-netsh interface portproxy add v4tov4 listenport=50055 listenaddress=0.0.0.0 connectport=50055 connectaddress=$wslIP
-
-# Verify
-netsh interface portproxy show all
+New-NetFirewallRule -DisplayName "WSL gRPC 50052" -Direction Inbound -LocalPort 50052 -Protocol TCP -Action Allow
+New-NetFirewallRule -DisplayName "WSL gRPC 50054" -Direction Inbound -LocalPort 50054 -Protocol TCP -Action Allow
+New-NetFirewallRule -DisplayName "WSL gRPC 50055" -Direction Inbound -LocalPort 50055 -Protocol TCP -Action Allow
 
 # Mini-2 Project
 
