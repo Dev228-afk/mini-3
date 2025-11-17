@@ -29,7 +29,7 @@ else
 fi
 
 # Determine dataset to test (default: 1K)
-DATASET=${1:-Data/worldbank/1k_Dataset.csv}
+DATASET=${1:-test_data/data_1k.csv}
 
 echo "============================================================"
 echo "Running test with dataset: $DATASET"
@@ -77,7 +77,7 @@ echo "Test Complete!"
 echo "============================================================"
 echo ""
 echo "To test different datasets:"
-echo "  ./scripts/quick_test_pc1.sh Data/worldbank/10k_Dataset.csv"
-echo "  ./scripts/quick_test_pc1.sh Data/worldbank/100k_Dataset.csv"
-echo "  ./scripts/quick_test_pc1.sh Data/worldbank/1m_Dataset.csv"
+echo "  ./scripts/quick_test_pc1.sh test_data/data_10k.csv"
+echo "  ./scripts/quick_test_pc1.sh test_data/data_100k.csv"
+echo "  ./scripts/quick_test_pc1.sh test_data/data_1m.csv"
 echo ""

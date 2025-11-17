@@ -30,10 +30,10 @@ fi
 
 # Array of datasets to test
 DATASETS=(
-    "Data/worldbank/1k_Dataset.csv"
-    "Data/worldbank/10k_Dataset.csv"
-    "Data/worldbank/100k_Dataset.csv"
-    "Data/worldbank/1m_Dataset.csv"
+    "test_data/data_1k.csv"
+    "test_data/data_10k.csv"
+    "test_data/data_100k.csv"
+    "test_data/data_1m.csv"
 )
 
 # Results storage

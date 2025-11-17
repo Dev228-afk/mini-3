@@ -13,10 +13,10 @@ cd /mnt/c/Users/devan/mini-2 && ./scripts/run_all_datasets_pc2.sh
 ============================================================
 WHAT GETS TESTED:
 ============================================================
-✓ 1K Dataset   (~10-50ms expected)
-✓ 10K Dataset  (~50-200ms expected)
-✓ 100K Dataset (~500ms-3s expected)
-✓ 1M Dataset   (~5-20s expected)
+✓ 1K Dataset   (test_data/data_1k.csv)   ~10-50ms expected
+✓ 10K Dataset  (test_data/data_10k.csv)  ~50-500ms expected
+✓ 100K Dataset (test_data/data_100k.csv) ~500ms-5s expected
+✓ 1M Dataset   (test_data/data_1m.csv)   ~5-30s expected
 
 ============================================================
 METRICS COLLECTED:
