@@ -56,6 +56,44 @@ echo "STEP 2: Check what ports are listening"
 echo "=========================================="
 echo "Expected ports for Computer $COMPUTER: ${MY_PORTS[@]}"
 echo ""
+
+# Check Linux firewall first
+echo "Checking Linux firewall (ufw)..."
+if command -v ufw &> /dev/null; then
+    UFW_STATUS=$(sudo ufw status 2>/dev/null | grep -i "Status:" | awk '{print $2}')
+    if [ "$UFW_STATUS" == "active" ]; then
+        echo "⚠️  UFW firewall is ACTIVE - may block connections"
+        echo ""
+        echo "Checking if ports are allowed..."
+        PORTS_BLOCKED=0
+        for port in "${MY_PORTS[@]}"; do
+            if ! sudo ufw status | grep -q "$port"; then
+                echo "  ❌ Port $port not allowed in UFW"
+                PORTS_BLOCKED=1
+            else
+                echo "  ✓ Port $port allowed in UFW"
+            fi
+        done
+        
+        if [ $PORTS_BLOCKED -eq 1 ]; then
+            echo ""
+            echo "FIX: Run these commands to allow ports:"
+            for port in "${MY_PORTS[@]}"; do
+                echo "  sudo ufw allow $port/tcp"
+            done
+            echo ""
+            echo "Or temporarily disable UFW for testing:"
+            echo "  sudo ufw disable"
+            echo ""
+        fi
+    else
+        echo "✓ UFW is inactive (good)"
+    fi
+else
+    echo "✓ UFW not installed (no Linux firewall blocking)"
+fi
+echo ""
+
 netstat -tlnp 2>/dev/null | grep "mini2_server" || ss -tlnp | grep "mini2_server"
 echo ""
 
@@ -117,34 +155,44 @@ fi
 if [ $FORWARD_WORKS -eq 0 ] && [ "$MY_IP" != "$WIN_IP" ]; then
     echo "❌ CRITICAL: Port forwarding NOT configured!"
     echo ""
+    echo "DETECTED: WSL IP = $MY_IP, Windows IP = $WIN_IP"
+    echo "Port forwarding must map Windows IP → WSL IP"
+    echo ""
     echo "You MUST run these commands in Windows PowerShell as Administrator:"
     echo ""
     echo "===== COPY THIS TO WINDOWS POWERSHELL (AS ADMIN) ====="
     echo ""
     cat << EOF
-# Get WSL IP
-\$wslIP = (wsl hostname -I).Trim()
+# Your current WSL IP
+\$wslIP = "$MY_IP"
 Write-Host "WSL IP: \$wslIP"
+Write-Host "Windows IP: $WIN_IP"
 
-# Remove old forwards
+# Remove old forwards (in case IP changed)
 netsh interface portproxy reset
 
-# Add port forwarding
+# Add port forwarding for all Mini-2 ports
 EOF
     
     for port in "${MY_PORTS[@]}"; do
-        echo "netsh interface portproxy add v4tov4 listenport=$port listenaddress=0.0.0.0 connectport=$port connectaddress=\$wslIP"
+        echo "netsh interface portproxy add v4tov4 listenport=$port listenaddress=$WIN_IP connectport=$port connectaddress=\$wslIP"
     done
     
     cat << 'EOF'
 
-# Verify
+# Verify forwarding is active
 netsh interface portproxy show all
 Write-Host ""
-Write-Host "If you see the ports listed above, forwarding is active!"
+Write-Host "✓ If you see the ports listed above, forwarding is configured!"
+Write-Host ""
+Write-Host "Also ensure Windows Firewall allows these ports:"
+Write-Host "Run the firewall fix script: .\WINDOWS_FIREWALL_FIX.ps1"
 EOF
     echo ""
     echo "===== END OF POWERSHELL COMMANDS ====="
+    echo ""
+    echo "⚠️  NOTE: Your WSL IP is $MY_IP"
+    echo "        If it changes after WSL restart, re-run these commands!"
     echo ""
 fi
 
