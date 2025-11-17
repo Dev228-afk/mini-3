@@ -3,23 +3,20 @@
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"
 #include "../common/MemoryTracker.h"
-#include "../common/NetworkTopology.h"
+#include "../common/config.h"
 
 // Simple tool to get total memory usage across all server nodes (cross-platform)
 // Usage: ./get_distributed_memory
 
 int main() {
     // Load network configuration
-    NetworkTopology config;
-    if (!config.LoadFromFile("../config/network_setup.json")) {
-        std::cerr << "0" << std::endl;  // Return 0 on error for scripting
-        return 1;
-    }
+    auto config = LoadConfig("../config/network_setup.json");
     
     std::vector<MemoryInfo> nodes;
     
     // Query each node via RPC to get its memory
-    for (const auto& node : config.nodes) {
+    for (const auto& pair : config.nodes) {
+        const auto& node = pair.second;
         std::string target = node.host + ":" + std::to_string(node.port);
         
         // Create gRPC channel and stub
@@ -35,7 +32,7 @@ int main() {
         auto status = stub->GetStatus(&ctx, req, &resp);
         
         if (status.ok() && resp.memory_bytes() > 0) {
-            nodes.push_back({resp.memory_bytes(), node.node_id});
+            nodes.push_back({resp.memory_bytes(), node.id});
         }
     }
     

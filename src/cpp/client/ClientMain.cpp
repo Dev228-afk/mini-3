@@ -2,7 +2,7 @@
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"
 #include "../common/MemoryTracker.h"
-#include "../common/NetworkTopology.h"
+#include "../common/config.h"
 #include <iostream>
 #include <chrono>
 #include <iomanip>
@@ -283,15 +283,15 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
 
 int main(int argc, char** argv){
     // Load network configuration
-    NetworkTopology config;
-    if (!config.LoadFromFile("../config/network_setup.json")) {
-        std::cerr << "Warning: Could not load config, using localhost defaults" << std::endl;
-    }
-    
-    // Default gateway: Node A from config, fallback to localhost
     std::string gateway = "localhost:50050";
-    if (config.nodes.size() > 0) {
-        gateway = config.nodes[0].host + ":" + std::to_string(config.nodes[0].port);
+    try {
+        auto config = LoadConfig("../config/network_setup.json");
+        if (config.nodes.find("A") != config.nodes.end()) {
+            const auto& nodeA = config.nodes["A"];
+            gateway = nodeA.host + ":" + std::to_string(nodeA.port);
+        }
+    } catch (...) {
+        std::cerr << "Warning: Could not load config, using localhost defaults" << std::endl;
     }
     
     std::string mode = "session";
@@ -319,10 +319,16 @@ int main(int argc, char** argv){
     } else if (mode == "all") {
         // Test all 6 processes using config addresses
         std::cout << "Testing all processes:" << std::endl;
-        for (const auto& node : config.nodes) {
-            std::string addr = node.host + ":" + std::to_string(node.port);
-            std::cout << "Node " << node.node_id << ": ";
-            testPing(addr);
+        try {
+            auto config = LoadConfig("../config/network_setup.json");
+            for (const auto& pair : config.nodes) {
+                const auto& node = pair.second;
+                std::string addr = node.host + ":" + std::to_string(node.port);
+                std::cout << "Node " << node.id << ": ";
+                testPing(addr);
+            }
+        } catch (...) {
+            std::cerr << "Error loading config for 'all' mode" << std::endl;
         }
     } else if (mode == "request") {
         // Test Phase 2: Full request processing

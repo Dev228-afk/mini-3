@@ -48,18 +48,18 @@ int main(int argc, char** argv){
     auto processor = std::make_shared<RequestProcessor>(node_id);
     auto session_manager = std::make_shared<SessionManager>();
     
-    // Setup connections based on node role
+    // Setup connections based on node role - using config addresses
     if (node_id == "A") {
-        // Process A: Connect to team leaders B and E - using config addresses
-        std::string addr_B = config.nodes[1].host + ":" + std::to_string(config.nodes[1].port);
-        std::string addr_E = config.nodes[4].host + ":" + std::to_string(config.nodes[4].port);
+        // Process A: Connect to team leaders B and E
+        std::string addr_B = cfg.nodes["B"].host + ":" + std::to_string(cfg.nodes["B"].port);
+        std::string addr_E = cfg.nodes["E"].host + ":" + std::to_string(cfg.nodes["E"].port);
         std::vector<std::string> team_leaders = {addr_B, addr_E};
         processor->SetTeamLeaders(team_leaders);
         std::cout << "[Setup] Node A configured as Leader with team leaders: " << addr_B << ", " << addr_E << "\n";
     } else if (node_id == "B") {
         // Team Leader B (Green Team): Connect back to A and to worker C
-        std::string addr_A = config.nodes[0].host + ":" + std::to_string(config.nodes[0].port);
-        std::string addr_C = config.nodes[2].host + ":" + std::to_string(config.nodes[2].port);
+        std::string addr_A = cfg.nodes["A"].host + ":" + std::to_string(cfg.nodes["A"].port);
+        std::string addr_C = cfg.nodes["C"].host + ":" + std::to_string(cfg.nodes["C"].port);
         processor->SetLeaderAddress(addr_A);
         std::vector<std::string> workers = {addr_C};
         processor->SetWorkers(workers);
@@ -67,9 +67,9 @@ int main(int argc, char** argv){
         std::cout << "[Setup] Dataset will be loaded from Request.query field on demand\n";
     } else if (node_id == "E") {
         // Team Leader E (Pink Team): Connect back to A and to workers D, F
-        std::string addr_A = config.nodes[0].host + ":" + std::to_string(config.nodes[0].port);
-        std::string addr_D = config.nodes[3].host + ":" + std::to_string(config.nodes[3].port);
-        std::string addr_F = config.nodes[5].host + ":" + std::to_string(config.nodes[5].port);
+        std::string addr_A = cfg.nodes["A"].host + ":" + std::to_string(cfg.nodes["A"].port);
+        std::string addr_D = cfg.nodes["D"].host + ":" + std::to_string(cfg.nodes["D"].port);
+        std::string addr_F = cfg.nodes["F"].host + ":" + std::to_string(cfg.nodes["F"].port);
         processor->SetLeaderAddress(addr_A);
         std::vector<std::string> workers = {addr_D, addr_F};
         processor->SetWorkers(workers);
@@ -79,13 +79,13 @@ int main(int argc, char** argv){
         // Workers: Connect to their respective team leaders and start worker queue
         std::string team_leader_addr;
         if (node_id == "C") {
-            team_leader_addr = config.nodes[1].host + ":" + std::to_string(config.nodes[1].port);  // Connect to B
+            team_leader_addr = cfg.nodes["B"].host + ":" + std::to_string(cfg.nodes["B"].port);  // Connect to B
             std::cout << "[Setup] Node C configured as Worker (Green Team, leader: " << team_leader_addr << ")\n";
         } else if (node_id == "D") {
-            team_leader_addr = config.nodes[4].host + ":" + std::to_string(config.nodes[4].port);  // Connect to E
+            team_leader_addr = cfg.nodes["E"].host + ":" + std::to_string(cfg.nodes["E"].port);  // Connect to E
             std::cout << "[Setup] Node D configured as Worker (Pink Team, leader: " << team_leader_addr << ")\n";
         } else if (node_id == "F") {
-            team_leader_addr = config.nodes[4].host + ":" + std::to_string(config.nodes[4].port);  // Connect to E
+            team_leader_addr = cfg.nodes["E"].host + ":" + std::to_string(cfg.nodes["E"].port);  // Connect to E
             std::cout << "[Setup] Node F configured as Worker (Pink Team, leader: " << team_leader_addr << ")\n";
         }
         
