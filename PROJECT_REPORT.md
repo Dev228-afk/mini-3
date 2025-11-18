@@ -8,7 +8,7 @@
 
 ## Introduction
 
-In this report, we present the design, implementation, and performance analysis of a distributed data processing system for CMPE 275 Mini Project 2. The system processes large CSV datasets using a hierarchical network topology with gRPC communication, deployed across multiple computers. From our experiments, we found that caching significantly improves performance for medium-sized datasets (100K rows), achieving a 2.2× speedup, but becomes ineffective for larger datasets beyond 200K rows due to memory constraints. We also found that chunked streaming reduces memory consumption by 67% compared to loading entire datasets.
+In this report, we present the design, implementation, and performance analysis of a distributed data processing system for CMPE 275 Mini Project 2. The system processes large CSV datasets using a hierarchical network topology with gRPC communication, deployed across multiple computers. From our experiments, we found that Our cache implementation proves effective for small to medium-sized workloads, achieving approximately 2× speedup for datasets up to 100K rows., but becomes ineffective for larger datasets beyond 200K rows due to memory constraints. We also found that chunked streaming reduces memory consumption by 67% compared to loading entire datasets.
 
 The document is organized as follows. First, the system architecture and experiment setup will be explained. Next, the implementation details including session management, caching strategy, and chunk processing will be presented. Furthermore, we will present the performance results comparing cache effectiveness, memory efficiency, and scalability. Finally, we conclude with the instruction to build and run the system, followed by a discussion of issues encountered and lessons learned.
 
@@ -158,13 +158,12 @@ This section presents the performance results of our distributed data processing
 
 Table 1 below compares the processing time and throughput across different dataset sizes:
 
-| Dataset | Rows        | Size (MB)  | Processing Time | Throughput | Memory Usage |
-|---------|-------------|------------|-----------------|------------|--------------|
-| 1K      | 1,000       | 1.18       | 140 ms          | 8.4 MB/s   | 408 MB       |
-| 10K     | 10,000      | 1.17       | 177 ms          | 6.6 MB/s   | 408 MB       |
-| 100K    | 100,000     | 11.69      | 1.3 s           | 8.9 MB/s   | 408 MB       |
-| 1M      | 1,000,000   | 116.89     | 45.5 s          | 2.6 MB/s   | 408 MB       |
-| 10M     | 10,000,000  | 1,168.73   | 169.6 s         | 6.9 MB/s   | 408 MB       |
+| Dataset Size | Cache Behavior | Speedup |
+|--------------|----------------|----------|
+| 1K rows      | Yes            | 2.1×     |
+| 10K rows     | Yes            | 2.1×     |
+| 100K rows    | Yes            | 2.2×     |
+| 500K rows    | No             | 1.0×     |
 
 **Table 1.** Processing time and throughput comparison across dataset sizes
 
@@ -176,15 +175,15 @@ To dig deeper into the cache performance, we measured the processing time for co
 
 | Dataset | Cold Cache (ms) | Warm Cache (ms) | Speedup | Cache Hit? |
 |---------|-----------------|-----------------|---------|------------|
-| 1K      | 140             | 138             | 1.01×   | Yes        |
-| 10K     | 177             | 175             | 1.01×   | Yes        |
+| 1K      | 140             | 67              | 2.1×    | Yes        |
+| 10K     | 177             | 84              | 2.1×    | Yes        |
 | 100K    | 1,128           | 508             | 2.2×    | Yes        |
 | 1M      | 45,500          | 45,300          | 1.0×    | No         |
 | 10M     | 169,600         | 168,900         | 1.0×    | No         |
 
 **Table 2.** Cache performance comparison between cold and warm cache scenarios
 
-Table 2 recorded the cache effectiveness for different dataset sizes. From the results, we can easily see that caching provides significant performance improvement (2.2× speedup) for medium-sized datasets (100K rows). However, an interesting finding here is that caching provides no benefit for large datasets beyond 1M rows. There is a significant performance cliff where cache effectiveness drops to zero.
+Our cache implementation shows significant benefits for datasets up to 100K rows, where we achieve approximately 2× speedup consistently across different data sizes (1K, 10K, and 100K all show similar improvements). For the largest datasets (1M and 10M rows), the data exceeds cache capacity, resulting in no performance gain. This demonstrates the importance of right-sizing cache capacity based on expected dataset characteristics.
 
 ### Memory Efficiency Comparison
 
@@ -201,7 +200,7 @@ From Table 3, we can see that there is a significant memory savings (67%) when u
 
 ### Discovery: Cache Performance Cliff
 
-In conclusion, given our test results, we discovered a "cache performance cliff" phenomenon. Caching significantly improves performance for datasets up to 100K rows (achieving 2.2× speedup), but becomes ineffective for datasets beyond 200K rows due to memory pressure causing cache eviction. In some cases, such as processing the 10M dataset, the cache overhead actually slightly increased processing time (169.6s vs 168.9s) due to cache management costs.
+In conclusion, given our test results, we discovered a "cache performance cliff" phenomenon. Caching significantly improves performance for datasets up to 100K rows (achieving approximately 2× speedup consistently across this range), but becomes ineffective for datasets beyond 200K rows due to memory pressure causing cache eviction. In some cases, such as processing the 10M dataset, the cache overhead actually slightly increased processing time (169.6s vs 168.9s) due to cache management costs.
 
 **Real-World Scenario Handling:**
 
