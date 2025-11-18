@@ -91,8 +91,8 @@ bool SessionManager::GetNextChunk(const std::string& session_id, uint32_t index,
         std::cout << "[SessionManager] GetNext: Waiting for chunk " << index 
                   << " in session " << session_id << std::endl;
         
-        // Wait with timeout (185 seconds - longer than team leader timeout of 180s)
-        if (session.cv.wait_for(session_lock, std::chrono::seconds(185)) == std::cv_status::timeout) {
+        // Wait with timeout (310 seconds - longer than team leader timeout of 300s)
+        if (session.cv.wait_for(session_lock, std::chrono::seconds(310)) == std::cv_status::timeout) {
             std::cerr << "[SessionManager] GetNext: Timeout waiting for chunk " << index << std::endl;
             return false;
         }
