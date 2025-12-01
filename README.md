@@ -1,7 +1,7 @@
 # Mini 2 Distributed Processing Project
 
 This project implements a small distributed data processing system using gRPC and C++.
-It was built for a course assignment and is meant to run on one or more machines.
+It was built for a course assignment and is meant to run on one or more machines
 
 The main idea:
 - A **leader node (A)** receives client requests.
