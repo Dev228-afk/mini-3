@@ -93,6 +93,52 @@ for PORT in 50050 50051 50052 50053 50054 50055; do
 done
 
 echo ""
+echo "=== Cross-Machine Connectivity Test ==="
+
+# Test connectivity to the other machine based on which IPs we have
+MY_IPS=$(ip addr show 2>/dev/null | grep "inet " | awk '{print $2}' | cut -d/ -f1)
+
+if echo "$MY_IPS" | grep -q "169.254.239.138"; then
+    # This is PC-1, test connection to PC-2
+    echo "Testing connection to PC-2 (169.254.206.255)..."
+    for PORT in 50052 50054 50055; do
+        if command -v nc >/dev/null 2>&1; then
+            if timeout 2 nc -z -w 2 169.254.206.255 $PORT 2>/dev/null; then
+                echo "  ✓ Port $PORT reachable on 169.254.206.255"
+            else
+                echo "  ✗ Port $PORT NOT reachable on 169.254.206.255"
+            fi
+        else
+            if timeout 2 bash -c "echo >/dev/tcp/169.254.206.255/$PORT" 2>/dev/null; then
+                echo "  ✓ Port $PORT reachable on 169.254.206.255"
+            else
+                echo "  ✗ Port $PORT NOT reachable on 169.254.206.255"
+            fi
+        fi
+    done
+elif echo "$MY_IPS" | grep -q "169.254.206.255"; then
+    # This is PC-2, test connection to PC-1
+    echo "Testing connection to PC-1 (169.254.239.138)..."
+    for PORT in 50050 50051 50053; do
+        if command -v nc >/dev/null 2>&1; then
+            if timeout 2 nc -z -w 2 169.254.239.138 $PORT 2>/dev/null; then
+                echo "  ✓ Port $PORT reachable on 169.254.239.138"
+            else
+                echo "  ✗ Port $PORT NOT reachable on 169.254.239.138"
+            fi
+        else
+            if timeout 2 bash -c "echo >/dev/tcp/169.254.239.138/$PORT" 2>/dev/null; then
+                echo "  ✓ Port $PORT reachable on 169.254.239.138"
+            else
+                echo "  ✗ Port $PORT NOT reachable on 169.254.239.138"
+            fi
+        fi
+    done
+else
+    echo "Could not determine which machine this is (neither 169.254.239.138 nor 169.254.206.255)"
+fi
+
+echo ""
 echo "=== WSL-Specific Issues ==="
 
 if [[ "$WSL_VERSION" == "WSL1" ]]; then
@@ -122,6 +168,13 @@ if [[ "$WSL_VERSION" == "WSL2" ]]; then
     echo "For WSL2 cross-machine connectivity:"
     echo "  Windows side: netsh interface portproxy add v4tov4 listenport=50050 connectaddress=<WSL_IP> connectport=50050"
     echo "  Check WSL IP: ip addr show eth0 | grep inet"
+elif [[ "$WSL_VERSION" == "WSL1" ]]; then
+    echo ""
+    echo "For WSL1 cross-machine connectivity (Windows Firewall):"
+    echo "  1. Open Windows Firewall with Advanced Security"
+    echo "  2. Create Inbound Rules for ports 50050-50055 (TCP)"
+    echo "  3. Or run in PowerShell (as Administrator):"
+    echo "     New-NetFirewallRule -DisplayName 'Mini2 gRPC' -Direction Inbound -Protocol TCP -LocalPort 50050-50055 -Action Allow"
 fi
 
 echo ""
