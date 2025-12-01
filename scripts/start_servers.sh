@@ -131,7 +131,8 @@ SERVER_PIDS=()
 for server in "${SERVERS[@]}"; do
     LOG_FILE="logs/server_${server}.log"
     echo "Launching node $server (log: $LOG_FILE)"
-    ./build/src/cpp/mini2_server --config "$CONFIG_FILE" --node "$server" >"$LOG_FILE" 2>&1 &
+    # Suppress gRPC SO_REUSEPORT warnings (not available in WSL1)
+    GRPC_VERBOSITY=ERROR ./build/src/cpp/mini2_server --config "$CONFIG_FILE" --node "$server" >"$LOG_FILE" 2>&1 &
     pid=$!
     SERVER_PIDS+=("$server:$pid:$LOG_FILE")
     sleep 1
