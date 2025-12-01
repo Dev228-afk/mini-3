@@ -79,9 +79,7 @@ void RequestProcessor::SetLeaderAddress(const std::string& leader_address) {
 void RequestProcessor::LoadDataset(const std::string& dataset_path) {
     std::lock_guard<std::mutex> lock(dataset_mutex_);
 
-    // Skip loading for mock data
-    if (dataset_path.empty() || dataset_path == "mock_data") {
-        std::cout << "[RequestProcessor] Skipping dataset load (using mock data)" << std::endl;
+    if (dataset_path.empty()) {
         return;
     }
     
@@ -139,11 +137,10 @@ std::vector<mini2::WorkerResult> RequestProcessor::ProcessRequest(const mini2::R
 
     // Wait for results with condition variable (efficient waiting)
     std::unique_lock<std::mutex> lock(results_mutex_);
-    bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(90), 
-    [this, &request, expected_results]() {
+    bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(90), [this, &request, expected_results]() {
         return pending_results_.count(request.request_id()) && 
                pending_results_[request.request_id()].size() >= static_cast<size_t>(expected_results);
-    }  );
+    });
     
     if (!got_results) {
         std::cerr << "[Leader] WARNING: Timeout waiting for results from team leaders" << std::endl;
@@ -321,7 +318,10 @@ mini2::WorkerResult RequestProcessor::GenerateWorkerResult(const mini2::Request&
         const size_t worker_count = 3;
 
         if (total_rows == 0) {
-            return GenerateMockData(request.request_id(), worker_num);
+            mini2::WorkerResult empty;
+            empty.set_request_id(request.request_id());
+            empty.set_part_index(worker_num);
+            return empty;
         }
 
         size_t rows_per_worker = std::max<size_t>(1, total_rows / worker_count);
@@ -337,8 +337,11 @@ mini2::WorkerResult RequestProcessor::GenerateWorkerResult(const mini2::Request&
 
         return ProcessRealData(proc, request, start_idx, count);
     } else {
-        // Fallback to mock data
-        return GenerateMockData(request.request_id(), 0);
+        // No dataset loaded
+        mini2::WorkerResult empty;
+        empty.set_request_id(request.request_id());
+        empty.set_part_index(0);
+        return empty;
     }
 }
 
@@ -366,27 +369,7 @@ mini2::WorkerResult RequestProcessor::ProcessRealData(std::shared_ptr<DataProces
     return result;
 }
 
-mini2::WorkerResult RequestProcessor::GenerateMockData(const std::string& request_id, uint32_t part_index) {
-    mini2::WorkerResult result;
-    result.set_request_id(request_id);
-    result.set_part_index(part_index);
-    
-    // Generate realistic payload (simulating processed data)
-    std::stringstream ss;
-    ss << "Node:" << node_id_ << "|Part:" << part_index << "|";
-    ss << "Data:";
-    for (int i = 0; i < 100; i++) {
-        ss << i * part_index << ",";
-    }
-    
-    std::string payload_str = ss.str();
-    result.set_payload(payload_str.data(), payload_str.size());
-    
-    std::cout << "[Worker " << node_id_ << "] Generated " << payload_str.size() 
-              << " bytes for part " << part_index << std::endl;
-    
-    return result;
-}
+
 
 grpc::ChannelArguments RequestProcessor::MakeLargeMessageArgs() {
     grpc::ChannelArguments args;
@@ -412,7 +395,7 @@ void RequestProcessor::ProcessLocally(std::shared_ptr<DataProcessor> processor, 
 
     if (processor) {
         if (processor->GetTotalRows() == 0) {
-            ReceiveWorkerResult(GenerateMockData(request.request_id(), 0));
+            // No rows to process
             return;
         }
 
@@ -433,11 +416,6 @@ void RequestProcessor::ProcessLocally(std::shared_ptr<DataProcessor> processor, 
             
             // Store result locally
             ReceiveWorkerResult(result);
-        }
-    } else {
-        // Mock data
-        for (uint32_t i = 0; i < parts; ++i) {
-            ReceiveWorkerResult(GenerateMockData(request.request_id(), i));
         }
     }
 }

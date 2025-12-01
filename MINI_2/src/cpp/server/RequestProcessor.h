@@ -74,7 +74,6 @@ private:
     // Helper methods
     int ForwardToTeamLeaders(const mini2::Request& req, bool need_green, bool need_pink);
     int ForwardToWorkers(const mini2::Request& req);
-    mini2::WorkerResult GenerateMockData(const std::string& request_id, uint32_t part_index);
     mini2::WorkerResult ProcessRealData(std::shared_ptr<DataProcessor> processor, const mini2::Request& req, size_t start_idx, size_t count);
     static grpc::ChannelArguments MakeLargeMessageArgs();
     void RegisterPeer(const std::string& addr,

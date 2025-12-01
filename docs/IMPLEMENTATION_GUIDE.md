@@ -1,6 +1,6 @@
 # Phase-by-Phase Implementation Guide
 
-This document provides detailed implementation steps for each phase of the project.
+This note describes how we actually wired things up for each phase.
 
 ---
 
@@ -13,12 +13,13 @@ This document provides detailed implementation steps for each phase of the proje
 
 ### Step 1.1: Verify Configuration System
 
-**Tasks:**
-1. Review `config/network_setup.json` to understand the network topology
-2. Test the configuration parser in `src/cpp/common/config.cpp`
-3. Verify that each process can read its identity without hardcoding
+**What we did:**
 
-**Testing:**
+1. Looked at `config/network_setup.json` to understand the network topology
+2. Used the configuration parser in `src/cpp/common/config.cpp`
+3. Made sure each process reads its identity from the config instead of hardcoding
+
+**Quick check:**
 ```bash
 # Build the project
 cd scripts
@@ -28,10 +29,11 @@ cd scripts
 ./build/mini2_server --config config/network_setup.json --node A
 ```
 
-**Success Criteria:**
-- Process starts and identifies itself correctly
-- No hardcoded values in the code
-- Configuration errors are caught and reported
+**What we watched for:**
+
+- Process starts and prints the right node id
+- No obvious hardcoded host/port values
+- Misconfigured files print a clear error and exit
 
 ### Step 1.2: Implement Basic gRPC Services
 
@@ -40,13 +42,14 @@ cd scripts
 - `TeamIngress`: Request handling between internal nodes
 - `ClientGateway`: Client-facing interface (A only)
 
-**Tasks:**
-1. Review `src/cpp/server/Handlers.cpp` - currently has stub implementations
-2. Fix the typo in Handlers.cpp line 39: `False` → `false` (C++ is case-sensitive)
-3. Add proper logging to each RPC handler
-4. Implement basic error handling
+**What we did:**
 
-**Code Changes Needed:**
+1. Reviewed `src/cpp/server/Handlers.cpp`
+2. Fixed the small typo (`False` → `false`)
+3. Added simple logs to each RPC handler
+4. Returned basic error codes when something goes wrong
+
+**Example tiny change:**
 ```cpp
 // In Handlers.cpp, update PollNext:
 Status PollNext(ServerContext*, const mini2::PollReq*, mini2::PollResp* resp) override {

@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    {
+      "id": "A",
+      "role": "LEADER",
+      "host": "localhost",
+      "port": 50050,
+      "team": "GREEN",
+      "next_node": "B"
+    },
+    {
+      "id": "B",
+      "role": "TEAM_LEADER",
+      "host": "localhost",
+      "port": 50051,
+      "team": "GREEN",
+      "next_node": "C"
+    },
+    {
+      "id": "C",
+      "role": "WORKER",
+      "host": "localhost",
+      "port": 50052,
+      "team": "GREEN",
+      "next_node": "D"
+    },
+    {
+      "id": "D",
+      "role": "TEAM_LEADER",
+      "host": "localhost",
+      "port": 50053,
+      "team": "PINK",
+      "next_node": "E"
+    },
+    {
+      "id": "E",
+      "role": "TEAM_LEADER",
+      "host": "localhost",
+      "port": 50054,
+      "team": "PINK",
+      "next_node": "F"
+    },
+    {
+      "id": "F",
+      "role": "WORKER",
+      "host": "localhost",
+      "port": 50055,
+      "team": "PINK",
+      "next_node": "A"
+    }
+  ],
+  "topology_mode": "ring",
+  "overlay": [
+    ["A", "B"],
+    ["B", "C"],
+    ["C", "D"],
+    ["D", "E"],
+    ["E", "F"],
+    ["F", "A"]
+  ],
+  "health_check": {
+    "enabled": true,
+    "interval_seconds": 10,
+    "timeout_seconds": 5
+  },
+  "client_gateway": "A",
+  "shared_memory": {
+    "segments": [
+      {
+        "name": "shm_host1",
+        "members": [
+          "A",
+          "B",
+          "D"
+        ]
+      },
+      {
+        "name": "shm_host2",
+        "members": [
+          "C",
+          "E",
+          "F"
+        ]
+      }
+    ],
+    "fields": [
+      "status",
+      "queue_size",
+      "last_ts_ms"
+    ]
+  }
+}

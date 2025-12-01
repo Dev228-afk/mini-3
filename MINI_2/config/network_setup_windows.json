@@ -1,0 +1,88 @@
+{
+  "nodes": [
+    {
+      "id": "A",
+      "role": "LEADER",
+      "host": "192.168.1.100",
+      "port": 50050,
+      "team": "GREEN",
+      "comment": "Gateway - Computer 1"
+    },
+    {
+      "id": "B",
+      "role": "TEAM_LEADER",
+      "host": "192.168.1.100",
+      "port": 50051,
+      "team": "GREEN",
+      "comment": "Team Leader Green - Computer 1"
+    },
+    {
+      "id": "C",
+      "role": "WORKER",
+      "host": "192.168.1.101",
+      "port": 50052,
+      "team": "GREEN",
+      "comment": "Worker Green - Computer 2"
+    },
+    {
+      "id": "D",
+      "role": "TEAM_LEADER",
+      "host": "192.168.1.100",
+      "port": 50053,
+      "team": "PINK",
+      "comment": "Team Leader Pink - Computer 1"
+    },
+    {
+      "id": "E",
+      "role": "TEAM_LEADER",
+      "host": "192.168.1.101",
+      "port": 50054,
+      "team": "PINK",
+      "comment": "Team Leader Pink - Computer 2"
+    },
+    {
+      "id": "F",
+      "role": "WORKER",
+      "host": "192.168.1.101",
+      "port": 50055,
+      "team": "PINK",
+      "comment": "Worker Pink - Computer 2"
+    }
+  ],
+  "overlay": [
+    ["A", "B"],
+    ["B", "C"],
+    ["B", "D"],
+    ["A", "E"],
+    ["E", "F"],
+    ["E", "D"]
+  ],
+  "topology_mode": "hierarchical",
+  "health_check": {
+    "enabled": true,
+    "interval_seconds": 10,
+    "timeout_seconds": 5
+  },
+  "client_gateway": "A",
+  "shared_memory": {
+    "segments": [
+      {
+        "name": "shm_host1",
+        "members": ["A", "B", "D"],
+        "comment": "Shared memory for Computer 1 processes (WSL/Linux only)"
+      },
+      {
+        "name": "shm_host2",
+        "members": ["C", "E", "F"],
+        "comment": "Shared memory for Computer 2 processes (WSL/Linux only)"
+      }
+    ],
+    "fields": ["status", "queue_size", "last_ts_ms"]
+  },
+  "_instructions": {
+    "setup": "Replace 192.168.1.100 and 192.168.1.101 with your actual IP addresses",
+    "find_ip": "Run 'ipconfig' on Windows to find your IPv4 address",
+    "computer1_runs": ["A", "B", "D"],
+    "computer2_runs": ["C", "E", "F"]
+  }
+}

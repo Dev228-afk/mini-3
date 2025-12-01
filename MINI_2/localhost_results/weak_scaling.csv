@@ -1,0 +1,12 @@
+dataset_size,strategy,first_chunk_ms,total_time_ms,total_bytes,rpc_calls,client_memory_mb,distributed_memory_mb
+1000,RequestOnce,N/A,928,824429,1,18,0
+1000,GetNext,1903,1905,111854023,3,398,0
+10000000,RequestOnce,N/A,10575,408627646,1,1028,0
+10000,RequestOnce,N/A,737,4123936,1,24,0
+10000,GetNext,731,732,4123936,2,16,0
+10000000,GetNext,4995,4995,0,1,17,0
+100000,RequestOnce,N/A,710,50000,1,16,0
+100000,GetNext,707,707,0,1,16,0
+1000000,RequestOnce,N/A,711,50000,1,16,0
+1000000,GetNext,714,714,0,1,16,0
+10000000,RequestOnce,N/A,10756,1225885538,1,2753,0
