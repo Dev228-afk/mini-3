@@ -16,6 +16,7 @@ public:
     
     // Create new session for a request
     std::string CreateSession(const mini2::Request& req);
+    
     // Add chunk to session (called as results arrive from workers)
     void AddChunk(const std::string& session_id, const mini2::WorkerResult& result);
     
@@ -57,7 +58,7 @@ private:
     // Cleanup thread management
     std::thread cleanup_thread_;
     bool cleanup_running_ = false;
-    std::chrono::seconds session_timeout_{500};  // 5 minutes default
+    std::chrono::seconds session_timeout_{300};  // 5 minutes default
     
     // Generate unique session ID
     std::string GenerateSessionId();

@@ -82,7 +82,7 @@ void testStrategyB_GetNext(const std::string& gateway, const std::string& datase
     
     mini2::Request req;
     req.set_request_id("test-strategyB-getnext");
-    req.set_query(dataset_path.empty() ? "mock_data" : dataset_path);
+    req.set_query(dataset_path);
     req.set_need_green(true);
     req.set_need_pink(true);
     
@@ -180,7 +180,7 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
     grpc::ClientContext ctx1;
     mini2::Request req;
     req.set_request_id("test-strategyB-pollnext");
-    req.set_query(dataset_path.empty() ? "mock_data" : dataset_path);
+    req.set_query(dataset_path);
     req.set_need_green(true);
     req.set_need_pink(true);
     

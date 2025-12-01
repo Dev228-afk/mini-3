@@ -1,0 +1,27 @@
+=== Mini2 Client ===
+Gateway: localhost:50050
+Mode: request
+Dataset: /Users/spartan/Desktop/CMPE275/mini_1/Data/2020-fire/unique_2020_fire_data.csv
+
+Testing RequestOnce (Phase 2):
+
+=== Test 1: Green Team Only ===
+Request ID: test-green-001
+  Total Rows: 33
+  Total Bytes: 4446
+  Chunks: 1
+  Latency: 229 ms
+
+=== Test 2: Pink Team Only ===
+Request ID: test-pink-001
+  Total Rows: 67
+  Total Bytes: 9222
+  Chunks: 2
+  Latency: 249 ms
+
+=== Test 3: Both Teams ===
+Request ID: test-both-001
+  Total Rows: 100
+  Total Bytes: 13668
+  Chunks: 3
+  Latency: 429 ms

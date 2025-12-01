@@ -1,0 +1,28 @@
+=== Mini2 Client ===
+Gateway: localhost:50050
+Mode: strategy-b-getnext
+Dataset: /Users/spartan/Desktop/CMPE275/mini_2/test_data/data_1k.csv
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+Step 1: Starting session...
+Session started: session-1762983737132-3138
+  Session creation time: 9 ms
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 111441826 bytes (latency: 1893 ms) (has_more: yes)
+  ✓ Chunk 1: 412197 bytes (latency: 0 ms) (has_more: no)
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 2
+Total bytes: 111854023
+Time to first chunk: 1903 ms ⚡
+Total time: 1905 ms
+RPC calls made: 3 (1 StartRequest + 2 GetNext)
+========================================
+

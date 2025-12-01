@@ -1,68 +1,15 @@
-# Build directories
 build/
-cmake-build-*/
-out/
-
-# Compiled binaries
 *.o
+*.a
 *.so
 *.dylib
-*.dll
-*.exe
-mini2_server
-mini2_client
-inspect_shm
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Log files
-logs/
-*.log
-
-# Temporary files
-*.tmp
-/tmp/
-temp/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-*.egg-info/
-
-# CMake
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
-*.cmake
-!CMakeLists.txt
-
-# Generated protobuf files (if regenerated during build)
+.DS_Store
+.vscode/
+*.tar.gz
+generated/
 *.pb.cc
 *.pb.h
 *_pb2.py
 *_pb2_grpc.py
-
-# Test data (large files - regenerate with data.py)
-test_data/data_100k.csv
-test_data/data_1m.csv
-test_data/data_10m.csv
-test_data/data_10k.csv
-
-# Results
-results/*.csv
-results/*.txt

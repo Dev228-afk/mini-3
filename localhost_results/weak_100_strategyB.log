@@ -1,0 +1,29 @@
+=== Mini2 Client ===
+Gateway: localhost:50050
+Mode: strategy-b-getnext
+
+
+========================================
+Testing Strategy B: GetNext (Sequential)
+========================================
+
+Step 1: Starting session...
+Session started: session-1762937026036-6761
+  Session creation time: 1 ms
+
+Step 2: Retrieving chunks sequentially...
+  ✓ Chunk 0: 219 bytes (latency: 14 ms) (has_more: yes)
+  ✓ Chunk 1: 309 bytes (latency: 0 ms) (has_more: yes)
+  ✓ Chunk 2: 219 bytes (latency: 0 ms) (has_more: yes)
+  ✓ Chunk 3: 309 bytes (latency: 0 ms) (has_more: no)
+
+========================================
+Strategy B (GetNext) Results:
+========================================
+Total chunks: 4
+Total bytes: 1056
+Time to first chunk: 15 ms ⚡
+Total time: 16 ms
+RPC calls made: 5 (1 StartRequest + 4 GetNext)
+========================================
+

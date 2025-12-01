@@ -137,7 +137,7 @@ mini2::WorkerResult WorkerQueue::ProcessRequest(const mini2::Request& req) {
     result.set_part_index(0);
     
     // If we have a data processor and query is a file path, process real data
-    if (data_processor_ && !req.query().empty() && req.query() != "mock_data") {
+    if (data_processor_ && !req.query().empty()) {
         try {
             // Get all data (or chunk based on team assignment)
             size_t total_rows = data_processor_->GetTotalRows();
@@ -160,9 +160,8 @@ mini2::WorkerResult WorkerQueue::ProcessRequest(const mini2::Request& req) {
             result.set_payload("ERROR: " + std::string(e.what()));
         }
     } else {
-        // Mock data
-        std::string mock_data = "MOCK_DATA_FROM_" + node_id_ + "_REQUEST_" + req.request_id();
-        result.set_payload(mock_data);
+        // No data loaded or empty query
+        result.set_payload("");
     }
     
     return result;

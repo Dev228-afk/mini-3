@@ -1,0 +1,27 @@
+=== Mini2 Client ===
+Gateway: localhost:50050
+Mode: request
+Dataset: /Users/spartan/Desktop/CMPE275/mini_2/test_data/data_10m.csv
+
+Testing RequestOnce (Phase 2):
+
+=== Test 1: Green Team Only ===
+Request ID: test-green-001
+  Total Rows: 3333333
+  Total Bytes: 408627646
+  Chunks: 1
+  Latency: 9378 ms
+
+=== Test 2: Pink Team Only ===
+Request ID: test-pink-001
+  Total Rows: 6666667
+  Total Bytes: 817257892
+  Chunks: 2
+  Latency: 16985 ms
+
+=== Test 3: Both Teams ===
+Request ID: test-both-001
+  Total Rows: 10000000
+  Total Bytes: 1225885538
+  Chunks: 3
+  Latency: 10756 ms
