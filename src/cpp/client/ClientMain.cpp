@@ -7,13 +7,54 @@
 #include <iomanip>
 #include <thread>
 #include <vector>
+#include <cstdlib>
+
+// Suppress gRPC warnings about SO_REUSEPORT (not available in WSL1)
+namespace {
+void SuppressGrpcWarnings() {
+    setenv("GRPC_VERBOSITY", "ERROR", 0);  // 0 = don't override if already set
+}
+struct GrpcEnvInit {
+    GrpcEnvInit() { SuppressGrpcWarnings(); }
+} g_grpc_env_init;
+}
 
 // Helper to create channel with increased message size limits (1.5GB for very large datasets)
 std::shared_ptr<grpc::Channel> CreateChannelWithLimits(const std::string& target) {
     grpc::ChannelArguments args;
     args.SetMaxReceiveMessageSize(1536 * 1024 * 1024); // 1.5GB
     args.SetMaxSendMessageSize(1536 * 1024 * 1024);    // 1.5GB
+    // Add keepalive settings for WSL compatibility
+    args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 10000);
+    args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 5000);
+    args.SetInt(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
     return grpc::CreateCustomChannel(target, grpc::InsecureChannelCredentials(), args);
+}
+
+// Wait for server to be ready with retries
+bool WaitForServerReady(const std::string& target, int max_retries = 5, int retry_delay_ms = 2000) {
+    auto channel = CreateChannelWithLimits(target);
+    
+    for (int attempt = 1; attempt <= max_retries; ++attempt) {
+        // Try to connect
+        auto state = channel->GetState(true);  // true = try to connect
+        
+        // Wait for connection with timeout
+        auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(retry_delay_ms);
+        if (channel->WaitForConnected(deadline)) {
+            std::cout << "✓ Connected to server on attempt " << attempt << std::endl;
+            return true;
+        }
+        
+        if (attempt < max_retries) {
+            std::cout << "Connection attempt " << attempt << "/" << max_retries 
+                      << " failed, retrying in " << retry_delay_ms << "ms..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+        }
+    }
+    
+    std::cerr << "✗ Failed to connect after " << max_retries << " attempts" << std::endl;
+    return false;
 }
 
 void testPing(const std::string& target) {
@@ -297,6 +338,15 @@ int main(int argc, char** argv){
     std::cout << "Mode: " << mode << std::endl;
     if (!dataset_path.empty()) {
         std::cout << "Dataset: " << dataset_path << std::endl;
+    }
+    std::cout << std::endl;
+    
+    // Wait for server to be ready before running tests
+    std::cout << "Connecting to server..." << std::endl;
+    if (!WaitForServerReady(gateway, 5, 2000)) {
+        std::cerr << "ERROR: Could not connect to server at " << gateway << std::endl;
+        std::cerr << "Make sure the server is running and the address is correct." << std::endl;
+        return 1;
     }
     std::cout << std::endl;
     

@@ -8,8 +8,22 @@
 #include <memory>
 #include <csignal>
 #include <atomic>
+#include <cstdlib>
 
 #include "Handlers.cpp"
+
+// Suppress gRPC warnings about SO_REUSEPORT (not available in WSL1)
+namespace {
+void SuppressGrpcWarnings() {
+    // Set GRPC_VERBOSITY to ERROR to hide SO_REUSEPORT warnings
+    setenv("GRPC_VERBOSITY", "ERROR", 0);  // 0 = don't override if already set
+}
+
+// Static initializer runs before main()
+struct GrpcEnvInit {
+    GrpcEnvInit() { SuppressGrpcWarnings(); }
+} g_grpc_env_init;
+}
 
 std::atomic<bool> g_shutdown_requested(false);
 
@@ -116,6 +130,12 @@ int main(int argc, char** argv){
     
     b.SetMaxReceiveMessageSize(1536 * 1024 * 1024); // 1.5GB
     b.SetMaxSendMessageSize(1536 * 1024 * 1024);    // 1.5GB
+    
+    // Add channel arguments for WSL compatibility
+    b.AddChannelArgument(GRPC_ARG_ALLOW_REUSEPORT, 0);  // Disable SO_REUSEPORT
+    b.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIME_MS, 10000);  // 10 second keepalive
+    b.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 5000);  // 5 second timeout
+    b.AddChannelArgument(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);  // Allow keepalive pings
     
     NodeControlService nodeSvc(processor, node_id);
     TeamIngressService teamSvc(processor, node_id);

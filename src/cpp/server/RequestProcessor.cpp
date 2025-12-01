@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cstdio>
+#include <cstdlib>
 
 #if defined(__APPLE__) // macOS flag
 #include <mach/mach.h>
@@ -14,6 +15,13 @@
 
 namespace {
 constexpr int kMaxGrpcMessageSize = 1536 * 1024 * 1024; // 1.5GB
+
+// Suppress gRPC warnings about SO_REUSEPORT (not available in WSL1)
+struct GrpcEnvInit {
+    GrpcEnvInit() { 
+        setenv("GRPC_VERBOSITY", "ERROR", 0);  // 0 = don't override if already set
+    }
+} g_grpc_env_init;
 
 uint64_t GetProcessMemory() {
 #if defined(__APPLE__)
@@ -375,6 +383,10 @@ grpc::ChannelArguments RequestProcessor::MakeLargeMessageArgs() {
     grpc::ChannelArguments args;
     args.SetMaxReceiveMessageSize(kMaxGrpcMessageSize);
     args.SetMaxSendMessageSize(kMaxGrpcMessageSize);
+    // Add keepalive settings for WSL compatibility
+    args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 10000);
+    args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 5000);
+    args.SetInt(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
     return args;
 }
 
