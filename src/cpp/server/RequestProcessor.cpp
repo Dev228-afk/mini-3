@@ -382,9 +382,16 @@ void RequestProcessor::RegisterPeer(const std::string& addr,
                                     std::map<std::string, std::unique_ptr<mini2::TeamIngress::Stub>>& target,
                                     const char* label) {
     auto channel = grpc::CreateCustomChannel(addr, grpc::InsecureChannelCredentials(), MakeLargeMessageArgs());
+    
+    // Check initial connectivity
+    auto state = channel->GetState(true);  // true = try to connect
+    std::string state_str = (state == GRPC_CHANNEL_READY) ? "READY" : 
+                           (state == GRPC_CHANNEL_CONNECTING) ? "CONNECTING" : "IDLE";
+    
     target[addr] = mini2::TeamIngress::NewStub(channel);
     if (label) {
-        std::cout << "[RequestProcessor] Connected to " << label << ": " << addr << std::endl;
+        std::cout << "[RequestProcessor] Registered " << label << ": " << addr 
+                  << " (state=" << state_str << ")" << std::endl;
     }
 }
 

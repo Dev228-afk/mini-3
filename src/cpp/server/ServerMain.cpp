@@ -130,11 +130,36 @@ int main(int argc, char** argv){
     std::cout << "Node " << node_id << " listening at " << bind_addr << " (public: " << public_addr << ")" << std::endl;
     std::cout << "Press Ctrl+C to stop" << std::endl;
     
+    // Start periodic heartbeat logging thread
+    std::atomic<bool> heartbeat_running(true);
+    std::thread heartbeat_thread([&]() {
+        int counter = 0;
+        while (heartbeat_running && !g_shutdown_requested) {
+            std::this_thread::sleep_for(std::chrono::seconds(10));
+            if (!heartbeat_running || g_shutdown_requested) break;
+            
+            counter++;
+            auto status = processor->GetStatus();
+            std::cout << "[Heartbeat:" << node_id << "] alive #" << counter 
+                      << " | state=" << status.state()
+                      << " | queue=" << status.queue_size()
+                      << " | uptime=" << status.uptime_seconds() << "s"
+                      << " | requests=" << status.requests_processed()
+                      << std::endl;
+        }
+    });
+    
     while (!g_shutdown_requested && !processor->IsShuttingDown()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
     std::cout << "\n[Server:" << node_id << "] Initiating graceful shutdown..." << std::endl;
+    
+    // Stop heartbeat thread
+    heartbeat_running = false;
+    if (heartbeat_thread.joinable()) {
+        heartbeat_thread.join();
+    }
     
     auto deadline = std::chrono::system_clock::now() + std::chrono::seconds(5);
     server->Shutdown(deadline);

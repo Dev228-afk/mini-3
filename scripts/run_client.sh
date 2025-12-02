@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+ch #!/usr/bin/env bash
 # Wrapper script for mini2_client with connection retry logic
 
 set -euo pipefail
