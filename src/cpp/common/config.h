@@ -10,6 +10,7 @@ struct NodeInfo {
     std::string host;
     int port{};
     std::string team;
+    int capacity_score = 1; // 1 = default/slow, higher = more capacity
 };
 
 struct Overlay {

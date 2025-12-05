@@ -12,6 +12,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <utility>
+#include <deque>
 
 // Forward declarations
 class RequestProcessor {
@@ -28,13 +29,14 @@ public:
     // For Workers (C, D, F)
     void HandleWorkerRequest(const mini2::Request& request);
     mini2::WorkerResult GenerateWorkerResult(const mini2::Request& request);
+    mini2::WorkerResult ProcessTask(const mini2::Task& task, double& processing_time_ms);
     
     // For Team Leaders - collect worker results
     void ReceiveWorkerResult(const mini2::WorkerResult& result);
 
     // Set neighbor connections from config
     void SetTeamLeaders(const std::vector<std::pair<std::string, std::string>>& team_leader_endpoints);
-    void SetWorkers(const std::vector<std::string>& worker_addresses);
+    void SetWorkers(const std::map<std::string, std::pair<std::string, int>>& worker_info); // worker_id -> (addr, capacity_score)
     void SetLeaderAddress(const std::string& leader_address);
     
     // Real data processing
@@ -46,6 +48,9 @@ public:
     std::string GetNodeState() const;
     void InitiateShutdown(int delay_seconds = 5);
     bool IsShuttingDown() const { return shutting_down_; }
+    void MaintenanceTick();
+    void UpdateWorkerHeartbeat(const std::string& worker_id, double recent_task_ms, uint32_t queue_len);
+    mini2::Task RequestTaskForWorker(const std::string& worker_id);
 
 private:
     std::string node_id_;
@@ -71,7 +76,23 @@ private:
     std::chrono::steady_clock::time_point start_time_;
     std::atomic<int> requests_processed_;
     
+    // Worker stats and task queues for fault tolerance
+    struct WorkerStats {
+        std::string addr;
+        uint32_t capacity_score = 1;
+        double   avg_task_ms    = 0.0;
+        size_t   queue_len      = 0;
+        std::chrono::steady_clock::time_point last_heartbeat;
+        bool     healthy        = true;
+    };
+    std::map<std::string, WorkerStats> worker_stats_;               // worker_id -> stats
+    std::map<std::string, std::deque<mini2::Task>> worker_queues_;  // worker_id -> tasks
+    std::deque<mini2::Task> team_task_queue_;                       // global team queue
+    mutable std::mutex task_mutex_;
+    
     // Helper methods
+    double ComputeWorkerRank(const WorkerStats& ws) const;
+    bool TryStealTask(const std::string& thief_id, mini2::Task& out_task);
     int ForwardToTeamLeaders(const mini2::Request& req, bool need_green, bool need_pink);
     int ForwardToWorkers(const mini2::Request& req);
     mini2::WorkerResult ProcessRealData(std::shared_ptr<DataProcessor> processor, const mini2::Request& req, size_t start_idx, size_t count);

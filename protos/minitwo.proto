@@ -3,7 +3,13 @@ syntax = "proto3";
 package mini2;
 
 message NodeId { string id = 1; }
-message Heartbeat { string from = 1; int64 ts_unix_ms = 2; }
+message Heartbeat { 
+  string from = 1; 
+  int64 ts_unix_ms = 2; 
+  double recent_task_ms = 3;   // average processing time of recent tasks on this node
+  uint32 queue_len = 4;        // current queue length observed by this node
+  uint32 capacity_score = 5;   // static capacity score loaded from config
+}
 message HeartbeatAck { bool ok = 1; }
 
 message Request {
@@ -17,6 +23,15 @@ message WorkerResult {
   string request_id = 1;
   uint32 part_index = 2;
   bytes payload = 3;
+}
+
+message Task {
+  string request_id = 1;
+  string session_id = 2;
+  uint32 chunk_id = 3;
+  uint64 start_row = 4;
+  uint64 num_rows = 5;
+  string dataset_path = 6;
 }
 
 message AggregatedResult {
@@ -81,6 +96,7 @@ service NodeControl {
 service TeamIngress {
   rpc HandleRequest(Request) returns (HeartbeatAck);
   rpc PushWorkerResult(WorkerResult) returns (HeartbeatAck);
+  rpc RequestTask(NodeId) returns (Task);
 }
 
 service ClientGateway {

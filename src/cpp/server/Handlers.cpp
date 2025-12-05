@@ -3,6 +3,7 @@
 #include "minitwo.grpc.pb.h"
 #include "RequestProcessor.h"
 #include "SessionManager.h"
+#include "../common/logging.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -24,8 +25,14 @@ public:
         : processor_(processor), node_id_(node_id) {}
     
     Status Ping(ServerContext* ctx, const mini2::Heartbeat* req, mini2::HeartbeatAck* resp) override {
-        std::cout << "[NodeControl] Ping from: " << req->from() 
-                  << " at " << req->ts_unix_ms() << std::endl;
+        LOG_DEBUG(node_id_, "NodeControl", 
+                  "Ping from " + req->from() + " at " + std::to_string(req->ts_unix_ms()));
+        
+        // If this is a team leader receiving heartbeat from a worker, update stats
+        if ((node_id_ == "B" || node_id_ == "E") && req->recent_task_ms() > 0.0) {
+            processor_->UpdateWorkerHeartbeat(req->from(), req->recent_task_ms(), req->queue_len());
+        }
+        
         resp->set_ok(true);
         return Status::OK;
     }
@@ -102,6 +109,23 @@ public:
         processor_->ReceiveWorkerResult(*req);
         
         resp->set_ok(true);
+        return Status::OK;
+    }
+    
+    Status RequestTask(ServerContext* ctx, const mini2::NodeId* req, mini2::Task* resp) override {
+        LOG_DEBUG(node_id_, "TeamIngress", "RequestTask from " + req->id());
+        
+        // Only team leaders can assign tasks
+        if (node_id_ == "B" || node_id_ == "E") {
+            *resp = processor_->RequestTaskForWorker(req->id());
+            if (!resp->request_id().empty()) {
+                LOG_DEBUG(node_id_, "TeamIngress", 
+                          "Assigned task " + resp->request_id() + "." + 
+                          std::to_string(resp->chunk_id()) + " to " + req->id());
+            }
+        }
+        // else return empty task (default constructed)
+        
         return Status::OK;
     }
 };

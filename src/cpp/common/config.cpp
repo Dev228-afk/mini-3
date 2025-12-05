@@ -17,6 +17,9 @@ NetworkConfig LoadConfig(const std::string& path){
     for (auto &n : j["nodes"]) {
         NodeInfo ni;
         ni.id = n["id"]; ni.role = n["role"]; ni.host = n["host"]; ni.port = n["port"]; ni.team = n["team"];
+        if (n.contains("capacity_score")) {
+            ni.capacity_score = n["capacity_score"];
+        }
         out.nodes[ni.id] = ni;
     }
     for (auto &e : j["overlay"]) {

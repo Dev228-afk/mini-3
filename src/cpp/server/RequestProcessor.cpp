@@ -1,4 +1,5 @@
 #include "RequestProcessor.h"
+#include "../common/logging.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -64,9 +65,24 @@ void RequestProcessor::SetTeamLeaders(const std::vector<std::pair<std::string, s
     }
 }
 
-void RequestProcessor::SetWorkers(const std::vector<std::string>& worker_addresses) {
-    for (const auto& addr : worker_addresses) {
+void RequestProcessor::SetWorkers(const std::map<std::string, std::pair<std::string, int>>& worker_info) {
+    for (const auto& [worker_id, info] : worker_info) {
+        const auto& [addr, capacity_score] = info;
         RegisterPeer(addr, worker_stubs_, "worker");
+        
+        // Initialize worker stats
+        std::lock_guard<std::mutex> lock(task_mutex_);
+        WorkerStats& ws = worker_stats_[worker_id];
+        ws.addr = addr;
+        ws.capacity_score = capacity_score;
+        ws.avg_task_ms = 0.0;
+        ws.queue_len = 0;
+        ws.last_heartbeat = std::chrono::steady_clock::now();
+        ws.healthy = true;
+        
+        LOG_INFO(node_id_, "RequestProcessor", 
+                 "Registered worker " + worker_id + " with capacity_score=" + 
+                 std::to_string(capacity_score) + " at " + addr);
     }
 }
 
@@ -199,49 +215,84 @@ int RequestProcessor::ForwardToTeamLeaders(const mini2::Request& req, bool need_
 // ============================================================================
 
 void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
-    std::cout << "[TeamLeader " << node_id_ << "] request: " << request.request_id() << std::endl;
+    LOG_INFO(node_id_, "TeamLeader", "Received request: " + request.request_id());
     
     LoadDatasetIfNeeded(request);
     auto proc = GetDataProcessor();
 
-    constexpr uint32_t kLocalPartitions = 2;
-    const bool can_delegate = (proc != nullptr) && !worker_stubs_.empty();
-
-    if (can_delegate) {
-        std::cout << "[TeamLeader " << node_id_ << "] forwarding to " 
-              << worker_stubs_.size() << " worker(s)" << std::endl;
-        int expected_workers = ForwardToWorkers(request);
+    if (proc && !worker_stats_.empty()) {
+        // Create tasks for workers to pull
+        size_t total_rows = proc->GetTotalRows();
+        size_t num_workers = worker_stats_.size();
+        size_t num_tasks = num_workers * 3; // 3 tasks per worker
         
-        std::cout << "[TeamLeader " << node_id_ << "] waiting for " << expected_workers 
-                  << " worker result(s)" << std::endl;
-
-        std::unique_lock<std::mutex> lock(results_mutex_);
-        bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(60), [this, &request, expected_workers]() {
-            return pending_results_.count(request.request_id()) && 
-                   pending_results_[request.request_id()].size() >= static_cast<size_t>(expected_workers);
-        });
-        
-        if (!got_results) {
-            std::cerr << "[TeamLeader " << node_id_ << "] WARNING: Timeout waiting for worker results, processing locally"
-                      << std::endl;
-            lock.unlock();
+        if (total_rows == 0) {
+            LOG_WARN(node_id_, "TeamLeader", "Dataset has 0 rows, cannot create tasks");
+            // Fall back to local processing
+            constexpr uint32_t kLocalPartitions = 2;
             ProcessLocally(proc, request, kLocalPartitions);
         } else {
-            std::cout << "[TeamLeader " << node_id_ << "] got all " << expected_workers 
-                      << " worker result(s)" << std::endl;
+            size_t rows_per_task = (total_rows + num_tasks - 1) / num_tasks;
+            
+            // Clear old tasks and create new ones
+            {
+                std::lock_guard<std::mutex> lock(task_mutex_);
+                team_task_queue_.clear();
+                
+                for (size_t i = 0; i < num_tasks; ++i) {
+                    size_t start_row = i * rows_per_task;
+                    if (start_row >= total_rows) break;
+                    
+                    size_t num_rows = std::min(rows_per_task, total_rows - start_row);
+                    
+                    mini2::Task task;
+                    task.set_request_id(request.request_id());
+                    task.set_session_id(request.request_id()); // Use request_id as session_id
+                    task.set_chunk_id(i);
+                    task.set_start_row(start_row);
+                    task.set_num_rows(num_rows);
+                    task.set_dataset_path(request.query());
+                    
+                    team_task_queue_.push_back(task);
+                }
+            }
+            
+            LOG_INFO(node_id_, "TeamLeader", 
+                     "Created " + std::to_string(num_tasks) + " tasks for request " + 
+                     request.request_id() + " (" + std::to_string(total_rows) + " rows)");
+            
+            // Wait for workers to pull tasks and send results
+            size_t expected_results = num_tasks;
+            std::unique_lock<std::mutex> lock(results_mutex_);
+            bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(90), 
+                [this, &request, expected_results]() {
+                    return pending_results_.count(request.request_id()) && 
+                           pending_results_[request.request_id()].size() >= expected_results;
+                });
+            
+            if (!got_results) {
+                LOG_WARN(node_id_, "TeamLeader", 
+                         "Timeout waiting for worker results, some tasks may have failed");
+            } else {
+                LOG_INFO(node_id_, "TeamLeader", 
+                         "Received all " + std::to_string(expected_results) + " results");
+            }
             lock.unlock();
         }
     } else {
-        std::cout << "[TeamLeader " << node_id_ << "] processing locally (dataset=" 
-              << (proc ? "yes" : "no") << ", workers=" << worker_stubs_.size() << ")" << std::endl;
+        // No dataset or no workers - process locally
+        LOG_INFO(node_id_, "TeamLeader", 
+                 "Processing locally (dataset=" + std::string(proc ? "yes" : "no") + 
+                 ", workers=" + std::to_string(worker_stats_.size()) + ")");
+        constexpr uint32_t kLocalPartitions = 2;
         ProcessLocally(proc, request, kLocalPartitions);
     }
 
-    std::cout << "[TeamLeader " << node_id_ << "] done: " << request.request_id() << std::endl;
+    LOG_INFO(node_id_, "TeamLeader", "Done processing request: " + request.request_id());
     
     // Send results back to Process A (Leader)
     if (leader_stub_) {
-        std::cout << "[TeamLeader " << node_id_ << "] sending results to leader" << std::endl;
+        LOG_INFO(node_id_, "TeamLeader", "Sending results to leader");
         std::lock_guard<std::mutex> lock(results_mutex_);
         auto& results = pending_results_[request.request_id()];
         for (const auto& result : results) {
@@ -249,16 +300,16 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
             mini2::HeartbeatAck ack;
             Status status = leader_stub_->PushWorkerResult(&ctx, result, &ack);
             if (status.ok()) {
-                std::cout << "[TeamLeader " << node_id_ << "] sent part " 
-                             << result.part_index() << " to leader" << std::endl;
+                LOG_DEBUG(node_id_, "TeamLeader", 
+                          "Sent part " + std::to_string(result.part_index()) + " to leader");
             } else {
-                std::cerr << "[TeamLeader " << node_id_ << "] Failed to send result: " 
-                         << status.error_message() << std::endl;
+                LOG_ERROR(node_id_, "TeamLeader", 
+                          "Failed to send result: " + status.error_message());
             }
         }
         pending_results_.erase(request.request_id());
     } else {
-        std::cout << "[TeamLeader " << node_id_ << "] WARNING: leader stub not configured" << std::endl;
+        LOG_WARN(node_id_, "TeamLeader", "No leader stub available to send results");
     }
 }
 
@@ -365,6 +416,41 @@ mini2::WorkerResult RequestProcessor::ProcessRealData(std::shared_ptr<DataProces
     
     std::cout << "[" << node_id_ << "] generated " << processed.size() 
               << " bytes for part " << result.part_index() << std::endl;
+    
+    return result;
+}
+
+mini2::WorkerResult RequestProcessor::ProcessTask(const mini2::Task& task, double& processing_time_ms) {
+    auto start_time = std::chrono::steady_clock::now();
+    
+    LOG_DEBUG(node_id_, "Worker", 
+              "Processing task " + task.request_id() + "." + std::to_string(task.chunk_id()));
+    
+    // Load dataset if needed
+    LoadDataset(task.dataset_path());
+    auto proc = GetDataProcessor();
+    
+    mini2::WorkerResult result;
+    result.set_request_id(task.request_id());
+    result.set_part_index(task.chunk_id());
+    
+    if (proc) {
+        // Get data chunk
+        auto chunk = proc->GetChunk(task.start_row(), task.num_rows());
+        
+        // Process chunk
+        std::string processed = proc->ProcessChunk(chunk, "");
+        result.set_payload(processed);
+        
+        LOG_DEBUG(node_id_, "Worker", 
+                  "Generated " + std::to_string(processed.size()) + " bytes for task " + 
+                  task.request_id() + "." + std::to_string(task.chunk_id()));
+    } else {
+        LOG_WARN(node_id_, "Worker", "No dataset loaded for task processing");
+    }
+    
+    auto end_time = std::chrono::steady_clock::now();
+    processing_time_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
     
     return result;
 }
@@ -509,3 +595,182 @@ void RequestProcessor::InitiateShutdown(int delay_seconds) {
     std::cout << "[RequestProcessor:" << node_id_ << "] Shutdown complete. "
               << "Total requests processed: " << requests_processed_ << std::endl;
 }
+
+double RequestProcessor::ComputeWorkerRank(const WorkerStats& ws) const {
+    const double alpha = 1.0;   // capacity weight
+    const double beta  = 0.5;   // queue length penalty
+    const double gamma = 0.001; // ms penalty
+    return alpha * static_cast<double>(ws.capacity_score)
+         - beta  * static_cast<double>(ws.queue_len)
+         - gamma * ws.avg_task_ms;
+}
+
+void RequestProcessor::UpdateWorkerHeartbeat(const std::string& worker_id, double recent_task_ms, uint32_t queue_len) {
+    std::lock_guard<std::mutex> lock(task_mutex_);
+    
+    auto it = worker_stats_.find(worker_id);
+    if (it == worker_stats_.end()) {
+        return;
+    }
+    
+    WorkerStats& ws = it->second;
+    ws.last_heartbeat = std::chrono::steady_clock::now();
+    ws.queue_len = queue_len;
+    
+    // Update avg_task_ms using exponential moving average
+    if (recent_task_ms > 0.0) {
+        ws.avg_task_ms = 0.8 * ws.avg_task_ms + 0.2 * recent_task_ms;
+    }
+    
+    LOG_DEBUG(node_id_, "Heartbeat", 
+              "Updated stats for " + worker_id + ": avg_ms=" + std::to_string(ws.avg_task_ms) + 
+              ", queue=" + std::to_string(ws.queue_len));
+}
+
+void RequestProcessor::MaintenanceTick() {
+    constexpr int DEAD_TIMEOUT_SECONDS = 10;
+    constexpr size_t MAX_QUEUE_PER_WORKER = 20;
+    constexpr size_t MAX_TEAM_QUEUE = 100;
+    
+    std::lock_guard<std::mutex> lock(task_mutex_);
+    auto now = std::chrono::steady_clock::now();
+    
+    // Check for dead workers
+    for (auto& [worker_id, ws] : worker_stats_) {
+        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - ws.last_heartbeat).count();
+        
+        if (elapsed > DEAD_TIMEOUT_SECONDS && ws.healthy) {
+            LOG_WARN(node_id_, "Maintenance", 
+                     "Worker " + worker_id + " marked as DEAD (no heartbeat for " + 
+                     std::to_string(elapsed) + "s)");
+            ws.healthy = false;
+            
+            // Move all tasks from dead worker back to team queue
+            auto& worker_queue = worker_queues_[worker_id];
+            size_t requeued = worker_queue.size();
+            while (!worker_queue.empty()) {
+                team_task_queue_.push_back(worker_queue.front());
+                worker_queue.pop_front();
+            }
+            ws.queue_len = 0;
+            
+            if (requeued > 0) {
+                LOG_INFO(node_id_, "Maintenance", 
+                         "Requeued " + std::to_string(requeued) + " tasks from dead worker " + worker_id);
+            }
+        } else if (elapsed <= DEAD_TIMEOUT_SECONDS && !ws.healthy) {
+            // Worker came back to life
+            LOG_INFO(node_id_, "Maintenance", "Worker " + worker_id + " marked as HEALTHY");
+            ws.healthy = true;
+        }
+    }
+    
+    // Check for overloaded workers
+    for (const auto& [worker_id, worker_queue] : worker_queues_) {
+        if (worker_queue.size() > MAX_QUEUE_PER_WORKER) {
+            LOG_WARN(node_id_, "Maintenance", 
+                     "Worker " + worker_id + " queue overloaded: " + 
+                     std::to_string(worker_queue.size()) + " tasks (max=" + 
+                     std::to_string(MAX_QUEUE_PER_WORKER) + ")");
+        }
+    }
+    
+    // Check team queue
+    if (team_task_queue_.size() > MAX_TEAM_QUEUE) {
+        LOG_WARN(node_id_, "Maintenance", 
+                 "Team queue overloaded: " + std::to_string(team_task_queue_.size()) + 
+                 " tasks (max=" + std::to_string(MAX_TEAM_QUEUE) + ")");
+    }
+}
+
+mini2::Task RequestProcessor::RequestTaskForWorker(const std::string& worker_id) {
+    std::lock_guard<std::mutex> lock(task_mutex_);
+    
+    // Check if worker exists and is healthy
+    auto ws_it = worker_stats_.find(worker_id);
+    if (ws_it == worker_stats_.end() || !ws_it->second.healthy) {
+        LOG_DEBUG(node_id_, "RequestProcessor", 
+                  "RequestTask from unknown/unhealthy worker: " + worker_id);
+        return mini2::Task(); // empty task
+    }
+    
+    // 1. Check worker's own queue first
+    auto& worker_queue = worker_queues_[worker_id];
+    if (!worker_queue.empty()) {
+        mini2::Task task = worker_queue.front();
+        worker_queue.pop_front();
+        ws_it->second.queue_len = worker_queue.size();
+        LOG_DEBUG(node_id_, "RequestProcessor", 
+                  "Assigned task " + task.request_id() + "." + std::to_string(task.chunk_id()) + 
+                  " from own queue to " + worker_id);
+        return task;
+    }
+    
+    // 2. Try to steal from other workers
+    mini2::Task stolen_task;
+    if (TryStealTask(worker_id, stolen_task)) {
+        worker_queue.push_back(stolen_task);
+        ws_it->second.queue_len = worker_queue.size();
+        mini2::Task task = worker_queue.front();
+        worker_queue.pop_front();
+        ws_it->second.queue_len = worker_queue.size();
+        return task;
+    }
+    
+    // 3. Check team task queue
+    if (!team_task_queue_.empty()) {
+        mini2::Task task = team_task_queue_.front();
+        team_task_queue_.pop_front();
+        worker_queue.push_back(task);
+        ws_it->second.queue_len = worker_queue.size();
+        mini2::Task result = worker_queue.front();
+        worker_queue.pop_front();
+        ws_it->second.queue_len = worker_queue.size();
+        LOG_DEBUG(node_id_, "RequestProcessor", 
+                  "Assigned task " + result.request_id() + "." + std::to_string(result.chunk_id()) + 
+                  " from team queue to " + worker_id);
+        return result;
+    }
+    
+    // No work available
+    LOG_DEBUG(node_id_, "RequestProcessor", "No tasks available for " + worker_id);
+    return mini2::Task(); // empty task
+}
+
+bool RequestProcessor::TryStealTask(const std::string& thief_id, mini2::Task& out_task) {
+    constexpr size_t HIGH_WATERMARK = 4;
+    
+    std::string best_donor;
+    size_t max_queue_len = 0;
+    
+    // Find the donor with the largest queue length above HIGH_WATERMARK
+    for (const auto& [donor_id, donor_queue] : worker_queues_) {
+        if (donor_id == thief_id) continue;
+        
+        auto ws_it = worker_stats_.find(donor_id);
+        if (ws_it == worker_stats_.end() || !ws_it->second.healthy) continue;
+        
+        if (donor_queue.size() > HIGH_WATERMARK && donor_queue.size() > max_queue_len) {
+            best_donor = donor_id;
+            max_queue_len = donor_queue.size();
+        }
+    }
+    
+    if (best_donor.empty()) {
+        return false;
+    }
+    
+    // Steal one task from the back of the donor's queue
+    auto& donor_queue = worker_queues_[best_donor];
+    out_task = donor_queue.back();
+    donor_queue.pop_back();
+    worker_stats_[best_donor].queue_len = donor_queue.size();
+    
+    LOG_DEBUG(node_id_, "RequestProcessor", 
+              thief_id + " stole task " + out_task.request_id() + "." + 
+              std::to_string(out_task.chunk_id()) + " from " + best_donor + 
+              " (donor queue: " + std::to_string(donor_queue.size()) + ")");
+    
+    return true;
+}
+

@@ -5,42 +5,48 @@
       "role": "LEADER",
       "host": "169.254.239.138",
       "port": 50050,
-      "team": "GREEN"
+      "team": "GREEN",
+      "capacity_score": 2
     },
     {
       "id": "B",
       "role": "TEAM_LEADER",
       "host": "169.254.239.138",
       "port": 50051,
-      "team": "GREEN"
+      "team": "GREEN",
+      "capacity_score": 2
     },
     {
       "id": "C",
       "role": "WORKER",
       "host": "169.254.206.255",
       "port": 50052,
-      "team": "GREEN"
+      "team": "GREEN",
+      "capacity_score": 3
     },
     {
       "id": "D",
       "role": "TEAM_LEADER",
       "host": "169.254.239.138",
       "port": 50053,
-      "team": "PINK"
+      "team": "PINK",
+      "capacity_score": 2
     },
     {
       "id": "E",
       "role": "TEAM_LEADER",
       "host": "169.254.206.255",
       "port": 50054,
-      "team": "PINK"
+      "team": "PINK",
+      "capacity_score": 2
     },
     {
       "id": "F",
       "role": "WORKER",
       "host": "169.254.206.255",
       "port": 50055,
-      "team": "PINK"
+      "team": "PINK",
+      "capacity_score": 1
     }
   ],
   "overlay": [
