@@ -9,6 +9,7 @@
 #include <memory>
 #include <csignal>
 #include <atomic>
+#include <sstream>
 
 #include "Handlers.cpp"
 
@@ -85,27 +86,32 @@ int main(int argc, char** argv){
             {"pink", addr_E}
         });
         LOG_INFO(node_id, "ServerMain", "Node A configured as Leader with team leaders: " + addr_B + ", " + addr_E);
-    } else if (node_id == "B") {
+    } else if (node_id == "B" || node_id == "E") {
         std::string addr_A = cfg.nodes["A"].host + ":" + std::to_string(cfg.nodes["A"].port);
-        std::string addr_C = cfg.nodes["C"].host + ":" + std::to_string(cfg.nodes["C"].port);
         processor->SetLeaderAddress(addr_A);
-        std::map<std::string, std::pair<std::string, int>> workers = {
-            {"C", {addr_C, cfg.nodes["C"].capacity_score}}
-        };
+
+        // Build worker list from config based on team membership
+        std::map<std::string, std::pair<std::string, int>> workers;
+        for (const auto& [id, info] : cfg.nodes) {
+            if (id == node_id) continue;                 // skip self
+            if (info.role != "WORKER") continue;        // only workers
+            if (info.team != me.team) continue;          // only same team
+
+            std::string addr = info.host + ":" + std::to_string(info.port);
+            workers[id] = {addr, info.capacity_score};
+        }
+
         processor->SetWorkers(workers);
-        LOG_INFO(node_id, "ServerMain", "B = green team leader (A=" + addr_A + ", C=" + addr_C + ")");
-        LOG_INFO(node_id, "ServerMain", "dataset path comes from Request.query");
-    } else if (node_id == "E") {
-        std::string addr_A = cfg.nodes["A"].host + ":" + std::to_string(cfg.nodes["A"].port);
-        std::string addr_D = cfg.nodes["D"].host + ":" + std::to_string(cfg.nodes["D"].port);
-        std::string addr_F = cfg.nodes["F"].host + ":" + std::to_string(cfg.nodes["F"].port);
-        processor->SetLeaderAddress(addr_A);
-        std::map<std::string, std::pair<std::string, int>> workers = {
-            {"D", {addr_D, cfg.nodes["D"].capacity_score}},
-            {"F", {addr_F, cfg.nodes["F"].capacity_score}}
-        };
-        processor->SetWorkers(workers);
-        LOG_INFO(node_id, "ServerMain", "E = pink team leader (A=" + addr_A + ", D=" + addr_D + ", F=" + addr_F + ")");
+
+        // Log configuration
+        std::ostringstream oss;
+        bool first = true;
+        for (const auto& [id, pair] : workers) {
+            if (!first) oss << ", ";
+            oss << id << "=" << pair.first;
+            first = false;
+        }
+        LOG_INFO(node_id, "ServerMain", node_id + " team leader (A=" + addr_A + ", workers=" + oss.str() + ")");
         LOG_INFO(node_id, "ServerMain", "dataset path comes from Request.query");
     } else if (node_id == "C" || node_id == "D" || node_id == "F") {
         std::string team_leader_addr;

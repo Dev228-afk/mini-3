@@ -344,6 +344,14 @@ int main(int argc, char** argv){
     } else if (mode == "strategy-b-pollnext") {
         // Test Phase 3: Strategy B with PollNext
         testStrategyB_PollNext(gateway, dataset_path);
+    } else if (mode == "request") {
+        // Single request mode - same as strategy-b-getnext for real data processing
+        if (dataset_path.empty()) {
+            std::cerr << "Error: --dataset is required for request mode" << std::endl;
+            return 1;
+        }
+        std::cout << "📦 PROCESSING DATASET: " << dataset_path << std::endl;
+        testStrategyB_GetNext(gateway, dataset_path);
     } else if (mode == "phase3") {
         // Test Phase 3: Compare all strategies
         std::cout << "\n############################################" << std::endl;
