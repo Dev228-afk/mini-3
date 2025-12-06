@@ -28,9 +28,12 @@ public:
         LOG_DEBUG(node_id_, "NodeControl", 
                   "Ping from " + req->from() + " at " + std::to_string(req->ts_unix_ms()));
         
-        // If this is a team leader receiving heartbeat from a worker, update stats
-        if ((node_id_ == "B" || node_id_ == "E") && req->recent_task_ms() > 0.0) {
-            processor_->UpdateWorkerHeartbeat(req->from(), req->recent_task_ms(), req->queue_len());
+        // If this is a team leader receiving heartbeat from a worker, ensure worker is registered
+        if (node_id_ == "B" || node_id_ == "E") {
+            processor_->EnsureWorkerRegistered(req->from());
+            if (req->recent_task_ms() > 0.0) {
+                processor_->UpdateWorkerHeartbeat(req->from(), req->recent_task_ms(), req->queue_len());
+            }
         }
         
         resp->set_ok(true);
@@ -90,6 +93,9 @@ public:
         
         // Determine if this is a team leader or worker
         if (node_id_ == "B" || node_id_ == "E") {
+            LOG_INFO(node_id_, "TeamIngress",
+                     "HandleRequest: received Request for team leader with request_id=" +
+                     req->request_id() + " dataset=" + req->query());
             // Team leaders forward to workers or process locally
             processor_->HandleTeamRequest(*req);
         } else {

@@ -216,7 +216,7 @@ int RequestProcessor::ForwardToTeamLeaders(const mini2::Request& req, bool need_
 
 void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
     LOG_INFO(node_id_, "RequestProcessor",
-             "HandleTeamRequest: received request_id=" + request.request_id() +
+             "HandleTeamRequest: processing request_id=" + request.request_id() +
              " dataset=" + request.query());
     
     LoadDatasetIfNeeded(request);
@@ -260,9 +260,9 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
             }
             
             LOG_INFO(node_id_, "RequestProcessor",
-                     "Created " + std::to_string(num_tasks) + " tasks for request_id=" + 
-                     request.request_id() + " (total_rows=" + std::to_string(total_rows) + 
-                     ", queue_size=" + std::to_string(team_task_queue_.size()) + ")");
+                     "HandleTeamRequest: created " + std::to_string(team_task_queue_.size()) + 
+                     " tasks for request_id=" + request.request_id() + 
+                     " (total_rows=" + std::to_string(total_rows) + ")");
             
             // Wait for workers to pull tasks and send results
             size_t expected_results = num_tasks;
@@ -689,6 +689,22 @@ void RequestProcessor::MaintenanceTick() {
 mini2::Task RequestProcessor::RequestTaskForWorker(const std::string& worker_id) {
     std::lock_guard<std::mutex> lock(task_mutex_);
     
+    // Debug: log known workers
+    {
+        std::ostringstream oss;
+        oss << "RequestTaskForWorker called for worker_id=" << worker_id
+            << " | known_workers=[";
+        bool first = true;
+        for (const auto& kv : worker_stats_) {
+            if (!first) oss << ",";
+            first = false;
+            oss << kv.first << "(healthy=" << (kv.second.healthy ? "1" : "0")
+                << ",queue=" << kv.second.queue_len << ")";
+        }
+        oss << "]";
+        LOG_DEBUG(node_id_, "RequestProcessor", oss.str());
+    }
+    
     // Check if worker exists and is healthy
     auto ws_it = worker_stats_.find(worker_id);
     if (ws_it == worker_stats_.end() || !ws_it->second.healthy) {
@@ -738,6 +754,31 @@ mini2::Task RequestProcessor::RequestTaskForWorker(const std::string& worker_id)
     // No work available
     LOG_DEBUG(node_id_, "RequestProcessor", "No tasks available for " + worker_id);
     return mini2::Task(); // empty task
+}
+
+void RequestProcessor::EnsureWorkerRegistered(const std::string& worker_id) {
+    // Only relevant for team leaders
+    if (node_id_ != "B" && node_id_ != "E") return;
+
+    std::lock_guard<std::mutex> lock(task_mutex_);
+    auto it = worker_stats_.find(worker_id);
+    if (it == worker_stats_.end()) {
+        WorkerStats ws;
+        ws.addr           = ""; // unknown, filled from config if available
+        ws.capacity_score = 1;
+        ws.avg_task_ms    = 0.0;
+        ws.queue_len      = 0;
+        ws.last_heartbeat = std::chrono::steady_clock::now();
+        ws.healthy        = true;
+        worker_stats_[worker_id] = ws;
+
+        LOG_WARN(node_id_, "RequestProcessor",
+                 "Auto-registered worker " + worker_id +
+                 " on first contact (no config match)");
+    } else {
+        it->second.last_heartbeat = std::chrono::steady_clock::now();
+        it->second.healthy        = true;
+    }
 }
 
 bool RequestProcessor::TryStealTask(const std::string& thief_id, mini2::Task& out_task) {

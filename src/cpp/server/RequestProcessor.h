@@ -51,6 +51,7 @@ public:
     void MaintenanceTick();
     void UpdateWorkerHeartbeat(const std::string& worker_id, double recent_task_ms, uint32_t queue_len);
     mini2::Task RequestTaskForWorker(const std::string& worker_id);
+    void EnsureWorkerRegistered(const std::string& worker_id);
 
 private:
     std::string node_id_;
