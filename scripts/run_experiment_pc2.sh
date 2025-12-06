@@ -28,4 +28,6 @@ echo
 echo "[run_experiment_pc2] >>> Now run the client on PC-1 for dataset label '$LABEL'."
 echo "[run_experiment_pc2] When the client finishes, run this command on PC-2 to slice logs:"
 echo "  ./scripts/slice_since_mark.sh \"$MARK_FILE\" \"$LABEL\""
+echo "[run_experiment_pc2] After slicing, the short filtered log will be:"
+echo "  <slice-file with '-short.log' suffix>"
 echo

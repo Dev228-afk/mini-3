@@ -48,4 +48,10 @@ while read -r line; do
 
 done < "$MARK_FILE"
 
+# Generate short filtered version
+SHORT_FILE="${OUT_COMBINED%.log}-short.log"
+grep -Ev "WorkerLoop] No tasks available|Heartbeat] alive|WorkerHeartbeat" \
+  "$OUT_COMBINED" > "$SHORT_FILE"
+echo "[slice_logs] Short filtered log: $SHORT_FILE"
+
 echo "$OUT_COMBINED"
