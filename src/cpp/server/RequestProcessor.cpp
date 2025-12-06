@@ -215,7 +215,9 @@ int RequestProcessor::ForwardToTeamLeaders(const mini2::Request& req, bool need_
 // ============================================================================
 
 void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
-    LOG_INFO(node_id_, "TeamLeader", "Received request: " + request.request_id());
+    LOG_INFO(node_id_, "RequestProcessor",
+             "HandleTeamRequest: received request_id=" + request.request_id() +
+             " dataset=" + request.query());
     
     LoadDatasetIfNeeded(request);
     auto proc = GetDataProcessor();
@@ -257,9 +259,10 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
                 }
             }
             
-            LOG_INFO(node_id_, "TeamLeader", 
-                     "Created " + std::to_string(num_tasks) + " tasks for request " + 
-                     request.request_id() + " (" + std::to_string(total_rows) + " rows)");
+            LOG_INFO(node_id_, "RequestProcessor",
+                     "Created " + std::to_string(num_tasks) + " tasks for request_id=" + 
+                     request.request_id() + " (total_rows=" + std::to_string(total_rows) + 
+                     ", queue_size=" + std::to_string(team_task_queue_.size()) + ")");
             
             // Wait for workers to pull tasks and send results
             size_t expected_results = num_tasks;
