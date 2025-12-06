@@ -719,36 +719,29 @@ mini2::Task RequestProcessor::RequestTaskForWorker(const std::string& worker_id)
         mini2::Task task = worker_queue.front();
         worker_queue.pop_front();
         ws_it->second.queue_len = worker_queue.size();
-        LOG_DEBUG(node_id_, "RequestProcessor", 
-                  "Assigned task " + task.request_id() + "." + std::to_string(task.chunk_id()) + 
-                  " from own queue to " + worker_id);
+        LOG_DEBUG(node_id_, "RequestProcessor",
+                  "Assigning task " + task.request_id() + "." + std::to_string(task.chunk_id()) +
+                  " to worker " + worker_id + " from OWN_QUEUE");
         return task;
     }
     
     // 2. Try to steal from other workers
     mini2::Task stolen_task;
     if (TryStealTask(worker_id, stolen_task)) {
-        worker_queue.push_back(stolen_task);
-        ws_it->second.queue_len = worker_queue.size();
-        mini2::Task task = worker_queue.front();
-        worker_queue.pop_front();
-        ws_it->second.queue_len = worker_queue.size();
-        return task;
+        LOG_DEBUG(node_id_, "RequestProcessor",
+                  "Assigning task " + stolen_task.request_id() + "." + std::to_string(stolen_task.chunk_id()) +
+                  " to worker " + worker_id + " via STEAL");
+        return stolen_task;
     }
     
     // 3. Check team task queue
     if (!team_task_queue_.empty()) {
         mini2::Task task = team_task_queue_.front();
         team_task_queue_.pop_front();
-        worker_queue.push_back(task);
-        ws_it->second.queue_len = worker_queue.size();
-        mini2::Task result = worker_queue.front();
-        worker_queue.pop_front();
-        ws_it->second.queue_len = worker_queue.size();
-        LOG_DEBUG(node_id_, "RequestProcessor", 
-                  "Assigned task " + result.request_id() + "." + std::to_string(result.chunk_id()) + 
-                  " from team queue to " + worker_id);
-        return result;
+        LOG_DEBUG(node_id_, "RequestProcessor",
+                  "Assigning task " + task.request_id() + "." + std::to_string(task.chunk_id()) +
+                  " to worker " + worker_id + " from TEAM_QUEUE");
+        return task;
     }
     
     // No work available
