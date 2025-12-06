@@ -91,14 +91,17 @@ int main(int argc, char** argv){
         processor->SetLeaderAddress(addr_A);
 
         // Build worker list from config based on team membership
+        // Include any node in same team that might pull tasks (C, D, F)
         std::map<std::string, std::pair<std::string, int>> workers;
         for (const auto& [id, info] : cfg.nodes) {
             if (id == node_id) continue;                 // skip self
-            if (info.role != "WORKER") continue;        // only workers
+            if (info.role == "LEADER") continue;         // skip gateway leader
             if (info.team != me.team) continue;          // only same team
-
-            std::string addr = info.host + ":" + std::to_string(info.port);
-            workers[id] = {addr, info.capacity_score};
+            // Include WORKER nodes and any TEAM_LEADER that pulls tasks (like D from E)
+            if (id == "C" || id == "D" || id == "F") {   // nodes that pull tasks
+                std::string addr = info.host + ":" + std::to_string(info.port);
+                workers[id] = {addr, info.capacity_score};
+            }
         }
 
         processor->SetWorkers(workers);
