@@ -7,7 +7,7 @@ LOCAL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # pc-2 SSH target + project path
 # Change these if your username/host are different
-REMOTE_HOST="dev@Dev"
+REMOTE_HOST="dev@169.254.206.255"
 REMOTE_ROOT="/mnt/c/Users/devan/mini-3"
 # =============================================
 
