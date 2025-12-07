@@ -94,6 +94,8 @@ private:
     // Helper methods
     double ComputeWorkerRank(const WorkerStats& ws) const;
     bool TryStealTask(const std::string& thief_id, mini2::Task& out_task);
+    void OnWorkerBecameUnhealthy(const std::string& worker_id);
+    std::string ChooseBestWorkerId() const;
     int ForwardToTeamLeaders(const mini2::Request& req, bool need_green, bool need_pink);
     int ForwardToWorkers(const mini2::Request& req);
     mini2::WorkerResult ProcessRealData(std::shared_ptr<DataProcessor> processor, const mini2::Request& req, size_t start_idx, size_t count);

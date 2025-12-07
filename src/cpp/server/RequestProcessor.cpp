@@ -6,6 +6,8 @@
 #include <sstream>
 #include <algorithm>
 #include <cstdio>
+#include <cstdlib>
+#include <limits>
 
 #if defined(__APPLE__) // macOS flag
 #include <mach/mach.h>
@@ -15,6 +17,19 @@
 
 namespace {
 constexpr int kMaxGrpcMessageSize = 1536 * 1024 * 1024; // 1.5GB
+
+// Helper to get slowdown for worker D (simulates weak hardware)
+int getSlowdownMsForNode(const std::string& node_id) {
+    const char* env = std::getenv("MINI3_SLOW_D_MS");
+    if (!env) return 0;
+    int ms = std::atoi(env);
+    if (ms <= 0) return 0;
+    // Only apply slowdown to node D
+    if (node_id == "D") {
+        return ms;
+    }
+    return 0;
+}
 
 uint64_t GetProcessMemory() {
 #if defined(__APPLE__)
@@ -236,10 +251,16 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
         } else {
             size_t rows_per_task = (total_rows + num_tasks - 1) / num_tasks;
             
-            // Clear old tasks and create new ones
+            // Clear old tasks and create new ones with capacity-aware assignment
             {
                 std::lock_guard<std::mutex> lock(task_mutex_);
                 team_task_queue_.clear();
+                
+                // Clear worker queues for new request
+                for (auto& [worker_id, queue] : worker_queues_) {
+                    queue.clear();
+                    worker_stats_[worker_id].queue_len = 0;
+                }
                 
                 for (size_t i = 0; i < num_tasks; ++i) {
                     size_t start_row = i * rows_per_task;
@@ -255,13 +276,32 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
                     task.set_num_rows(num_rows);
                     task.set_dataset_path(request.query());
                     
-                    team_task_queue_.push_back(task);
+                    // Use capacity-aware assignment instead of team queue
+                    std::string best_id = ChooseBestWorkerId();
+                    if (!best_id.empty()) {
+                        worker_queues_[best_id].push_back(task);
+                        auto& ws = worker_stats_[best_id];
+                        ws.queue_len = worker_queues_[best_id].size();
+                        
+                        LOG_DEBUG(node_id_, "RequestProcessor", 
+                                  "Assigned task " + task.request_id() + "." + std::to_string(task.chunk_id()) + 
+                                  " to worker " + best_id + 
+                                  " (avg_ms=" + std::to_string(ws.avg_task_ms) + 
+                                  ", queue=" + std::to_string(ws.queue_len) + ")");
+                    } else {
+                        // No healthy worker, fallback to team queue
+                        team_task_queue_.push_back(task);
+                    }
+                }
+                
+                size_t assigned_count = 0;
+                for (const auto& [worker_id, queue] : worker_queues_) {
+                    assigned_count += queue.size();
                 }
             }
             
             LOG_INFO(node_id_, "RequestProcessor",
-                     "HandleTeamRequest: created " + std::to_string(team_task_queue_.size()) + 
-                     " tasks for request_id=" + request.request_id() + 
+                     "HandleTeamRequest: created and assigned tasks for request_id=" + request.request_id() + 
                      " (total_rows=" + std::to_string(total_rows) + ")");
             
             // Wait for workers to pull tasks and send results
@@ -428,6 +468,12 @@ mini2::WorkerResult RequestProcessor::ProcessTask(const mini2::Task& task, doubl
     
     LOG_DEBUG(node_id_, "Worker", 
               "Processing task " + task.request_id() + "." + std::to_string(task.chunk_id()));
+    
+    // Simulate slow hardware for worker D
+    int slow_ms = getSlowdownMsForNode(node_id_);
+    if (slow_ms > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(slow_ms));
+    }
     
     // Load dataset if needed
     LoadDataset(task.dataset_path());
@@ -646,21 +692,9 @@ void RequestProcessor::MaintenanceTick() {
             LOG_WARN(node_id_, "Maintenance", 
                      "Worker " + worker_id + " marked as DEAD (no heartbeat for " + 
                      std::to_string(elapsed) + "s)");
-            ws.healthy = false;
             
-            // Move all tasks from dead worker back to team queue
-            auto& worker_queue = worker_queues_[worker_id];
-            size_t requeued = worker_queue.size();
-            while (!worker_queue.empty()) {
-                team_task_queue_.push_back(worker_queue.front());
-                worker_queue.pop_front();
-            }
-            ws.queue_len = 0;
-            
-            if (requeued > 0) {
-                LOG_INFO(node_id_, "Maintenance", 
-                         "Requeued " + std::to_string(requeued) + " tasks from dead worker " + worker_id);
-            }
+            // Reassign tasks from unhealthy worker
+            OnWorkerBecameUnhealthy(worker_id);
         } else if (elapsed <= DEAD_TIMEOUT_SECONDS && !ws.healthy) {
             // Worker came back to life
             LOG_INFO(node_id_, "Maintenance", "Worker " + worker_id + " marked as HEALTHY");
@@ -809,5 +843,67 @@ bool RequestProcessor::TryStealTask(const std::string& thief_id, mini2::Task& ou
               " (donor queue: " + std::to_string(donor_queue.size()) + ")");
     
     return true;
+}
+
+void RequestProcessor::OnWorkerBecameUnhealthy(const std::string& worker_id) {
+    // Called with task_mutex_ already locked
+    auto& ws = worker_stats_[worker_id];
+    auto& worker_queue = worker_queues_[worker_id];
+    size_t num_tasks = worker_queue.size();
+    
+    if (num_tasks == 0) {
+        ws.healthy = false;
+        ws.queue_len = 0;
+        return;
+    }
+    
+    LOG_WARN(node_id_, "TeamLeader", 
+             "Worker " + worker_id + " became unhealthy; reassigning its " + 
+             std::to_string(num_tasks) + " pending tasks.");
+    
+    // Reassign all pending tasks to healthy workers
+    while (!worker_queue.empty()) {
+        auto task = std::move(worker_queue.front());
+        worker_queue.pop_front();
+        
+        // Try to assign to a healthy worker
+        std::string best_id = ChooseBestWorkerId();
+        if (!best_id.empty() && best_id != worker_id) {
+            worker_queues_[best_id].push_back(task);
+            worker_stats_[best_id].queue_len = worker_queues_[best_id].size();
+            LOG_DEBUG(node_id_, "TeamLeader", 
+                      "Reassigned task " + task.request_id() + "." + std::to_string(task.chunk_id()) + 
+                      " from " + worker_id + " to " + best_id);
+        } else {
+            // No healthy worker available, put in team queue
+            team_task_queue_.push_back(task);
+        }
+    }
+    
+    ws.healthy = false;
+    ws.queue_len = 0;
+}
+
+std::string RequestProcessor::ChooseBestWorkerId() const {
+    // Called with task_mutex_ already locked
+    std::string best_id;
+    double best_score = std::numeric_limits<double>::max();
+    
+    for (const auto& [id, info] : worker_stats_) {
+        if (!info.healthy) continue;
+        
+        // Base score from avg latency; if no latency yet, use a default
+        double latency = (info.avg_task_ms > 0.0) ? info.avg_task_ms : 100.0;
+        
+        // Add a penalty for queue length (factor 50ms per queued task)
+        double score = latency + info.queue_len * 50.0;
+        
+        if (score < best_score) {
+            best_score = score;
+            best_id = id;
+        }
+    }
+    
+    return best_id;
 }
 
