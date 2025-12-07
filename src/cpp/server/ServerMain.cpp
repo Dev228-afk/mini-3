@@ -170,6 +170,11 @@ int main(int argc, char** argv){
             
             LOG_INFO(node_id, "WorkerLoop", "Starting task pulling loop");
             
+            // Idle backoff state
+            int idle_iters = 0;
+            int log_counter = 0;
+            const int LOG_EVERY_N = 50;
+            
             while (!g_shutdown_requested) {
                 // Request a task from team leader
                 mini2::NodeId req;
@@ -182,6 +187,10 @@ int main(int argc, char** argv){
                 if (status.ok() && !task.request_id().empty()) {
                     LOG_DEBUG(node_id, "WorkerLoop", 
                               "Pulled task " + task.request_id() + "." + std::to_string(task.chunk_id()));
+                    
+                    // Reset idle backoff when we get work
+                    idle_iters = 0;
+                    log_counter = 0;
                     
                     // Process the task
                     double processing_ms = 0.0;
@@ -202,14 +211,22 @@ int main(int argc, char** argv){
                                   "Failed to push result: " + status.error_message());
                     }
                 } else {
-                    // No task available, backoff
+                    // No task available, use exponential backoff
+                    idle_iters++;
+                    log_counter++;
+                    
                     if (!status.ok()) {
                         LOG_DEBUG(node_id, "WorkerLoop", 
                                   "RequestTask failed: " + status.error_message());
-                    } else {
-                        LOG_DEBUG(node_id, "WorkerLoop", "No tasks available");
+                    } else if (log_counter % LOG_EVERY_N == 1) {
+                        // Log only once every LOG_EVERY_N iterations
+                        LOG_DEBUG(node_id, "WorkerLoop", "No tasks available (logged once per " + 
+                                  std::to_string(LOG_EVERY_N) + " checks)");
                     }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    
+                    // Exponential backoff: 5ms, 10ms, 20ms, 40ms, 80ms, 160ms, 200ms (cap)
+                    int backoff_ms = std::min(5 * (1 << (idle_iters - 1)), 200);
+                    std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms));
                 }
             }
             
