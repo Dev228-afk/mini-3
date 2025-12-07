@@ -1,817 +1,140 @@
-meghpatel@DESKTOP-F0TMIC2:/mnt/c/Users/Megh/dev/mini-3$ cat logs/slice-20251206-222941-test_10m-short.log
-# Combined slice for test_10m at Sat Dec  6 22:29:41 PST 2025
-===== BEGIN server_A.log =====
-[ClientGateway] start: test-strategyB-getnext
-[SessionManager] new session session-1765088756472-8799 query=test_data/data_10M.csv
-[ClientGateway] background processing for session session-1765088756472-8799
-[Leader] request: test-strategyB-getnext green=1 pink=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=0
-[SessionManager] wait chunk 0 in session-1765088756472-8799
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=3
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=3
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=4
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=5
-[Leader] Forwarded to team leader: 169.254.206.255:50054
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
-[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
-[Leader] Forwarded to team leader: 169.254.239.138:50051
-[Leader] Forwarded request to 2 team leader(s)
-[Leader] waiting for 2 team-leader result(s)
-[Leader] received all expected results
-[Leader] done: test-strategyB-getnext chunks=9
-[SessionManager] add chunk 0 -> session-1765088756472-8799 total=1
-[SessionManager] got chunk 0 has_more=1
-[SessionManager] add chunk 1 -> session-1765088756472-8799 total=2
-[SessionManager] add chunk 2 -> session-1765088756472-8799 total=3
-[SessionManager] add chunk 3 -> session-1765088756472-8799 total=4
-[SessionManager] add chunk 4 -> session-1765088756472-8799 total=5
-[ClientGateway] GetNext: session-1765088756472-8799 index=1
-[SessionManager] add chunk 5 -> session-1765088756472-8799 total=6
-[SessionManager] got chunk 1 has_more=1
-[SessionManager] add chunk 0 -> session-1765088756472-8799 total=7
-[SessionManager] add chunk 1 -> session-1765088756472-8799 total=8
-[ClientGateway] GetNext: session-1765088756472-8799 index=2
-[SessionManager] got chunk 2 has_more=1
-[SessionManager] add chunk 2 -> session-1765088756472-8799 total=9
-[SessionManager] done session session-1765088756472-8799 chunks=9
-[ClientGateway] background done for session session-1765088756472-8799
-[ClientGateway] GetNext: session-1765088756472-8799 index=3
-[SessionManager] got chunk 3 has_more=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=4
-[SessionManager] got chunk 4 has_more=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=5
-[SessionManager] got chunk 5 has_more=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=6
-[SessionManager] got chunk 6 has_more=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=7
-[SessionManager] got chunk 7 has_more=1
-[ClientGateway] GetNext: session-1765088756472-8799 index=8
-[SessionManager] got chunk 8 has_more=0
-===== END server_A.log =====
-
-===== BEGIN server_B.log =====
-2025-12-06 22:25:57.223 DEBUG [B] [NodeControl] Ping from C at 1765088755903
-[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
-2025-12-06 22:26:35.412 INFO [B] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_10M.csv
-2025-12-06 22:26:35.413 INFO [B] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_10M.csv
-[B] Loading dataset from query: test_data/data_10M.csv
-[RequestProcessor] Loading dataset: test_data/data_10M.csv
-[DataProcessor] loading test_data/data_10M.csv
-[DataProcessor] Progress: 100000 rows loaded
-[DataProcessor] Progress: 200000 rows loaded
-[DataProcessor] Progress: 300000 rows loaded
-[DataProcessor] Progress: 400000 rows loaded
-[DataProcessor] Progress: 500000 rows loaded
-[DataProcessor] Progress: 600000 rows loaded
-[DataProcessor] Progress: 700000 rows loaded
-[DataProcessor] Progress: 800000 rows loaded
-[DataProcessor] Progress: 900000 rows loaded
-[DataProcessor] Progress: 1000000 rows loaded
-[DataProcessor] Progress: 1100000 rows loaded
-[DataProcessor] Progress: 1200000 rows loaded
-[DataProcessor] Progress: 1300000 rows loaded
-[DataProcessor] Progress: 1400000 rows loaded
-[DataProcessor] Progress: 1500000 rows loaded
-[DataProcessor] Progress: 1600000 rows loaded
-[DataProcessor] Progress: 1700000 rows loaded
-[DataProcessor] Progress: 1800000 rows loaded
-2025-12-06 22:26:36.438 DEBUG [B] [NodeControl] Ping from C at 1765088795118
-[DataProcessor] Progress: 1900000 rows loaded
-[DataProcessor] Progress: 2000000 rows loaded
-[DataProcessor] Progress: 2100000 rows loaded
-[DataProcessor] Progress: 2200000 rows loaded
-[DataProcessor] Progress: 2300000 rows loaded
-[DataProcessor] Progress: 2400000 rows loaded
-[DataProcessor] Progress: 2500000 rows loaded
-[DataProcessor] Progress: 2600000 rows loaded
-[DataProcessor] Progress: 2700000 rows loaded
-[DataProcessor] Progress: 2800000 rows loaded
-[DataProcessor] Progress: 2900000 rows loaded
-[DataProcessor] Progress: 3000000 rows loaded
-[DataProcessor] Progress: 3100000 rows loaded
-[DataProcessor] Progress: 3200000 rows loaded
-[DataProcessor] Progress: 3300000 rows loaded
-[DataProcessor] Progress: 3400000 rows loaded
-[DataProcessor] Progress: 3500000 rows loaded
-[DataProcessor] Progress: 3600000 rows loaded
-[DataProcessor] Progress: 3700000 rows loaded
-[DataProcessor] Progress: 3800000 rows loaded
-[DataProcessor] Progress: 3900000 rows loaded
-[DataProcessor] Progress: 4000000 rows loaded
-[DataProcessor] Progress: 4100000 rows loaded
-[DataProcessor] Progress: 4200000 rows loaded
-[DataProcessor] Progress: 4300000 rows loaded
-[DataProcessor] Progress: 4400000 rows loaded
-[DataProcessor] Progress: 4500000 rows loaded
-[DataProcessor] Progress: 4600000 rows loaded
-[DataProcessor] Progress: 4700000 rows loaded
-[DataProcessor] Progress: 4800000 rows loaded
-[DataProcessor] Progress: 4900000 rows loaded
-[DataProcessor] Progress: 5000000 rows loaded
-[DataProcessor] Progress: 5100000 rows loaded
-[DataProcessor] Progress: 5200000 rows loaded
-[DataProcessor] Progress: 5300000 rows loaded
-[DataProcessor] Progress: 5400000 rows loaded
-2025-12-06 22:26:39.448 DEBUG [B] [NodeControl] Ping from C at 1765088798120
-[DataProcessor] Progress: 5500000 rows loaded
-[DataProcessor] Progress: 5600000 rows loaded
-[DataProcessor] Progress: 5700000 rows loaded
-[DataProcessor] Progress: 5800000 rows loaded
-[DataProcessor] Progress: 5900000 rows loaded
-[DataProcessor] Progress: 6000000 rows loaded
-[DataProcessor] Progress: 6100000 rows loaded
-[DataProcessor] Progress: 6200000 rows loaded
-[DataProcessor] Progress: 6300000 rows loaded
-[DataProcessor] Progress: 6400000 rows loaded
-[DataProcessor] Progress: 6500000 rows loaded
-[DataProcessor] Progress: 6600000 rows loaded
-[DataProcessor] Progress: 6700000 rows loaded
-[DataProcessor] Progress: 6800000 rows loaded
-[DataProcessor] Progress: 6900000 rows loaded
-[DataProcessor] Progress: 7000000 rows loaded
-[DataProcessor] Progress: 7100000 rows loaded
-[DataProcessor] Progress: 7200000 rows loaded
-[DataProcessor] Progress: 7300000 rows loaded
-[DataProcessor] Progress: 7400000 rows loaded
-[DataProcessor] Progress: 7500000 rows loaded
-[DataProcessor] Progress: 7600000 rows loaded
-[DataProcessor] Progress: 7700000 rows loaded
-[DataProcessor] Progress: 7800000 rows loaded
-[DataProcessor] Progress: 7900000 rows loaded
-[DataProcessor] Progress: 8000000 rows loaded
-[DataProcessor] Progress: 8100000 rows loaded
-[DataProcessor] Progress: 8200000 rows loaded
-[DataProcessor] Progress: 8300000 rows loaded
-[DataProcessor] Progress: 8400000 rows loaded
-[DataProcessor] Progress: 8500000 rows loaded
-[DataProcessor] Progress: 8600000 rows loaded
-[DataProcessor] Progress: 8700000 rows loaded
-[DataProcessor] Progress: 8800000 rows loaded
-[DataProcessor] Progress: 8900000 rows loaded
-[DataProcessor] Progress: 9000000 rows loaded
-[DataProcessor] Progress: 9100000 rows loaded
-[DataProcessor] Progress: 9200000 rows loaded
-[DataProcessor] Progress: 9300000 rows loaded
-[DataProcessor] Progress: 9400000 rows loaded
-[DataProcessor] Progress: 9500000 rows loaded
-[DataProcessor] Progress: 9600000 rows loaded
-[DataProcessor] Progress: 9700000 rows loaded
-[DataProcessor] Progress: 9800000 rows loaded
-[DataProcessor] Progress: 9900000 rows loaded
-[DataProcessor] Progress: 10000000 rows loaded
-[DataProcessor] loaded 10000000 row(s)
-[RequestProcessor] Dataset loaded successfully: 10000000 rows
-2025-12-06 22:26:42.407 INFO [B] [RequestProcessor] HandleTeamRequest: created 3 tasks for request_id=test-strategyB-getnext (total_rows=10000000)
-2025-12-06 22:26:42.408 DEBUG [B] [TeamIngress] RequestTask from C
-2025-12-06 22:26:42.408 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
-2025-12-06 22:26:42.408 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.0 to worker C from TEAM_QUEUE
-2025-12-06 22:26:42.409 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.0 to C
-2025-12-06 22:26:42.451 DEBUG [B] [NodeControl] Ping from C at 1765088801131
-2025-12-06 22:26:45.453 DEBUG [B] [NodeControl] Ping from C at 1765088804133
-2025-12-06 22:26:48.456 DEBUG [B] [NodeControl] Ping from C at 1765088807136
-2025-12-06 22:26:51.560 DEBUG [B] [NodeControl] Ping from C at 1765088810138
-2025-12-06 22:26:51.560 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1362.417840, queue=0
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
-2025-12-06 22:26:54.564 DEBUG [B] [NodeControl] Ping from C at 1765088813243
-2025-12-06 22:26:54.565 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=2452.352112, queue=0
-[TeamLeader B] Received worker result for: test-strategyB-getnext part=0
-2025-12-06 22:26:55.363 DEBUG [B] [TeamIngress] RequestTask from C
-2025-12-06 22:26:55.364 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
-2025-12-06 22:26:55.364 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.1 to worker C from TEAM_QUEUE
-2025-12-06 22:26:55.364 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.1 to C
-2025-12-06 22:26:58.017 DEBUG [B] [NodeControl] Ping from C at 1765088816247
-2025-12-06 22:26:58.017 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=2312.082730, queue=0
-2025-12-06 22:27:01.021 DEBUG [B] [NodeControl] Ping from C at 1765088819698
-2025-12-06 22:27:01.021 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=2199.867224, queue=0
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
-[TeamLeader B] Received worker result for: test-strategyB-getnext part=1
-2025-12-06 22:27:02.765 DEBUG [B] [TeamIngress] RequestTask from C
-2025-12-06 22:27:02.765 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
-2025-12-06 22:27:02.765 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.2 to worker C from TEAM_QUEUE
-2025-12-06 22:27:02.765 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.2 to C
-2025-12-06 22:27:04.024 DEBUG [B] [NodeControl] Ping from C at 1765088822704
-2025-12-06 22:27:04.024 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=2110.094819, queue=0
-2025-12-06 22:27:07.367 DEBUG [B] [NodeControl] Ping from C at 1765088825706
-2025-12-06 22:27:07.368 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=2045.861255, queue=0
-[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
-2025-12-06 22:27:10.370 DEBUG [B] [NodeControl] Ping from C at 1765088829050
-2025-12-06 22:27:10.370 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1994.474404, queue=0
-[TeamLeader B] Received worker result for: test-strategyB-getnext part=2
-2025-12-06 22:27:10.707 INFO [B] [TeamLeader] Received all 3 results
-2025-12-06 22:27:10.708 INFO [B] [TeamLeader] Done processing request: test-strategyB-getnext
-2025-12-06 22:27:10.708 INFO [B] [TeamLeader] Sending results to leader
-2025-12-06 22:27:13.373 DEBUG [B] [NodeControl] Ping from C at 1765088832052
-2025-12-06 22:27:13.374 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1953.364923, queue=0
-2025-12-06 22:27:16.375 DEBUG [B] [NodeControl] Ping from C at 1765088835055
-2025-12-06 22:27:16.376 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1920.477339, queue=0
-2025-12-06 22:27:25.384 DEBUG [B] [NodeControl] Ping from C at 1765088844064
-2025-12-06 22:27:25.385 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1856.280773, queue=0
-2025-12-06 22:27:37.395 DEBUG [B] [NodeControl] Ping from C at 1765088856075
-2025-12-06 22:27:37.395 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1816.515106, queue=0
-2025-12-06 22:27:38.332 DEBUG [B] [TeamLeader] Sent part 1 to leader
-2025-12-06 22:27:40.398 DEBUG [B] [NodeControl] Ping from C at 1765088859077
-2025-12-06 22:27:40.398 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1810.997484, queue=0
-2025-12-06 22:27:55.278 DEBUG [B] [TeamLeader] Sent part 2 to leader
-2025-12-06 22:27:55.413 DEBUG [B] [NodeControl] Ping from C at 1765088874093
-2025-12-06 22:27:55.414 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1796.159056, queue=0
-2025-12-06 22:27:58.416 DEBUG [B] [NodeControl] Ping from C at 1765088877097
-2025-12-06 22:27:58.416 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1794.712645, queue=0
-2025-12-06 22:29:01.477 DEBUG [B] [NodeControl] Ping from C at 1765088940156
-2025-12-06 22:29:01.477 DEBUG [B] [Heartbeat] Updated stats for C: avg_ms=1788.980363, queue=0
-===== END server_B.log =====
-
-===== BEGIN server_D.log =====
-2025-12-06 22:26:00.737 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.1
-2025-12-06 22:26:00.738 DEBUG [D] [Worker] Processing task test-strategyB-getnext.1
-[RequestProcessor] Loading dataset: test_data/data_10M.csv
-[DataProcessor] loading test_data/data_10M.csv
-[DataProcessor] Progress: 100000 rows loaded
-[DataProcessor] Progress: 200000 rows loaded
-[DataProcessor] Progress: 300000 rows loaded
-[DataProcessor] Progress: 400000 rows loaded
-[DataProcessor] Progress: 500000 rows loaded
-[DataProcessor] Progress: 600000 rows loaded
-[DataProcessor] Progress: 700000 rows loaded
-[DataProcessor] Progress: 800000 rows loaded
-[DataProcessor] Progress: 900000 rows loaded
-[DataProcessor] Progress: 1000000 rows loaded
-[DataProcessor] Progress: 1100000 rows loaded
-[DataProcessor] Progress: 1200000 rows loaded
-[DataProcessor] Progress: 1300000 rows loaded
-[DataProcessor] Progress: 1400000 rows loaded
-[DataProcessor] Progress: 1500000 rows loaded
-[DataProcessor] Progress: 1600000 rows loaded
-[DataProcessor] Progress: 1700000 rows loaded
-[DataProcessor] Progress: 1800000 rows loaded
-[DataProcessor] Progress: 1900000 rows loaded
-[DataProcessor] Progress: 2000000 rows loaded
-[DataProcessor] Progress: 2100000 rows loaded
-[DataProcessor] Progress: 2200000 rows loaded
-[DataProcessor] Progress: 2300000 rows loaded
-[DataProcessor] Progress: 2400000 rows loaded
-[DataProcessor] Progress: 2500000 rows loaded
-[DataProcessor] Progress: 2600000 rows loaded
-[DataProcessor] Progress: 2700000 rows loaded
-[DataProcessor] Progress: 2800000 rows loaded
-[DataProcessor] Progress: 2900000 rows loaded
-[DataProcessor] Progress: 3000000 rows loaded
-[DataProcessor] Progress: 3100000 rows loaded
-[DataProcessor] Progress: 3200000 rows loaded
-[DataProcessor] Progress: 3300000 rows loaded
-[DataProcessor] Progress: 3400000 rows loaded
-[DataProcessor] Progress: 3500000 rows loaded
-[DataProcessor] Progress: 3600000 rows loaded
-[DataProcessor] Progress: 3700000 rows loaded
-[DataProcessor] Progress: 3800000 rows loaded
-[DataProcessor] Progress: 3900000 rows loaded
-[DataProcessor] Progress: 4000000 rows loaded
-[DataProcessor] Progress: 4100000 rows loaded
-[DataProcessor] Progress: 4200000 rows loaded
-[DataProcessor] Progress: 4300000 rows loaded
-[DataProcessor] Progress: 4400000 rows loaded
-[DataProcessor] Progress: 4500000 rows loaded
-[DataProcessor] Progress: 4600000 rows loaded
-[DataProcessor] Progress: 4700000 rows loaded
-[DataProcessor] Progress: 4800000 rows loaded
-[DataProcessor] Progress: 4900000 rows loaded
-[DataProcessor] Progress: 5000000 rows loaded
-[DataProcessor] Progress: 5100000 rows loaded
-[DataProcessor] Progress: 5200000 rows loaded
-[DataProcessor] Progress: 5300000 rows loaded
-[DataProcessor] Progress: 5400000 rows loaded
-[DataProcessor] Progress: 5500000 rows loaded
-[DataProcessor] Progress: 5600000 rows loaded
-[DataProcessor] Progress: 5700000 rows loaded
-[DataProcessor] Progress: 5800000 rows loaded
-[DataProcessor] Progress: 5900000 rows loaded
-[DataProcessor] Progress: 6000000 rows loaded
-[DataProcessor] Progress: 6100000 rows loaded
-[DataProcessor] Progress: 6200000 rows loaded
-[DataProcessor] Progress: 6300000 rows loaded
-[DataProcessor] Progress: 6400000 rows loaded
-[DataProcessor] Progress: 6500000 rows loaded
-[DataProcessor] Progress: 6600000 rows loaded
-[DataProcessor] Progress: 6700000 rows loaded
-[DataProcessor] Progress: 6800000 rows loaded
-[DataProcessor] Progress: 6900000 rows loaded
-[DataProcessor] Progress: 7000000 rows loaded
-[DataProcessor] Progress: 7100000 rows loaded
-[DataProcessor] Progress: 7200000 rows loaded
-[DataProcessor] Progress: 7300000 rows loaded
-[DataProcessor] Progress: 7400000 rows loaded
-[DataProcessor] Progress: 7500000 rows loaded
-[DataProcessor] Progress: 7600000 rows loaded
-[DataProcessor] Progress: 7700000 rows loaded
-[DataProcessor] Progress: 7800000 rows loaded
-[DataProcessor] Progress: 7900000 rows loaded
-[DataProcessor] Progress: 8000000 rows loaded
-[DataProcessor] Progress: 8100000 rows loaded
-[DataProcessor] Progress: 8200000 rows loaded
-[DataProcessor] Progress: 8300000 rows loaded
-[DataProcessor] Progress: 8400000 rows loaded
-[DataProcessor] Progress: 8500000 rows loaded
-[DataProcessor] Progress: 8600000 rows loaded
-[DataProcessor] Progress: 8700000 rows loaded
-[DataProcessor] Progress: 8800000 rows loaded
-[DataProcessor] Progress: 8900000 rows loaded
-[DataProcessor] Progress: 9000000 rows loaded
-[DataProcessor] Progress: 9100000 rows loaded
-[DataProcessor] Progress: 9200000 rows loaded
-[DataProcessor] Progress: 9300000 rows loaded
-[DataProcessor] Progress: 9400000 rows loaded
-[DataProcessor] Progress: 9500000 rows loaded
-[DataProcessor] Progress: 9600000 rows loaded
-[DataProcessor] Progress: 9700000 rows loaded
-[DataProcessor] Progress: 9800000 rows loaded
-[DataProcessor] Progress: 9900000 rows loaded
-[DataProcessor] Progress: 10000000 rows loaded
-[DataProcessor] loaded 10000000 row(s)
-[RequestProcessor] Dataset loaded successfully: 10000000 rows
-[DataProcessor] chunk start=1666667 requested=1666667 actual=1666667
-[DataProcessor] processed=1666667
-2025-12-06 22:26:08.008 DEBUG [D] [Worker] Generated 206353916 bytes for task test-strategyB-getnext.1
-2025-12-06 22:26:08.083 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.1 in 7344.636800ms
-2025-12-06 22:26:10.808 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.3
-2025-12-06 22:26:10.808 DEBUG [D] [Worker] Processing task test-strategyB-getnext.3
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=5000001 requested=1666667 actual=1666667
-[DataProcessor] processed=1666667
-2025-12-06 22:26:11.894 DEBUG [D] [Worker] Generated 206337339 bytes for task test-strategyB-getnext.3
-2025-12-06 22:26:11.947 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.3 in 1139.271100ms
-2025-12-06 22:26:14.611 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.5
-2025-12-06 22:26:14.611 DEBUG [D] [Worker] Processing task test-strategyB-getnext.5
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=8333335 requested=1666665 actual=1666665
-[DataProcessor] processed=1666665
-2025-12-06 22:26:15.617 DEBUG [D] [Worker] Generated 206318920 bytes for task test-strategyB-getnext.5
-2025-12-06 22:26:15.674 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.5 in 1063.133300ms
-===== END server_D.log =====
-
-
-# Combined slice for test_10m at Sat Dec  6 22:29:41 PST 2025
+# Combined slice for test_10k_normal at Sun Dec  7 00:05:16 PST 2025
 ===== BEGIN server_C.log =====
-2025-12-06 22:26:41.091 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.0
-2025-12-06 22:26:41.091 DEBUG [C] [Worker] Processing task test-strategyB-getnext.0
-[RequestProcessor] Loading dataset: test_data/data_10M.csv
-[DataProcessor] loading test_data/data_10M.csv
-[DataProcessor] Progress: 100000 rows loaded
-[DataProcessor] Progress: 200000 rows loaded
-[DataProcessor] Progress: 300000 rows loaded
-[DataProcessor] Progress: 400000 rows loaded
-[DataProcessor] Progress: 500000 rows loaded
-[DataProcessor] Progress: 600000 rows loaded
-[DataProcessor] Progress: 700000 rows loaded
-[DataProcessor] Progress: 800000 rows loaded
-[DataProcessor] Progress: 900000 rows loaded
-[DataProcessor] Progress: 1000000 rows loaded
-[DataProcessor] Progress: 1100000 rows loaded
-[DataProcessor] Progress: 1200000 rows loaded
-[DataProcessor] Progress: 1300000 rows loaded
-[DataProcessor] Progress: 1400000 rows loaded
-[DataProcessor] Progress: 1500000 rows loaded
-[DataProcessor] Progress: 1600000 rows loaded
-[DataProcessor] Progress: 1700000 rows loaded
-[DataProcessor] Progress: 1800000 rows loaded
-[DataProcessor] Progress: 1900000 rows loaded
-[DataProcessor] Progress: 2000000 rows loaded
-[DataProcessor] Progress: 2100000 rows loaded
-[DataProcessor] Progress: 2200000 rows loaded
-[DataProcessor] Progress: 2300000 rows loaded
-[DataProcessor] Progress: 2400000 rows loaded
-[DataProcessor] Progress: 2500000 rows loaded
-[DataProcessor] Progress: 2600000 rows loaded
-[DataProcessor] Progress: 2700000 rows loaded
-[DataProcessor] Progress: 2800000 rows loaded
-[DataProcessor] Progress: 2900000 rows loaded
-[DataProcessor] Progress: 3000000 rows loaded
-[DataProcessor] Progress: 3100000 rows loaded
-[DataProcessor] Progress: 3200000 rows loaded
-[DataProcessor] Progress: 3300000 rows loaded
-[DataProcessor] Progress: 3400000 rows loaded
-[DataProcessor] Progress: 3500000 rows loaded
-[DataProcessor] Progress: 3600000 rows loaded
-[DataProcessor] Progress: 3700000 rows loaded
-[DataProcessor] Progress: 3800000 rows loaded
-[DataProcessor] Progress: 3900000 rows loaded
-[DataProcessor] Progress: 4000000 rows loaded
-[DataProcessor] Progress: 4100000 rows loaded
-[DataProcessor] Progress: 4200000 rows loaded
-[DataProcessor] Progress: 4300000 rows loaded
-[DataProcessor] Progress: 4400000 rows loaded
-[DataProcessor] Progress: 4500000 rows loaded
-[DataProcessor] Progress: 4600000 rows loaded
-[DataProcessor] Progress: 4700000 rows loaded
-[DataProcessor] Progress: 4800000 rows loaded
-[DataProcessor] Progress: 4900000 rows loaded
-[DataProcessor] Progress: 5000000 rows loaded
-[DataProcessor] Progress: 5100000 rows loaded
-[DataProcessor] Progress: 5200000 rows loaded
-[DataProcessor] Progress: 5300000 rows loaded
-[DataProcessor] Progress: 5400000 rows loaded
-[DataProcessor] Progress: 5500000 rows loaded
-[DataProcessor] Progress: 5600000 rows loaded
-[DataProcessor] Progress: 5700000 rows loaded
-[DataProcessor] Progress: 5800000 rows loaded
-[DataProcessor] Progress: 5900000 rows loaded
-[DataProcessor] Progress: 6000000 rows loaded
-[DataProcessor] Progress: 6100000 rows loaded
-[DataProcessor] Progress: 6200000 rows loaded
-[DataProcessor] Progress: 6300000 rows loaded
-[DataProcessor] Progress: 6400000 rows loaded
-[DataProcessor] Progress: 6500000 rows loaded
-[DataProcessor] Progress: 6600000 rows loaded
-[DataProcessor] Progress: 6700000 rows loaded
-[DataProcessor] Progress: 6800000 rows loaded
-[DataProcessor] Progress: 6900000 rows loaded
-[DataProcessor] Progress: 7000000 rows loaded
-[DataProcessor] Progress: 7100000 rows loaded
-[DataProcessor] Progress: 7200000 rows loaded
-[DataProcessor] Progress: 7300000 rows loaded
-[DataProcessor] Progress: 7400000 rows loaded
-[DataProcessor] Progress: 7500000 rows loaded
-[DataProcessor] Progress: 7600000 rows loaded
-[DataProcessor] Progress: 7700000 rows loaded
-[DataProcessor] Progress: 7800000 rows loaded
-[DataProcessor] Progress: 7900000 rows loaded
-[DataProcessor] Progress: 8000000 rows loaded
-[DataProcessor] Progress: 8100000 rows loaded
-[DataProcessor] Progress: 8200000 rows loaded
-[DataProcessor] Progress: 8300000 rows loaded
-[DataProcessor] Progress: 8400000 rows loaded
-[DataProcessor] Progress: 8500000 rows loaded
-[DataProcessor] Progress: 8600000 rows loaded
-[DataProcessor] Progress: 8700000 rows loaded
-[DataProcessor] Progress: 8800000 rows loaded
-[DataProcessor] Progress: 8900000 rows loaded
-[DataProcessor] Progress: 9000000 rows loaded
-[DataProcessor] Progress: 9100000 rows loaded
-[DataProcessor] Progress: 9200000 rows loaded
-[DataProcessor] Progress: 9300000 rows loaded
-[DataProcessor] Progress: 9400000 rows loaded
-[DataProcessor] Progress: 9500000 rows loaded
-[DataProcessor] Progress: 9600000 rows loaded
-[DataProcessor] Progress: 9700000 rows loaded
-[DataProcessor] Progress: 9800000 rows loaded
-[DataProcessor] Progress: 9900000 rows loaded
-[DataProcessor] Progress: 10000000 rows loaded
-[DataProcessor] loaded 10000000 row(s)
-[RequestProcessor] Dataset loaded successfully: 10000000 rows
-[DataProcessor] chunk start=0 requested=3333334 actual=3333334
-[DataProcessor] processed=3333334
-2025-12-06 22:26:47.806 DEBUG [C] [Worker] Generated 412690245 bytes for task test-strategyB-getnext.0
-2025-12-06 22:26:47.903 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.0 in 6812.089200ms
-2025-12-06 22:26:54.046 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.1
-2025-12-06 22:26:54.046 DEBUG [C] [Worker] Processing task test-strategyB-getnext.1
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=3333334 requested=3333334 actual=3333334
-[DataProcessor] processed=3333334
-2025-12-06 22:26:55.702 DEBUG [C] [Worker] Generated 412690933 bytes for task test-strategyB-getnext.1
-2025-12-06 22:26:55.797 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.1 in 1751.005200ms
-2025-12-06 22:27:01.447 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.2
-2025-12-06 22:27:01.447 DEBUG [C] [Worker] Processing task test-strategyB-getnext.2
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=6666668 requested=3333332 actual=3333332
-[DataProcessor] processed=3333332
-2025-12-06 22:27:03.112 DEBUG [C] [Worker] Generated 412678222 bytes for task test-strategyB-getnext.2
-2025-12-06 22:27:03.236 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.2 in 1788.927000ms
+2025-12-07 00:05:15.624 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.0
+2025-12-07 00:05:15.624 DEBUG [C] [Worker] Processing task test-strategyB-getnext.0
+[RequestProcessor] Loading dataset: test_data/data_10K.csv
+[DataProcessor] loading test_data/data_10K.csv
+[DataProcessor] loaded 10000 row(s)
+[RequestProcessor] Dataset loaded successfully: 10000 rows
+[DataProcessor] chunk start=0 requested=3334 actual=3334
+[DataProcessor] processed=3334
+2025-12-07 00:05:15.630 DEBUG [C] [Worker] Generated 412431 bytes for task test-strategyB-getnext.0
+2025-12-07 00:05:15.630 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.0 in 6.733400ms
+2025-12-07 00:05:15.642 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.1
+2025-12-07 00:05:15.642 DEBUG [C] [Worker] Processing task test-strategyB-getnext.1
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=3334 requested=3334 actual=3334
+[DataProcessor] processed=3334
+2025-12-07 00:05:15.643 DEBUG [C] [Worker] Generated 412342 bytes for task test-strategyB-getnext.1
+2025-12-07 00:05:15.643 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.1 in 0.685200ms
+2025-12-07 00:05:15.652 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.2
+2025-12-07 00:05:15.652 DEBUG [C] [Worker] Processing task test-strategyB-getnext.2
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=6668 requested=3332 actual=3332
+[DataProcessor] processed=3332
+2025-12-07 00:05:15.653 DEBUG [C] [Worker] Generated 412614 bytes for task test-strategyB-getnext.2
+2025-12-07 00:05:15.653 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.2 in 0.984100ms
 ===== END server_C.log =====
 
 ===== BEGIN server_E.log =====
-
-
+2025-12-07 00:05:10.915 DEBUG [E] [NodeControl] Ping from D at 1765094711031
+2025-12-07 00:05:10.916 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=382.727988, queue=0
+2025-12-07 00:05:11.896 DEBUG [E] [NodeControl] Ping from F at 1765094711895
+2025-12-07 00:05:14.898 DEBUG [E] [NodeControl] Ping from F at 1765094714897
 [TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
-2025-12-06 22:25:55.154 INFO [E] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_10M.csv
-2025-12-06 22:25:55.155 INFO [E] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_10M.csv
-[E] Loading dataset from query: test_data/data_10M.csv
-[RequestProcessor] Loading dataset: test_data/data_10M.csv
-[DataProcessor] loading test_data/data_10M.csv
-[DataProcessor] Progress: 100000 rows loaded
-[DataProcessor] Progress: 200000 rows loaded
-[DataProcessor] Progress: 300000 rows loaded
-[DataProcessor] Progress: 400000 rows loaded
-[DataProcessor] Progress: 500000 rows loaded
-[DataProcessor] Progress: 600000 rows loaded
-[DataProcessor] Progress: 700000 rows loaded
-[DataProcessor] Progress: 800000 rows loaded
-[DataProcessor] Progress: 900000 rows loaded
-[DataProcessor] Progress: 1000000 rows loaded
-[DataProcessor] Progress: 1100000 rows loaded
-[DataProcessor] Progress: 1200000 rows loaded
-[DataProcessor] Progress: 1300000 rows loaded
-[DataProcessor] Progress: 1400000 rows loaded
-[DataProcessor] Progress: 1500000 rows loaded
-[DataProcessor] Progress: 1600000 rows loaded
-[DataProcessor] Progress: 1700000 rows loaded
-[DataProcessor] Progress: 1800000 rows loaded
-[DataProcessor] Progress: 1900000 rows loaded
-[DataProcessor] Progress: 2000000 rows loaded
-[DataProcessor] Progress: 2100000 rows loaded
-[DataProcessor] Progress: 2200000 rows loaded
-[DataProcessor] Progress: 2300000 rows loaded
-[DataProcessor] Progress: 2400000 rows loaded
-[DataProcessor] Progress: 2500000 rows loaded
-[DataProcessor] Progress: 2600000 rows loaded
-[DataProcessor] Progress: 2700000 rows loaded
-[DataProcessor] Progress: 2800000 rows loaded
-[DataProcessor] Progress: 2900000 rows loaded
-[DataProcessor] Progress: 3000000 rows loaded
-[DataProcessor] Progress: 3100000 rows loaded
-[DataProcessor] Progress: 3200000 rows loaded
-[DataProcessor] Progress: 3300000 rows loaded
-[DataProcessor] Progress: 3400000 rows loaded
-[DataProcessor] Progress: 3500000 rows loaded
-[DataProcessor] Progress: 3600000 rows loaded
-[DataProcessor] Progress: 3700000 rows loaded
-[DataProcessor] Progress: 3800000 rows loaded
-[DataProcessor] Progress: 3900000 rows loaded
-[DataProcessor] Progress: 4000000 rows loaded
-[DataProcessor] Progress: 4100000 rows loaded
-2025-12-06 22:25:56.828 DEBUG [E] [TeamIngress] RequestTask from F
-2025-12-06 22:25:56.828 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:25:56.898 DEBUG [E] [NodeControl] Ping from D at 1765088758215
-[DataProcessor] Progress: 4200000 rows loaded
-[DataProcessor] Progress: 4300000 rows loaded
-[DataProcessor] Progress: 4400000 rows loaded
-[DataProcessor] Progress: 4500000 rows loaded
-[DataProcessor] Progress: 4600000 rows loaded
-[DataProcessor] Progress: 4700000 rows loaded
-[DataProcessor] Progress: 4800000 rows loaded
-[DataProcessor] Progress: 4900000 rows loaded
-[DataProcessor] Progress: 5000000 rows loaded
-[DataProcessor] Progress: 5100000 rows loaded
-[DataProcessor] Progress: 5200000 rows loaded
-[DataProcessor] Progress: 5300000 rows loaded
-[DataProcessor] Progress: 5400000 rows loaded
-[DataProcessor] Progress: 5500000 rows loaded
-[DataProcessor] Progress: 5600000 rows loaded
-[DataProcessor] Progress: 5700000 rows loaded
-[DataProcessor] Progress: 5800000 rows loaded
-[DataProcessor] Progress: 5900000 rows loaded
-2025-12-06 22:25:57.632 DEBUG [E] [TeamIngress] RequestTask from F[DataProcessor] Progress: 6000000 rows loaded
-2025-12-06 22:25:57.632 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:25:57.632 DEBUG [E] [RequestProcessor] No tasks available for F
-[DataProcessor] Progress: 6100000 rows loaded
-[DataProcessor] Progress: 6200000 rows loaded
-2025-12-06 22:25:57.723 DEBUG [E] [NodeControl] Ping from F at 1765088757722
-[DataProcessor] Progress: 6300000 rows loaded
-[DataProcessor] Progress: 6400000 rows loaded
-[DataProcessor] Progress: 6500000 rows loaded
-[DataProcessor] Progress: 6600000 rows loaded
-[DataProcessor] Progress: 6700000 rows loaded
-[DataProcessor] Progress: 6800000 rows loaded
-[DataProcessor] Progress: 6900000 rows loaded
-[DataProcessor] Progress: 7000000 rows loaded
-[DataProcessor] Progress: 7100000 rows loaded
-[DataProcessor] Progress: 7200000 rows loaded
-[DataProcessor] Progress: 7300000 rows loaded
-[DataProcessor] Progress: 7400000 rows loaded
-[DataProcessor] Progress: 7500000 rows loaded
-[DataProcessor] Progress: 7600000 rows loaded
-[DataProcessor] Progress: 7700000 rows loaded
-[DataProcessor] Progress: 7800000 rows loaded
-[DataProcessor] Progress: 7900000 rows loaded
-[DataProcessor] Progress: 8000000 rows loaded
-[DataProcessor] Progress: 8100000 rows loaded
-[DataProcessor] Progress: 8200000 rows loaded
-[DataProcessor] Progress: 8300000 rows loaded
-2025-12-06 22:25:58.639 DEBUG [E] [TeamIngress] RequestTask from F
-[DataProcessor] Progress: 8400000 rows loaded
-[DataProcessor] Progress: 8500000 rows loaded
-[DataProcessor] Progress: 8600000 rows loaded
-[DataProcessor] Progress: 8700000 rows loaded
-2025-12-06 22:25:58.882 DEBUG [E] [TeamIngress] RequestTask from D
-[DataProcessor] Progress: 8800000 rows loaded
-[DataProcessor] Progress: 8900000 rows loaded
-[DataProcessor] Progress: 9000000 rows loaded
-[DataProcessor] Progress: 9100000 rows loaded
-[DataProcessor] Progress: 9200000 rows loaded
-[DataProcessor] Progress: 9300000 rows loaded
-2025-12-06 22:25:59.096 DEBUG [E] [TeamIngress] RequestTask from D
-[DataProcessor] Progress: 9400000 rows loaded
-[DataProcessor] Progress: 9500000 rows loaded
-[DataProcessor] Progress: 9600000 rows loaded
-[DataProcessor] Progress: 9700000 rows loaded
-
-[DataProcessor] Progress: 9800000 rows loaded
-[DataProcessor] Progress: 9900000 rows loaded
-[DataProcessor] Progress: 10000000 rows loaded
-[DataProcessor] loaded 10000000 row(s)
-[RequestProcessor] Dataset loaded successfully: 10000000 rows
-2025-12-06 22:25:59.358 INFO [E] [RequestProcessor] HandleTeamRequest: created 6 tasks for request_id=test-strategyB-getnext (total_rows=10000000)
-2025-12-06 22:25:59.366 DEBUG [E] [TeamIngress] RequestTask from F
-2025-12-06 22:25:59.367 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:25:59.367 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.0 to worker F from TEAM_QUEUE
-2025-12-06 22:25:59.367 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.0 to F
-2025-12-06 22:25:59.417 DEBUG [E] [TeamIngress] RequestTask from D
-2025-12-06 22:25:59.417 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:25:59.417 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.1 to worker D from TEAM_QUEUE
-2025-12-06 22:25:59.417 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.1 to D
-2025-12-06 22:25:59.901 DEBUG [E] [NodeControl] Ping from D at 1765088761219
-2025-12-06 22:26:00.724 DEBUG [E] [NodeControl] Ping from F at 1765088760723
-2025-12-06 22:26:02.903 DEBUG [E] [NodeControl] Ping from D at 1765088764221
-2025-12-06 22:26:03.725 DEBUG [E] [NodeControl] Ping from F at 1765088763725
-2025-12-06 22:26:05.904 DEBUG [E] [NodeControl] Ping from D at 1765088767222
-2025-12-06 22:26:06.727 DEBUG [E] [NodeControl] Ping from F at 1765088766726
-2025-12-06 22:26:06.727 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=1108.864020, queue=0
+2025-12-07 00:05:15.347 INFO [E] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_10K.csv
+2025-12-07 00:05:15.347 INFO [E] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_10K.csv
+[E] Loading dataset from query: test_data/data_10K.csv
+[RequestProcessor] Loading dataset: test_data/data_10K.csv
+[DataProcessor] loading test_data/data_10K.csv
+[DataProcessor] loaded 10000 row(s)
+[RequestProcessor] Dataset loaded successfully: 10000 rows
+2025-12-07 00:05:15.353 INFO [E] [RequestProcessor] HandleTeamRequest: created 6 tasks for request_id=test-strategyB-getnext (total_rows=10000)
+2025-12-07 00:05:15.389 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.390 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.390 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.0 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.390 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.0 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=0
-2025-12-06 22:26:07.186 DEBUG [E] [TeamIngress] RequestTask from F
-2025-12-06 22:26:07.186 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:26:07.186 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.2 to worker F from TEAM_QUEUE
-2025-12-06 22:26:07.186 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.2 to F
-2025-12-06 22:26:09.260 DEBUG [E] [NodeControl] Ping from D at 1765088770224
-2025-12-06 22:26:09.260 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1624.402317, queue=0
+2025-12-07 00:05:15.399 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.399 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.399 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.1 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.399 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.1 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=1
-2025-12-06 22:26:09.488 DEBUG [E] [TeamIngress] RequestTask from D
-2025-12-06 22:26:09.488 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:26:09.488 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.3 to worker D from TEAM_QUEUE
-2025-12-06 22:26:09.488 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.3 to D
-2025-12-06 22:26:10.989 DEBUG [E] [NodeControl] Ping from F at 1765088769728
-2025-12-06 22:26:10.989 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=1059.659576, queue=0
+2025-12-07 00:05:15.402 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.402 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.402 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.2 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.402 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.2 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=2
-2025-12-06 22:26:11.566 DEBUG [E] [TeamIngress] RequestTask from F
-2025-12-06 22:26:11.566 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:26:11.566 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.4 to worker F from TEAM_QUEUE
-2025-12-06 22:26:11.566 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.4 to F
-2025-12-06 22:26:13.077 DEBUG [E] [NodeControl] Ping from D at 1765088773581
-2025-12-06 22:26:13.077 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1527.376073, queue=0
+2025-12-07 00:05:15.404 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.404 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.404 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.3 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.404 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.3 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=3
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=3
-2025-12-06 22:26:13.291 DEBUG [E] [TeamIngress] RequestTask from D
-2025-12-06 22:26:13.291 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:26:13.291 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.5 to worker D from TEAM_QUEUE
-2025-12-06 22:26:13.291 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.5 to D
-2025-12-06 22:26:14.814 DEBUG [E] [NodeControl] Ping from F at 1765088773990
-2025-12-06 22:26:14.814 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=1023.777581, queue=0
+2025-12-07 00:05:15.406 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.406 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.406 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.4 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.406 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.4 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=4
-2025-12-06 22:26:16.400 DEBUG [E] [NodeControl] Ping from D at 1765088777397
-2025-12-06 22:26:16.400 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1434.527519, queue=0
+2025-12-07 00:05:15.408 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 00:05:15.408 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.408 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.5 to worker F from TEAM_QUEUE
+2025-12-07 00:05:15.408 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.5 to F
 [TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
 [TeamLeader E] Received worker result for: test-strategyB-getnext part=5
-2025-12-06 22:26:16.956 INFO [E] [TeamLeader] Received all 6 results
-2025-12-06 22:26:16.956 INFO [E] [TeamLeader] Done processing request: test-strategyB-getnext
-2025-12-06 22:26:16.956 INFO [E] [TeamLeader] Sending results to leader
-2025-12-06 22:26:29.824 DEBUG [E] [NodeControl] Ping from F at 1765088789822
-2025-12-06 22:26:29.824 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=927.280849, queue=0
-2025-12-06 22:26:31.254 DEBUG [E] [TeamLeader] Sent part 4 to leader
-2025-12-06 22:26:31.444 DEBUG [E] [NodeControl] Ping from D at 1765088792762
-2025-12-06 22:26:31.444 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1184.831758, queue=0
-2025-12-06 22:26:33.982 DEBUG [E] [TeamLeader] Sent part 5 to leader
-2025-12-06 22:26:34.462 DEBUG [E] [NodeControl] Ping from D at 1765088795780
-2025-12-06 22:26:34.462 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1160.492066, queue=0
-2025-12-06 22:27:29.866 DEBUG [E] [NodeControl] Ping from F at 1765088849865
-2025-12-06 22:27:29.866 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=880.791833, queue=0
-2025-12-06 22:29:41.572 DEBUG [E] [TeamIngress] RequestTask from D
-2025-12-06 22:29:43.101 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:29:43.101 DEBUG [2025-12-06 22:29:41.584 DEBUG2025-12-06 22:29:41.770 DEBUG [E] [NodeControl] Ping from D at 1765088983087
-2025-12-06 22:29:41.957 DEBUG [E] [NodeControl] Ping from F at 1765088981956
- [E] [TeamIngress] RequestTask from F
-E] [RequestProcessor] No tasks available for D
-2025-12-06 22:29:43.102 DEBUG [E] [Heartbeat] Updated stats for D: avg_ms=1063.133395, queue=0
-2025-12-06 22:29:43.102 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
-2025-12-06 22:29:43.103 DEBUG [E] [RequestProcessor] No tasks available for F
-2025-12-06 22:29:43.103 DEBUG [E] [Heartbeat] Updated stats for F: avg_ms=880.249630, queue=0
+2025-12-07 00:05:15.409 INFO [E] [TeamLeader] Received all 6 results
+2025-12-07 00:05:15.409 INFO [E] [TeamLeader] Done processing request: test-strategyB-getnext
+2025-12-07 00:05:15.409 INFO [E] [TeamLeader] Sending results to leader
+2025-12-07 00:05:15.419 DEBUG [E] [TeamLeader] Sent part 0 to leader
+2025-12-07 00:05:15.422 DEBUG [E] [TeamLeader] Sent part 1 to leader
+2025-12-07 00:05:15.426 DEBUG [E] [TeamLeader] Sent part 2 to leader
+2025-12-07 00:05:15.429 DEBUG [E] [TeamLeader] Sent part 3 to leader
+2025-12-07 00:05:15.432 DEBUG [E] [TeamLeader] Sent part 4 to leader
+2025-12-07 00:05:15.435 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 00:05:15.435 DEBUG [E] [TeamLeader] Sent part 5 to leader
+2025-12-07 00:05:15.435 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 00:05:15.435 DEBUG [E] [RequestProcessor] No tasks available for D
 ===== END server_E.log =====
 
 ===== BEGIN server_F.log =====
-2025-12-06 22:25:59.367 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.0
-2025-12-06 22:25:59.367 DEBUG [F] [Worker] Processing task test-strategyB-getnext.0
-[RequestProcessor] Loading dataset: test_data/data_10M.csv
-[DataProcessor] loading test_data/data_10M.csv
-[DataProcessor] Progress: 100000 rows loaded
-[DataProcessor] Progress: 200000 rows loaded
-[DataProcessor] Progress: 300000 rows loaded
-[DataProcessor] Progress: 400000 rows loaded
-[DataProcessor] Progress: 500000 rows loaded
-[DataProcessor] Progress: 600000 rows loaded
-[DataProcessor] Progress: 700000 rows loaded
-[DataProcessor] Progress: 800000 rows loaded
-[DataProcessor] Progress: 900000 rows loaded
-[DataProcessor] Progress: 1000000 rows loaded
-[DataProcessor] Progress: 1100000 rows loaded
-[DataProcessor] Progress: 1200000 rows loaded
-[DataProcessor] Progress: 1300000 rows loaded
-[DataProcessor] Progress: 1400000 rows loaded
-[DataProcessor] Progress: 1500000 rows loaded
-[DataProcessor] Progress: 1600000 rows loaded
-[DataProcessor] Progress: 1700000 rows loaded
-[DataProcessor] Progress: 1800000 rows loaded
-[DataProcessor] Progress: 1900000 rows loaded
-[DataProcessor] Progress: 2000000 rows loaded
-[DataProcessor] Progress: 2100000 rows loaded
-[DataProcessor] Progress: 2200000 rows loaded
-[DataProcessor] Progress: 2300000 rows loaded
-[DataProcessor] Progress: 2400000 rows loaded
-[DataProcessor] Progress: 2500000 rows loaded
-[DataProcessor] Progress: 2600000 rows loaded
-[DataProcessor] Progress: 2700000 rows loaded
-[DataProcessor] Progress: 2800000 rows loaded
-[DataProcessor] Progress: 2900000 rows loaded
-[DataProcessor] Progress: 3000000 rows loaded
-[DataProcessor] Progress: 3100000 rows loaded
-[DataProcessor] Progress: 3200000 rows loaded
-[DataProcessor] Progress: 3300000 rows loaded
-[DataProcessor] Progress: 3400000 rows loaded
-[DataProcessor] Progress: 3500000 rows loaded
-[DataProcessor] Progress: 3600000 rows loaded
-[DataProcessor] Progress: 3700000 rows loaded
-[DataProcessor] Progress: 3800000 rows loaded
-[DataProcessor] Progress: 3900000 rows loaded
-[DataProcessor] Progress: 4000000 rows loaded
-[DataProcessor] Progress: 4100000 rows loaded
-[DataProcessor] Progress: 4200000 rows loaded
-[DataProcessor] Progress: 4300000 rows loaded
-[DataProcessor] Progress: 4400000 rows loaded
-[DataProcessor] Progress: 4500000 rows loaded
-[DataProcessor] Progress: 4600000 rows loaded
-[DataProcessor] Progress: 4700000 rows loaded
-[DataProcessor] Progress: 4800000 rows loaded
-[DataProcessor] Progress: 4900000 rows loaded
-[DataProcessor] Progress: 5000000 rows loaded
-[DataProcessor] Progress: 5100000 rows loaded
-[DataProcessor] Progress: 5200000 rows loaded
-[DataProcessor] Progress: 5300000 rows loaded
-[DataProcessor] Progress: 5400000 rows loaded
-[DataProcessor] Progress: 5500000 rows loaded
-[DataProcessor] Progress: 5600000 rows loaded
-[DataProcessor] Progress: 5700000 rows loaded
-[DataProcessor] Progress: 5800000 rows loaded
-[DataProcessor] Progress: 5900000 rows loaded
-[DataProcessor] Progress: 6000000 rows loaded
-[DataProcessor] Progress: 6100000 rows loaded
-[DataProcessor] Progress: 6200000 rows loaded
-[DataProcessor] Progress: 6300000 rows loaded
-[DataProcessor] Progress: 6400000 rows loaded
-[DataProcessor] Progress: 6500000 rows loaded
-[DataProcessor] Progress: 6600000 rows loaded
-[DataProcessor] Progress: 6700000 rows loaded
-[DataProcessor] Progress: 6800000 rows loaded
-[DataProcessor] Progress: 6900000 rows loaded
-[DataProcessor] Progress: 7000000 rows loaded
-[DataProcessor] Progress: 7100000 rows loaded
-[DataProcessor] Progress: 7200000 rows loaded
-[DataProcessor] Progress: 7300000 rows loaded
-[DataProcessor] Progress: 7400000 rows loaded
-[DataProcessor] Progress: 7500000 rows loaded
-[DataProcessor] Progress: 7600000 rows loaded
-[DataProcessor] Progress: 7700000 rows loaded
-[DataProcessor] Progress: 7800000 rows loaded
-[DataProcessor] Progress: 7900000 rows loaded
-[DataProcessor] Progress: 8000000 rows loaded
-[DataProcessor] Progress: 8100000 rows loaded
-[DataProcessor] Progress: 8200000 rows loaded
-[DataProcessor] Progress: 8300000 rows loaded
-[DataProcessor] Progress: 8400000 rows loaded
-[DataProcessor] Progress: 8500000 rows loaded
-[DataProcessor] Progress: 8600000 rows loaded
-[DataProcessor] Progress: 8700000 rows loaded
-[DataProcessor] Progress: 8800000 rows loaded
-[DataProcessor] Progress: 8900000 rows loaded
-[DataProcessor] Progress: 9000000 rows loaded
-[DataProcessor] Progress: 9100000 rows loaded
-[DataProcessor] Progress: 9200000 rows loaded
-[DataProcessor] Progress: 9300000 rows loaded
-[DataProcessor] Progress: 9400000 rows loaded
-[DataProcessor] Progress: 9500000 rows loaded
-[DataProcessor] Progress: 9600000 rows loaded
-[DataProcessor] Progress: 9700000 rows loaded
-[DataProcessor] Progress: 9800000 rows loaded
-[DataProcessor] Progress: 9900000 rows loaded
-[DataProcessor] Progress: 10000000 rows loaded
-[DataProcessor] loaded 10000000 row(s)
-[RequestProcessor] Dataset loaded successfully: 10000000 rows
-[DataProcessor] chunk start=0 requested=1666667 actual=1666667
-[DataProcessor] processed=1666667
-2025-12-06 22:26:04.865 DEBUG [F] [Worker] Generated 206346696 bytes for task test-strategyB-getnext.0
-2025-12-06 22:26:04.912 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.0 in 5544.320100ms
-2025-12-06 22:26:07.186 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.2
-2025-12-06 22:26:07.186 DEBUG [F] [Worker] Processing task test-strategyB-getnext.2
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=3333334 requested=1666667 actual=1666667
-[DataProcessor] processed=1666667
-2025-12-06 22:26:08.000 DEBUG [F] [Worker] Generated 206343185 bytes for task test-strategyB-getnext.2
-2025-12-06 22:26:08.050 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.2 in 862.841800ms
-2025-12-06 22:26:11.567 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.4
-2025-12-06 22:26:11.567 DEBUG [F] [Worker] Processing task test-strategyB-getnext.4
-[RequestProcessor] Dataset already loaded: test_data/data_10M.csv
-[DataProcessor] chunk start=6666668 requested=1666667 actual=1666667
-[DataProcessor] processed=1666667
-2025-12-06 22:26:12.382 DEBUG [F] [Worker] Generated 206342232 bytes for task test-strategyB-getnext.4
-2025-12-06 22:26:12.447 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.4 in 880.249600ms
+2025-12-07 00:05:15.390 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.0
+2025-12-07 00:05:15.390 DEBUG [F] [Worker] Processing task test-strategyB-getnext.0
+[RequestProcessor] Loading dataset: test_data/data_10K.csv
+[DataProcessor] loading test_data/data_10K.csv
+[DataProcessor] loaded 10000 row(s)
+[RequestProcessor] Dataset loaded successfully: 10000 rows
+[DataProcessor] chunk start=0 requested=1667 actual=1667
+[DataProcessor] processed=1667
+2025-12-07 00:05:15.395 DEBUG [F] [Worker] Generated 206080 bytes for task test-strategyB-getnext.0
+2025-12-07 00:05:15.395 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.0 in 5.163000ms
+2025-12-07 00:05:15.399 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.1
+2025-12-07 00:05:15.399 DEBUG [F] [Worker] Processing task test-strategyB-getnext.1
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=1667 requested=1667 actual=1667
+[DataProcessor] processed=1667
+2025-12-07 00:05:15.400 DEBUG [F] [Worker] Generated 206476 bytes for task test-strategyB-getnext.1
+2025-12-07 00:05:15.400 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.1 in 0.688900ms
+2025-12-07 00:05:15.402 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.2
+2025-12-07 00:05:15.402 DEBUG [F] [Worker] Processing task test-strategyB-getnext.2
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=3334 requested=1667 actual=1667
+[DataProcessor] processed=1667
+2025-12-07 00:05:15.402 DEBUG [F] [Worker] Generated 206464 bytes for task test-strategyB-getnext.2
+2025-12-07 00:05:15.402 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.2 in 0.271800ms
+2025-12-07 00:05:15.404 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.3
+2025-12-07 00:05:15.404 DEBUG [F] [Worker] Processing task test-strategyB-getnext.3
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=5001 requested=1667 actual=1667
+[DataProcessor] processed=1667
+2025-12-07 00:05:15.405 DEBUG [F] [Worker] Generated 206003 bytes for task test-strategyB-getnext.3
+2025-12-07 00:05:15.405 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.3 in 0.266300ms
+2025-12-07 00:05:15.406 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.4
+2025-12-07 00:05:15.406 DEBUG [F] [Worker] Processing task test-strategyB-getnext.4
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=6668 requested=1667 actual=1667
+[DataProcessor] processed=1667
+2025-12-07 00:05:15.406 DEBUG [F] [Worker] Generated 206451 bytes for task test-strategyB-getnext.4
+2025-12-07 00:05:15.406 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.4 in 0.283400ms
+2025-12-07 00:05:15.408 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.5
+2025-12-07 00:05:15.408 DEBUG [F] [Worker] Processing task test-strategyB-getnext.5
+[RequestProcessor] Dataset already loaded: test_data/data_10K.csv
+[DataProcessor] chunk start=8335 requested=1665 actual=1665
+[DataProcessor] processed=1665
+2025-12-07 00:05:15.408 DEBUG [F] [Worker] Generated 206288 bytes for task test-strategyB-getnext.5
+2025-12-07 00:05:15.408 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.5 in 0.339200ms
 ===== END server_F.log =====
 
