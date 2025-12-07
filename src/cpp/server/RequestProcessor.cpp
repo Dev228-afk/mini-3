@@ -238,6 +238,29 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
     auto proc = GetDataProcessor();
 
     if (proc && !worker_stats_.empty()) {
+        // Check if we have any healthy workers before creating tasks
+        {
+            std::lock_guard<std::mutex> lock(task_mutex_);
+            size_t healthy_count = 0;
+            for (const auto& [worker_id, ws] : worker_stats_) {
+                if (ws.healthy) {
+                    healthy_count++;
+                }
+            }
+            
+            if (healthy_count == 0) {
+                LOG_WARN(node_id_, "TeamLeader", 
+                         "No healthy workers available; failing request " + request.request_id() + " fast");
+                // Return immediately without creating tasks or waiting
+                // The leader will see zero results and handle it accordingly
+                return;
+            }
+            
+            LOG_INFO(node_id_, "TeamLeader", 
+                     "Request " + request.request_id() + " has " + std::to_string(healthy_count) + 
+                     " healthy worker(s) available");
+        }
+        
         // Create tasks for workers to pull
         size_t total_rows = proc->GetTotalRows();
         size_t num_workers = worker_stats_.size();
@@ -666,13 +689,20 @@ void RequestProcessor::UpdateWorkerHeartbeat(const std::string& worker_id, doubl
     ws.last_heartbeat = std::chrono::steady_clock::now();
     ws.queue_len = queue_len;
     
+    // Mark worker as healthy when we receive a heartbeat
+    if (!ws.healthy) {
+        LOG_INFO(node_id_, "Heartbeat", "Worker " + worker_id + " is now HEALTHY (heartbeat received)");
+        ws.healthy = true;
+    }
+    
     // Update avg_task_ms using exponential moving average
     if (recent_task_ms > 0.0) {
         ws.avg_task_ms = 0.8 * ws.avg_task_ms + 0.2 * recent_task_ms;
     }
     
     LOG_DEBUG(node_id_, "Heartbeat", 
-              "Updated stats for " + worker_id + ": avg_ms=" + std::to_string(ws.avg_task_ms) + 
+              "Updated stats for " + worker_id + " (healthy=" + std::to_string(ws.healthy) + 
+              "): avg_ms=" + std::to_string(ws.avg_task_ms) + 
               ", queue=" + std::to_string(ws.queue_len));
 }
 
