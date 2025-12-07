@@ -1,55 +1,61 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <combined-slice.log> [output-file]" >&2
+if [ "$#" -lt 1 ]; then
+  echo "Usage: $0 <combined-slice.log> [output-file]"
   exit 1
 fi
 
-INPUT="$1"
-
-if [[ ! -f "$INPUT" ]]; then
-  echo "Error: Input file not found: $INPUT" >&2
+IN="$1"
+if [ ! -f "$IN" ]; then
+  echo "ERROR: input file not found: $IN"
   exit 1
 fi
 
-if [[ $# -ge 2 ]]; then
-  OUTPUT="$2"
+if [ "$#" -eq 2 ]; then
+  OUT="$2"
 else
-  # Default: strip .log and append -short.log
-  BASE="${INPUT%.log}"
-  OUTPUT="${BASE}-short.log"
+  OUT="${IN%.log}-short.log"
 fi
 
+# Ultra-clean AWK filter for metrics
 awk '
-# Always keep structure markers
-/^=====/ { print; next }
-/^#/     { print; next }
+  # Always keep block markers / headers
+  /^=====/ { print; next }
+  /^#/     { print; next }
 
-# DROP noise aggressively
-/Heartbeat/              { next }
-/No tasks available/     { next }
-/NodeControl/            { next }
-/RequestTask from/       { next }
-/RequestTaskForWorker/   { next }
-/Updated stats/          { next }
-/^[[:space:]]*$/         { next }
+  # DROP noisy spam completely
+  /WorkerLoop] No tasks available/ { next }
+  /RequestTask from/               { next }
+  /RequestTaskForWorker/           { next }
+  /Updated stats/                  { next }
+  /\[Heartbeat]/                   { next }
+  /NodeControl]/                   { next }
+  /Ping from/                      { next }
 
-# KEEP interesting metrics-friendly lines
-/Worker] Processing task/       { print; next }
-/WorkerLoop] Pulled task/       { print; next }
-/WorkerLoop] Finished task/     { print; next }
-/Generated [0-9]+ bytes/        { print; next }
-/chunk start=/                  { print; next }
-/processed=/                    { print; next }
-/\[Leader]/                     { print; next }
-/\[TeamLeader/                  { print; next }
-/Assigned task/                 { print; next }
-/PushWorkerResult/              { print; next }
-/\[ClientGateway]/              { print; next }
-/\[SessionManager]/             { print; next }
-/Loading dataset/               { print; next }
-/Progress:/                     { print; next }
-' "$INPUT" > "$OUTPUT"
+  # KEEP important worker lines
+  /\[Worker] Processing task/        { print; next }
+  /\[WorkerLoop] Pulled task/        { print; next }
+  /\[WorkerLoop] Finished task/      { print; next }
+  /Generated [0-9]+ bytes/           { print; next }
 
-echo "$OUTPUT"
+  # KEEP chunk-level dataset work
+  /Loading dataset/                  { print; next }
+  /Dataset loaded successfully/      { print; next }
+  /chunk start=/                     { print; next }
+  /processed=/                       { print; next }
+
+  # KEEP leader / team leader summaries
+  /\[Leader]/                         { print; next }
+  /\[TeamLeader/                      { print; next }
+  /Assigned task/                     { print; next }
+  /PushWorkerResult/                  { print; next }
+
+  # KEEP client and session flow
+  /\[ClientGateway]/                  { print; next }
+  /\[SessionManager]/                 { print; next }
+
+  # FINALLY: ignore everything else
+' "$IN" > "$OUT"
+
+echo "$OUT"
