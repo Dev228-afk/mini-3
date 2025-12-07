@@ -72,6 +72,14 @@ private:
     std::condition_variable results_cv_;
     std::map<std::string, std::vector<mini2::WorkerResult>> pending_results_;
     
+    // Track team request success/failure (internal, not in proto)
+    struct TeamRequestStatus {
+        bool success = true;
+        std::string failure_reason;
+        size_t expected_results = 0;
+    };
+    std::map<std::string, TeamRequestStatus> team_request_status_;  // request_id -> status
+    
     // Status tracking
     std::atomic<bool> shutting_down_;
     std::chrono::steady_clock::time_point start_time_;

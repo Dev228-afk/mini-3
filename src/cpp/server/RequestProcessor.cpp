@@ -17,6 +17,8 @@
 
 namespace {
 constexpr int kMaxGrpcMessageSize = 1536 * 1024 * 1024; // 1.5GB
+constexpr std::chrono::milliseconds kTeamLeaderWaitTimeoutMs{10000}; // 10 seconds for team leaders
+constexpr std::chrono::milliseconds kLeaderWaitTimeoutMs{12000};     // 12 seconds for global leader
 
 // Helper to get slowdown for worker D (simulates weak hardware)
 int getSlowdownMsForNode(const std::string& node_id) {
@@ -166,33 +168,66 @@ std::vector<mini2::WorkerResult> RequestProcessor::ProcessRequest(const mini2::R
     
     std::cout << "[Leader] waiting for " << expected_results << " team-leader result(s)" << std::endl;
 
-    // Wait for results with condition variable (efficient waiting)
+    // Wait for results with shorter timeout (12 seconds instead of 90)
     std::unique_lock<std::mutex> lock(results_mutex_);
-    bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(90), [this, &request, expected_results]() {
+    bool got_results = results_cv_.wait_for(lock, kLeaderWaitTimeoutMs, [this, &request, expected_results]() {
         return pending_results_.count(request.request_id()) && 
                pending_results_[request.request_id()].size() >= static_cast<size_t>(expected_results);
     });
     
-    if (!got_results) {
-        std::cerr << "[Leader] WARNING: Timeout waiting for results from team leaders" << std::endl;
-    } else {
-        std::cout << "[Leader] received all expected results" << std::endl;
+    // Count successful teams based on results received and internal status
+    int total_teams = expected_results;
+    int successful_teams = 0;
+    std::vector<std::string> failed_reasons;
+    
+    // Check which teams succeeded
+    if (pending_results_.count(request.request_id())) {
+        // Count teams that sent results
+        size_t results_received = pending_results_[request.request_id()].size();
+        if (results_received > 0) {
+            successful_teams = 1; // At least one team sent results
+            // Could be more sophisticated: track per-team results
+        }
     }
-
+    
+    // Check for teams that timed out
+    if (!got_results) {
+        failed_reasons.push_back("Leader timeout (" + std::to_string(kLeaderWaitTimeoutMs.count()) + "ms)");
+    }
+    
     // Collect results (lock already held from wait_for)
     std::vector<mini2::WorkerResult> results;
     
     if (pending_results_.count(request.request_id())) {
         results = pending_results_[request.request_id()];
         pending_results_.erase(request.request_id());
-    } else {
-        // Fallback if results not received in time
-        std::cerr << "[Leader] WARNING: No results received for " << request.request_id() 
-                  << ", returning empty" << std::endl;
     }
-
-    std::cout << "[Leader] done: " << request.request_id() 
-              << " chunks=" << results.size() << std::endl;
+    
+    // Log outcome based on success/failure
+    if (successful_teams > 0 && successful_teams < total_teams) {
+        // Partial success
+        LOG_WARN(node_id_, "Leader", 
+                 "Partial team failure for request " + request.request_id() + 
+                 ": " + std::to_string(successful_teams) + "/" + 
+                 std::to_string(total_teams) + " teams succeeded. Failures: " +
+                 (failed_reasons.empty() ? "unknown" : failed_reasons[0]));
+        std::cout << "[Leader] done (partial): " << request.request_id() 
+                  << " chunks=" << results.size() << std::endl;
+    } else if (successful_teams == 0) {
+        // Total failure
+        LOG_ERROR(node_id_, "Leader", 
+                  "All teams failed for request " + request.request_id() + 
+                  "; returning empty result. Reason: " + 
+                  (failed_reasons.empty() ? "no results received" : failed_reasons[0]));
+        std::cerr << "[Leader] ERROR: All teams failed for " << request.request_id() 
+                  << ", returning empty result" << std::endl;
+        std::cout << "[Leader] done: " << request.request_id() 
+                  << " chunks=0" << std::endl;
+    } else {
+        // Full success
+        std::cout << "[Leader] done: " << request.request_id() 
+                  << " chunks=" << results.size() << std::endl;
+    }
 
     return results;
 }
@@ -251,6 +286,12 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
             if (healthy_count == 0) {
                 LOG_WARN(node_id_, "TeamLeader", 
                          "No healthy workers available; failing request " + request.request_id() + " fast");
+                // Mark this team request as failed internally
+                {
+                    std::lock_guard<std::mutex> status_lock(results_mutex_);
+                    team_request_status_[request.request_id()].success = false;
+                    team_request_status_[request.request_id()].failure_reason = "No healthy workers";
+                }
                 // Return immediately without creating tasks or waiting
                 // The leader will see zero results and handle it accordingly
                 return;
@@ -327,10 +368,10 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
                      "HandleTeamRequest: created and assigned tasks for request_id=" + request.request_id() + 
                      " (total_rows=" + std::to_string(total_rows) + ")");
             
-            // Wait for workers to pull tasks and send results
+            // Wait for workers to pull tasks and send results (10 second timeout)
             size_t expected_results = num_tasks;
             std::unique_lock<std::mutex> lock(results_mutex_);
-            bool got_results = results_cv_.wait_for(lock, std::chrono::seconds(90), 
+            bool got_results = results_cv_.wait_for(lock, kTeamLeaderWaitTimeoutMs, 
                 [this, &request, expected_results]() {
                     return pending_results_.count(request.request_id()) && 
                            pending_results_[request.request_id()].size() >= expected_results;
@@ -338,10 +379,15 @@ void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
             
             if (!got_results) {
                 LOG_WARN(node_id_, "TeamLeader", 
-                         "Timeout waiting for worker results, some tasks may have failed");
+                         "Timeout waiting for worker results for request " + request.request_id() +
+                         " (waited " + std::to_string(kTeamLeaderWaitTimeoutMs.count()) + "ms)");
+                // Mark this team request as failed internally
+                team_request_status_[request.request_id()].success = false;
+                team_request_status_[request.request_id()].failure_reason = "Timeout waiting for worker results";
             } else {
                 LOG_INFO(node_id_, "TeamLeader", 
-                         "Received all " + std::to_string(expected_results) + " results");
+                         "Received all " + std::to_string(expected_results) + " results for request " + request.request_id());
+                team_request_status_[request.request_id()].success = true;
             }
             lock.unlock();
         }
