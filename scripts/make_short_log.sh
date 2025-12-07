@@ -22,44 +22,34 @@ else
 fi
 
 awk '
-# Always keep header and structure lines
-/^#/ { print; next }
+# Always keep structure markers
 /^=====/ { print; next }
+/^#/     { print; next }
 
-# Drop noisy lines
-/WorkerLoop] No tasks available/ { next }
-/RequestTask from/ { next }
-/RequestTaskForWorker/ { next }
-/NodeControl] Ping from/ { next }
-/Updated stats for/ { next }
-/socket_utils_common_posix.cc/ { next }
-/SO_REUSEPORT/ { next }
+# DROP noise aggressively
+/Heartbeat/              { next }
+/No tasks available/     { next }
+/NodeControl/            { next }
+/RequestTask from/       { next }
+/RequestTaskForWorker/   { next }
+/Updated stats/          { next }
+/^[[:space:]]*$/         { next }
 
-# Keep high-signal lines
-/📦 PROCESSING DATASET:/ { print; next }
-/Testing Strategy B: GetNext/ { print; next }
-/Strategy B \(GetNext\) Results:/ { print; next }
-/Total chunks:/ { print; next }
-/Total time:/ { print; next }
-/Time to first chunk:/ { print; next }
-/\[ClientGateway] start:/ { print; next }
-/\[ClientGateway] GetNext:/ { print; next }
-/\[ClientGateway] background processing/ { print; next }
-/\[ClientGateway] background done/ { print; next }
-/\[SessionManager]/ { print; next }
-/\[Leader]/ { print; next }
-/\[TeamLeader/ { print; next }
-/\[TeamIngress] PushWorkerResult/ { print; next }
-/\[RequestProcessor] Assigned task/ { print; next }
-/\[Worker] Processing task test-strategyB-getnext/ { print; next }
-/\[WorkerLoop] Finished task test-strategyB-getnext/ { print; next }
-/\[RequestProcessor] Loading dataset:/ { print; next }
-/\[DataProcessor] loading/ { print; next }
-/\[DataProcessor] Progress:/ { print; next }
-/\[DataProcessor] loaded/ { print; next }
-/\[RequestProcessor] Dataset loaded successfully/ { print; next }
-/\[DataProcessor] chunk start=/ { print; next }
-/\[DataProcessor] processed=/ { print; next }
+# KEEP interesting metrics-friendly lines
+/Worker] Processing task/       { print; next }
+/WorkerLoop] Pulled task/       { print; next }
+/WorkerLoop] Finished task/     { print; next }
+/Generated [0-9]+ bytes/        { print; next }
+/chunk start=/                  { print; next }
+/processed=/                    { print; next }
+/\[Leader]/                     { print; next }
+/\[TeamLeader/                  { print; next }
+/Assigned task/                 { print; next }
+/PushWorkerResult/              { print; next }
+/\[ClientGateway]/              { print; next }
+/\[SessionManager]/             { print; next }
+/Loading dataset/               { print; next }
+/Progress:/                     { print; next }
 ' "$INPUT" > "$OUTPUT"
 
 echo "$OUTPUT"
