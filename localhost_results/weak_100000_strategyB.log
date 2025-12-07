@@ -20,7 +20,7 @@ Strategy B (GetNext) Results:
 ========================================
 Total chunks: 0
 Total bytes: 0
-Time to first chunk: 707 ms ⚡
+Time to first chunk: 707 ms  
 Total time: 707 ms
 RPC calls made: 1 (1 StartRequest + 0 GetNext)
 ========================================

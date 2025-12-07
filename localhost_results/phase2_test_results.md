@@ -61,7 +61,7 @@ Results:
   Total Rows: 400 (200 Green + 200 Pink)
   Total Bytes: 1056 (528 Green + 528 Pink)
   Chunks: 4 (2 Green + 2 Pink)
-  Latency: 14 ms ⚡ (FASTEST due to parallel processing!)
+  Latency: 14 ms   (FASTEST due to parallel processing!)
 
 Data Flow:
   Client → Process A → Process B (Green)
@@ -81,7 +81,7 @@ Data Flow:
 |-----------|---------------|---------|-------|
 | Green Only | 1 (B) | 21 ms | Single team processing |
 | Pink Only | 1 (E) | 17 ms | Single team processing |
-| Both Teams | 2 (B+E) | 14 ms | ⚡ Parallel processing wins! |
+| Both Teams | 2 (B+E) | 14 ms |   Parallel processing wins! |
 
 **Key Finding**: Processing both teams is **faster** than single team because:
 - Requests forwarded to B and E **simultaneously**

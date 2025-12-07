@@ -127,7 +127,7 @@ void testStrategyB_GetNext(const std::string& gateway, const std::string& datase
         }
         
         if (!status.ok()) {
-            std::cerr << "✗ GetNext failed: " << status.error_message() << std::endl;
+            std::cerr << "GetNext failed: " << status.error_message() << std::endl;
             break;
         }
         
@@ -139,7 +139,7 @@ void testStrategyB_GetNext(const std::string& gateway, const std::string& datase
         total_bytes += resp.chunk().size();
         auto chunk_latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_chunk - start_chunk);
         
-        std::cout << "  ✓ Chunk " << index 
+        std::cout << "Chunk " << index 
                   << ": " << resp.chunk().size() << " bytes"
                   << " (latency: " << chunk_latency.count() << " ms)"
                   << " (has_more: " << (resp.has_more() ? "yes" : "no") << ")" << std::endl;
@@ -160,7 +160,7 @@ void testStrategyB_GetNext(const std::string& gateway, const std::string& datase
     std::cout << "========================================" << std::endl;
     std::cout << "Total chunks: " << index << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
-    std::cout << "Time to first chunk: " << time_to_first_chunk.count() << " ms ⚡" << std::endl;
+    std::cout << "Time to first chunk: " << time_to_first_chunk.count() << " ms  " << std::endl;
     std::cout << "Total time: " << total_time.count() << " ms" << std::endl;
     std::cout << "RPC calls made: " << (1 + index) << " (1 StartRequest + " << index << " GetNext)" << std::endl;
     std::cout << "========================================\n" << std::endl;
@@ -189,11 +189,11 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
     auto status = stub->StartRequest(&ctx1, req, &session);
     
     if (!status.ok()) {
-        std::cerr << "✗ StartRequest failed: " << status.error_message() << std::endl;
+        std::cerr << "StartRequest failed: " << status.error_message() << std::endl;
         return;
     }
     
-    std::cout << "✓ Session started: " << session.request_id() << std::endl;
+    std::cout << "Session started: " << session.request_id() << std::endl;
     std::cout << std::endl;
     
     // Poll for chunks
@@ -213,7 +213,7 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
         poll_count++;
         
         if (!status.ok()) {
-            std::cerr << "✗ PollNext failed: " << status.error_message() << std::endl;
+            std::cerr << "PollNext failed: " << status.error_message() << std::endl;
             break;
         }
         
@@ -225,11 +225,11 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
             total_bytes += resp.chunk().size();
             chunks_received++;
             
-            std::cout << "  ✓ Chunk " << chunks_received 
+            std::cout << "Chunk " << chunks_received 
                       << ": " << resp.chunk().size() << " bytes"
                       << " (has_more: " << (resp.has_more() ? "yes" : "no") << ")" << std::endl;
         } else {
-            std::cout << "  ⏳ Not ready yet, polling again... (attempt " << poll_count << ")" << std::endl;
+            std::cout << "Not ready yet, polling again... (attempt " << poll_count << ")" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Wait a bit before next poll
         }
         
@@ -247,7 +247,7 @@ void testStrategyB_PollNext(const std::string& gateway, const std::string& datas
     std::cout << "========================================" << std::endl;
     std::cout << "Total chunks: " << chunks_received << std::endl;
     std::cout << "Total bytes: " << total_bytes << std::endl;
-    std::cout << "Time to first chunk: " << time_to_first_chunk.count() << " ms ⚡" << std::endl;
+    std::cout << "Time to first chunk: " << time_to_first_chunk.count() << " ms  " << std::endl;
     std::cout << "Total time: " << total_time.count() << " ms" << std::endl;
     std::cout << "RPC calls made: " << (1 + poll_count) << " (1 StartRequest + " << poll_count << " PollNext)" << std::endl;
     std::cout << "========================================\n" << std::endl;
@@ -307,7 +307,7 @@ int main(int argc, char** argv){
             std::cout << "Warning: No dataset specified, using connection test only" << std::endl;
             testOpenSession(gateway);
         } else {
-            std::cout << "📦 PROCESSING DATASET: " << dataset_path << std::endl;
+            std::cout << "PROCESSING DATASET: " << dataset_path << std::endl;
             std::cout << "Using Strategy B: GetNext (Sequential chunk retrieval)" << std::endl;
             testStrategyB_GetNext(gateway, dataset_path);
         }
@@ -350,7 +350,7 @@ int main(int argc, char** argv){
             std::cerr << "Error: --dataset is required for request mode" << std::endl;
             return 1;
         }
-        std::cout << "📦 PROCESSING DATASET: " << dataset_path << std::endl;
+        std::cout << "PROCESSING DATASET: " << dataset_path << std::endl;
         testStrategyB_GetNext(gateway, dataset_path);
     } else if (mode == "phase3") {
         // Test Phase 3: Compare all strategies
