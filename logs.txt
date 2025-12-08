@@ -1,3 +1,116 @@
+
+
+# Combined slice for crashC_1m at Sun Dec  7 18:30:21 PST 2025
+===== BEGIN server_A.log =====
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765161004285-6028 query=test_data/data_1m.csv
+[ClientGateway] background processing for session session-1765161004285-6028
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] GetNext: session-1765161004285-6028 index=0
+[SessionManager] wait chunk 0 in session-1765161004285-6028
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=5
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=3
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=3
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=4
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+2025-12-07 18:30:18.973 WARN [A] [Leader] Partial team failure for request test-strategyB-getnext: 1/2 teams succeeded. Failures: unknown
+[Leader] done (partial): test-strategyB-getnext chunks=6
+[SessionManager] add chunk 0 -> session-1765161004285-6028 total=1
+[SessionManager] got chunk 0 has_more=1
+[SessionManager] add chunk 5 -> session-1765161004285-6028 total=2
+[SessionManager] add chunk 1 -> session-1765161004285-6028 total=3
+[SessionManager] add chunk 2 -> session-1765161004285-6028 total=4
+[SessionManager] add chunk 3 -> session-1765161004285-6028 total=5
+[SessionManager] add chunk 4 -> session-1765161004285-6028 total=6
+[SessionManager] done session session-1765161004285-6028 chunks=6
+[ClientGateway] background done for session session-1765161004285-6028
+[ClientGateway] GetNext: session-1765161004285-6028 index=1
+[SessionManager] got chunk 1 has_more=1
+[ClientGateway] GetNext: session-1765161004285-6028 index=2
+[SessionManager] got chunk 2 has_more=1
+[ClientGateway] GetNext: session-1765161004285-6028 index=3
+[SessionManager] got chunk 3 has_more=1
+[ClientGateway] GetNext: session-1765161004285-6028 index=4
+[SessionManager] got chunk 4 has_more=1
+[ClientGateway] GetNext: session-1765161004285-6028 index=5
+[SessionManager] got chunk 5 has_more=0
+===== END server_A.log =====
+
+===== BEGIN server_B.log =====
+2025-12-07 18:30:04.321 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:30:04.322 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:30:04.322 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:30:04.524 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:30:04.524 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:30:04.524 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:30:04.727 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:30:04.727 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:30:04.727 DEBUG [B] [RequestProcessor] No tasks available for C
+[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
+2025-12-07 18:30:08.349 INFO [B] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_1m.csv
+2025-12-07 18:30:08.350 INFO [B] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_1m.csv
+[B] Loading dataset from query: test_data/data_1m.csv
+[RequestProcessor] Loading dataset: test_data/data_1m.csv
+[DataProcessor] loading test_data/data_1m.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] Progress: 600000 rows loaded
+[DataProcessor] Progress: 700000 rows loaded
+[DataProcessor] Progress: 800000 rows loaded
+[DataProcessor] Progress: 900000 rows loaded
+[DataProcessor] Progress: 1000000 rows loaded
+[DataProcessor] loaded 1000000 row(s)
+[RequestProcessor] Dataset loaded successfully: 1000000 rows
+2025-12-07 18:30:08.849 INFO [B] [TeamLeader] Request test-strategyB-getnext has 1 healthy worker(s) available
+2025-12-07 18:30:08.849 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.0 to worker C (avg_ms=0.000000, queue=1)
+2025-12-07 18:30:08.849 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.1 to worker C (avg_ms=0.000000, queue=2)
+2025-12-07 18:30:08.849 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.2 to worker C (avg_ms=0.000000, queue=3)
+2025-12-07 18:30:08.850 INFO [B] [RequestProcessor] HandleTeamRequest: created and assigned tasks for request_id=test-strategyB-getnext (total_rows=1000000)
+2025-12-07 18:30:13.487 WARN [B] [Maintenance] Worker C marked as DEAD (no heartbeat for 11s)
+2025-12-07 18:30:13.488 WARN [B] [TeamLeader] Worker C became unhealthy; reassigning its 3 pending tasks.
+2025-12-07 18:30:18.851 WARN [B] [TeamLeader] Timeout waiting for worker results for request test-strategyB-getnext (waited 10000ms)
+2025-12-07 18:30:18.851 INFO [B] [TeamLeader] Done processing request: test-strategyB-getnext
+2025-12-07 18:30:18.851 INFO [B] [TeamLeader] Sending results to leader
+===== END server_B.log =====
+
+===== BEGIN server_D.log =====
+2025-12-07 18:30:04.753 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.5
+2025-12-07 18:30:04.753 DEBUG [D] [Worker] Processing task test-strategyB-getnext.5
+[RequestProcessor] Loading dataset: test_data/data_1m.csv
+[DataProcessor] loading test_data/data_1m.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] Progress: 600000 rows loaded
+[DataProcessor] Progress: 700000 rows loaded
+[DataProcessor] Progress: 800000 rows loaded
+[DataProcessor] Progress: 900000 rows loaded
+[DataProcessor] Progress: 1000000 rows loaded
+[DataProcessor] loaded 1000000 row(s)
+[RequestProcessor] Dataset loaded successfully: 1000000 rows
+[DataProcessor] chunk start=833335 requested=166665 actual=166665
+[DataProcessor] processed=166665
+2025-12-07 18:30:05.396 DEBUG [D] [Worker] Generated 20636028 bytes for task test-strategyB-getnext.5
+2025-12-07 18:30:05.403 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.5 in 649.588200ms
+===== END server_D.log =====
+
+
 # Combined slice for crashC_1m at Sun Dec  7 18:30:22 PST 2025
 ===== BEGIN server_C.log =====
 2025-12-07 18:30:04.807 INFO [C] [Signal] Received signal 15, initiating graceful shutdown...
