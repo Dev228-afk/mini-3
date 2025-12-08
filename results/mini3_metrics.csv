@@ -1,2 +1,14 @@
-file,dataset,rows,scenario,ttfb_ms,total_ms,total_chunks,total_bytes,throughput_MBps,worker_C_tasks,worker_D_tasks,worker_F_tasks
-logs_1m_crashC.txt,,,crash,,,,,,0,1,5
+file,dataset,rows,scenario,status,ttfb_ms,total_ms,total_chunks,total_bytes,throughput_MBps,worker_C_tasks,worker_D_tasks,worker_F_tasks
+logs_10m_crashC.txt,test_data/data_5m.csv,5000000,crash,ok,,20305.0,4,619044710,29.07,0,1,5
+logs_10m_crashD.txt,test_data/data_10m.csv,10000000,crash,ok,,40921.0,2,2063440953,48.09,2,0,6
+logs_10m_normal.txt,test_data/data_10m.csv,10000000,normal,ok,,38616.0,2,2063423758,50.96,2,1,5
+logs_10m_slowCD.txt,test_data/data_10m.csv,10000000,slow,ok,,37573.0,2,1857104838,47.14,2,0,5
+logs_1m_crashC.txt,test_data/data_1m.csv,1000000,crash,ok,,1538.0,6,123812008,76.77,0,1,5
+logs_1m_normal.txt,test_data/data_1m.csv,1000000,normal,ok,,6164.0,9,247621652,38.31,3,1,5
+logs_1m_slowCD.txt,test_data/data_1m.csv,1000000,slow,ok,,6164.0,9,247621652,38.31,3,1,5
+logs_500k_crashC.txt,test_data/data_500k.csv,500000,crash,ok,,11662.0,5,82539874,6.75,3,0,2
+logs_500k_normal.txt,test_data/data_1m.csv,1000000,normal,ok,,1538.0,6,123812008,76.77,0,1,5
+logs_500k_slowCD.txt,test_data/data_500k.csv,500000,slow,ok,,11662.0,5,82539874,6.75,3,0,2
+logs_5m_crashC.txt,test_data/data_5m.csv,5000000,crash,ok,,20305.0,4,619044710,29.07,0,1,5
+logs_5m_normal.txt,test_data/data_5m.csv,5000000,normal,ok,,31135.0,7,1134895822,34.76,3,0,5
+logs_5m_slowCD.txt,test_data/data_5m.csv,5000000,slow,ok,,30252.0,6,1134895822,35.78,3,0,5

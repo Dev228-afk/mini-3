@@ -263,28 +263,27 @@
 """
 extract_metrics.py
 
-Parse combined Mini-3 logs like:
-    logs_testdata_1m_normal.txt
-    logs_testdata_1m_slowD.txt
-    logs_testdata_1m_crashD.txt
+Parse combined Mini-3 server logs from 6 nodes (A, B, C, D, E, F):
+    logs_1m_normal.txt - Normal operation
+    logs_1m_crashC.txt - Worker C crashed
+    logs_1m_slowCD.txt - Workers C and D slowed down
 
-Each file is expected to contain:
-  - Client output with a "Strategy B (GetNext) Results" block:
-        📦 PROCESSING DATASET: test_data/data_1m.csv
-        Strategy B (GetNext) Results:
-          Time to first chunk: 11.623 s
-          Total time: 15.346 s
-          Total chunks: 9
-          Total bytes: 185739627
-          Effective throughput: 12.10 MB/s
-  - Server logs including worker task completion lines like:
-        2025-12-07 ... [C] [WorkerLoop] Finished task test-strategyB-getnext.0 in 123.456700ms
+These logs contain only server-side logs (no client output):
+  - Server A: Gateway, SessionManager, Leader coordination
+  - Server B: Team leader (green team with worker C)
+  - Server E: Team leader (pink team with workers D, F)
+  - Workers C, D, F: Task execution logs
 
-This script scans all matching log files and writes a CSV with metrics per run.
+This script extracts:
+  - Dataset and row count (from server logs or filename)
+  - Scenario (normal/crash/slow from filename)
+  - Total chunks delivered (from SessionManager or Leader)
+  - Worker task counts (C, D, F)
+  - Timing metrics from server logs
 
 Usage:
     cd /path/to/mini-3
-    python3 tools/extract_metrics.py
+    python3 tools/extract_metrics.py --glob 'logs/logs_*.txt'
 
 Outputs:
     results/mini3_metrics.csv
@@ -296,9 +295,21 @@ import os
 import re
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Tuple
+from datetime import datetime
 
 
 # ---------- Helpers ----------
+
+def parse_timestamp(line: str) -> Optional[datetime]:
+    """Extract timestamp from log line: YYYY-MM-DD HH:MM:SS.mmm"""
+    m = re.match(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3})', line)
+    if m:
+        try:
+            return datetime.strptime(m.group(1), '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+            return None
+    return None
+
 
 def parse_time_value(s: str) -> Optional[float]:
     """
@@ -341,10 +352,9 @@ def infer_rows_from_dataset(dataset: str) -> Optional[int]:
 def infer_scenario_from_filename(fname: str) -> str:
     """
     Try to infer scenario from filename:
-      logs_testdata_1m_normal.txt -> normal
-      logs_testdata_1m_slowD.txt  -> slowD
-      logs_testdata_1m_crashD.txt -> crashD
-    If unknown, returns 'unknown'.
+      logs_1m_normal.txt -> normal
+      logs_1m_slowCD.txt -> slow
+      logs_1m_crashC.txt -> crash
     """
     lower = fname.lower()
     if "slow" in lower:
@@ -371,6 +381,7 @@ def find_all(regex: re.Pattern, lines: List[str]) -> List[re.Match]:
 # ---------- Core parsing per file ----------
 
 def parse_log_file(path: Path) -> Dict[str, Any]:
+    """Parse a combined server log file (6 nodes: A, B, C, D, E, F)"""
     text = path.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines()
 
@@ -379,73 +390,127 @@ def parse_log_file(path: Path) -> Dict[str, Any]:
         "dataset": "",
         "rows": None,
         "scenario": infer_scenario_from_filename(path.name),
-        "ttfb_ms": None,
-        "total_ms": None,
+        "status": "unknown",
+        "ttfb_ms": None,  # Not available in server-only logs
+        "total_ms": None,  # Calculated from server timestamps
         "total_chunks": None,
-        "total_bytes": None,
-        "throughput_MBps": None,
+        "total_bytes": None,  # Sum from worker logs
+        "throughput_MBps": None,  # Calculated if we have bytes and time
         "worker_C_tasks": 0,
         "worker_D_tasks": 0,
         "worker_F_tasks": 0,
     }
 
-    # --- Dataset line ---
-    m = find_first(re.compile(r"PROCESSING DATASET:\s*(\S+)"), lines)
+    # --- Extract dataset from server logs ---
+    # Look for: "[B] Loading dataset from query: test_data/data_1m.csv"
+    # or: "HandleTeamRequest: processing request_id=... dataset=test_data/data_1m.csv"
+    m = find_first(re.compile(r'dataset=(\S+\.csv)', re.IGNORECASE), lines)
+    if not m:
+        m = find_first(re.compile(r'Loading dataset from query:\s*(\S+\.csv)', re.IGNORECASE), lines)
+    if not m:
+        m = find_first(re.compile(r'\[DataProcessor\]\s+loading\s+(\S+\.csv)', re.IGNORECASE), lines)
+    
     if m:
         dataset = m.group(1)
         result["dataset"] = dataset
         rows = infer_rows_from_dataset(dataset)
         result["rows"] = rows
 
-    # --- Strategy B results block ---
-    # Time to first chunk
-    m = find_first(re.compile(r"Time to first chunk:\s*(.+)$"), lines)
-    if m:
-        ttfb_ms = parse_time_value(m.group(1))
-        result["ttfb_ms"] = ttfb_ms
+    # Fallback: infer from filename if no dataset found
+    if not result["dataset"]:
+        fname = path.name
+        m2 = re.search(r'(\d+)\s*([kKmM])', fname)
+        if m2:
+            unit_num = int(m2.group(1))
+            unit = m2.group(2).lower()
+            if unit == 'k':
+                result["rows"] = unit_num * 1000
+            elif unit == 'm':
+                result["rows"] = unit_num * 1_000_000
+            result["dataset"] = f"inferred_from_filename_{unit_num}{unit}"
 
-    # Total time
-    m = find_first(re.compile(r"Total time:\s*(.+)$"), lines)
-    if m:
-        total_ms = parse_time_value(m.group(1))
-        result["total_ms"] = total_ms
-
-    # Total chunks
-    m = find_first(re.compile(r"Total chunks:\s*([0-9]+)"), lines)
+    # --- Extract total chunks from Server A logs ---
+    # Look for: "[Leader] done (partial): test-strategyB-getnext chunks=9"
+    # or: "[SessionManager] done session ... chunks=9"
+    m = find_first(re.compile(r'\[Leader\].*done.*chunks=(\d+)', re.IGNORECASE), lines)
+    if not m:
+        m = find_first(re.compile(r'\[SessionManager\].*done session.*chunks=(\d+)', re.IGNORECASE), lines)
     if m:
         result["total_chunks"] = int(m.group(1))
 
-    # Total bytes
-    m = find_first(re.compile(r"Total bytes:\s*([0-9]+)"), lines)
-    if m:
-        result["total_bytes"] = int(m.group(1))
+    # --- Count worker tasks and sum bytes ---
+    # Pattern: "2025-12-07 18:24:26.294 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.5 in 738.441000ms"
+    # Pattern: "2025-12-07 18:24:26.402 DEBUG [F] [Worker] Generated 20642423 bytes for task test-strategyB-getnext.1"
+    
+    pattern_C_finish = re.compile(r'\[C\].*\[WorkerLoop\].*Finished task test-strategyB-getnext', re.IGNORECASE)
+    pattern_D_finish = re.compile(r'\[D\].*\[WorkerLoop\].*Finished task test-strategyB-getnext', re.IGNORECASE)
+    pattern_F_finish = re.compile(r'\[F\].*\[WorkerLoop\].*Finished task test-strategyB-getnext', re.IGNORECASE)
+    
+    pattern_bytes = re.compile(r'\[Worker\].*Generated\s+(\d+)\s+bytes', re.IGNORECASE)
 
-    # Effective throughput
-    m = find_first(re.compile(r"Effective throughput:\s*([0-9]+(?:\.[0-9]+)?)\s*MB/s", re.IGNORECASE), lines)
-    if m:
-        result["throughput_MBps"] = float(m.group(1))
+    result["worker_C_tasks"] = sum(1 for line in lines if pattern_C_finish.search(line))
+    result["worker_D_tasks"] = sum(1 for line in lines if pattern_D_finish.search(line))
+    result["worker_F_tasks"] = sum(1 for line in lines if pattern_F_finish.search(line))
 
-    # --- Worker statistics: count finished tasks for each worker ---
-    # We count "Finished task test-strategyB-getnext" for C, D, F.
-    pattern_C = re.compile(r"\[C\]\s+\[WorkerLoop\]\s+Finished task test-strategyB-getnext", re.IGNORECASE)
-    pattern_D = re.compile(r"\[D\]\s+\[WorkerLoop\]\s+Finished task test-strategyB-getnext", re.IGNORECASE)
-    pattern_F = re.compile(r"\[F\]\s+\[WorkerLoop\]\s+Finished task test-strategyB-getnext", re.IGNORECASE)
+    # Sum all bytes generated
+    total_bytes = 0
+    for line in lines:
+        m = pattern_bytes.search(line)
+        if m:
+            total_bytes += int(m.group(1))
+    if total_bytes > 0:
+        result["total_bytes"] = total_bytes
 
-    result["worker_C_tasks"] = sum(1 for line in lines if pattern_C.search(line))
-    result["worker_D_tasks"] = sum(1 for line in lines if pattern_D.search(line))
-    result["worker_F_tasks"] = sum(1 for line in lines if pattern_F.search(line))
+    # --- Calculate timing from timestamps ---
+    # Find first worker task pulled and last worker task finished
+    pattern_pulled = re.compile(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}).*\[WorkerLoop\].*Pulled task test-strategyB-getnext', re.IGNORECASE)
+    pattern_finished = re.compile(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}).*\[WorkerLoop\].*Finished task test-strategyB-getnext', re.IGNORECASE)
+    
+    pulled_times = []
+    finished_times = []
+    
+    for line in lines:
+        m = pattern_pulled.search(line)
+        if m:
+            ts = parse_timestamp(line)
+            if ts:
+                pulled_times.append(ts)
+        
+        m = pattern_finished.search(line)
+        if m:
+            ts = parse_timestamp(line)
+            if ts:
+                finished_times.append(ts)
+    
+    if pulled_times and finished_times:
+        first_pull = min(pulled_times)
+        last_finish = max(finished_times)
+        total_ms = (last_finish - first_pull).total_seconds() * 1000
+        result["total_ms"] = round(total_ms, 2)
+        
+        # Calculate throughput if we have bytes and time
+        if result["total_bytes"] and total_ms > 0:
+            throughput_MBps = (result["total_bytes"] / (1024 * 1024)) / (total_ms / 1000)
+            result["throughput_MBps"] = round(throughput_MBps, 2)
+
+    # --- Classify status ---
+    if result["total_chunks"] is not None and result["total_chunks"] > 0:
+        result["status"] = "ok"
+    elif result["worker_C_tasks"] or result["worker_D_tasks"] or result["worker_F_tasks"]:
+        result["status"] = "server_only"
+    else:
+        result["status"] = "empty"
 
     return result
-
 
 # ---------- Main ----------
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Extract Strategy B metrics from combined logs.")
+    parser = argparse.ArgumentParser(description="Extract Strategy B metrics from combined server logs (6 nodes: A,B,C,D,E,F).")
     parser.add_argument(
         "--glob",
-        default="logs_testdata_*.txt",
-        help="Glob pattern for log files (default: logs_testdata_*.txt)",
+        default="logs/logs_*.txt",
+        help="Glob pattern for log files (default: logs/logs_*.txt)",
     )
     parser.add_argument(
         "--output",
@@ -466,8 +531,13 @@ def main() -> None:
     rows: List[Dict[str, Any]] = []
     for lf in log_files:
         try:
+            print(f"Processing {lf.name}...")
             r = parse_log_file(lf)
             rows.append(r)
+            # Print summary
+            print(f"  Dataset: {r['dataset']}, Rows: {r['rows']}, Scenario: {r['scenario']}, Status: {r['status']}")
+            print(f"  Chunks: {r['total_chunks']}, Bytes: {r['total_bytes']}, Time: {r['total_ms']}ms")
+            print(f"  Worker tasks - C:{r['worker_C_tasks']}, D:{r['worker_D_tasks']}, F:{r['worker_F_tasks']}")
         except Exception as e:
             print(f"ERROR parsing {lf}: {e}")
 
@@ -476,6 +546,7 @@ def main() -> None:
         "dataset",
         "rows",
         "scenario",
+        "status",
         "ttfb_ms",
         "total_ms",
         "total_chunks",
@@ -492,7 +563,7 @@ def main() -> None:
         for r in rows:
             writer.writerow(r)
 
-    print(f"Wrote {len(rows)} rows to {out_path}")
+    print(f"\n✅ Wrote {len(rows)} rows to {out_path}")
 
 
 if __name__ == "__main__":
