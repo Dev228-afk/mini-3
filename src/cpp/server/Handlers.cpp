@@ -168,7 +168,7 @@ public:
     Status StartRequest(ServerContext*, const mini2::Request* req, mini2::SessionOpen* out) override {
         std::cout << "[ClientGateway] start: " << req->request_id() << std::endl;
         
-        // Create session
+        // Create session with unique ID
         std::string session_id = session_manager_->CreateSession(*req);
         out->set_request_id(session_id);
         out->set_accepted(true);
@@ -181,8 +181,13 @@ public:
             std::cout << "[ClientGateway] background processing for session " 
                       << session_id << std::endl;
             
-            // Process request (same as RequestOnce)
-            auto results = processor_->ProcessRequest(req);
+            // Create a modified request with unique request_id (use session_id)
+            // This ensures each concurrent client gets a unique request_id internally
+            mini2::Request unique_req = req;
+            unique_req.set_request_id(session_id);
+            
+            // Process request with unique request_id
+            auto results = processor_->ProcessRequest(unique_req);
             
             // Add each chunk to session
             for (const auto& result : results) {
