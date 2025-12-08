@@ -17,8 +17,29 @@
 
 namespace {
 constexpr int kMaxGrpcMessageSize = 1536 * 1024 * 1024; // 1.5GB
-constexpr std::chrono::milliseconds kTeamLeaderWaitTimeoutMs{10000}; // 10 seconds for team leaders
-constexpr std::chrono::milliseconds kLeaderWaitTimeoutMs{12000};     // 12 seconds for global leader
+
+// Helper to read timeout from environment variable
+inline std::chrono::milliseconds GetEnvMs(const char* name,
+                                          std::chrono::milliseconds def_val) {
+  const char* v = std::getenv(name);
+  if (!v || *v == '\0') return def_val;
+  try {
+    long ms = std::stol(std::string(v));
+    if (ms <= 0) return def_val;
+    return std::chrono::milliseconds(ms);
+  } catch (...) {
+    return def_val;
+  }
+}
+
+// Configurable timeouts with environment variable support
+const std::chrono::milliseconds kTeamLeaderWaitTimeoutMs =
+    GetEnvMs("MINI3_TEAMLEADER_TIMEOUT_MS",
+             std::chrono::milliseconds(10000));  // default 10s
+
+const std::chrono::milliseconds kLeaderWaitTimeoutMs =
+    GetEnvMs("MINI3_LEADER_TIMEOUT_MS",
+             std::chrono::milliseconds(12000));  // default 12s
 
 // Helper to get slowdown for worker D (simulates weak hardware)
 int getSlowdownMsForNode(const std::string& node_id) {
@@ -76,6 +97,10 @@ RequestProcessor::~RequestProcessor() {
 }
 
 void RequestProcessor::SetTeamLeaders(const std::vector<std::pair<std::string, std::string>>& team_leader_endpoints) {
+    // Log leader timeout configuration (only done when setting team leaders, which is for node A)
+    LOG_INFO(node_id_, "Leader",
+             "Using leader timeout = " + std::to_string(kLeaderWaitTimeoutMs.count()) + " ms");
+    
     for (const auto& [role, addr] : team_leader_endpoints) {
         RegisterPeer(addr, team_leader_stubs_, "team leader");
         team_leader_roles_[addr] = role;
@@ -265,6 +290,14 @@ int RequestProcessor::ForwardToTeamLeaders(const mini2::Request& req, bool need_
 // ============================================================================
 
 void RequestProcessor::HandleTeamRequest(const mini2::Request& request) {
+    // Log team leader timeout configuration on first request
+    static std::once_flag log_once;
+    std::call_once(log_once, [this]() {
+        LOG_INFO(node_id_, "TeamLeader",
+                 "Using worker wait timeout = " +
+                 std::to_string(kTeamLeaderWaitTimeoutMs.count()) + " ms");
+    });
+    
     LOG_INFO(node_id_, "RequestProcessor",
              "HandleTeamRequest: processing request_id=" + request.request_id() +
              " dataset=" + request.query());
