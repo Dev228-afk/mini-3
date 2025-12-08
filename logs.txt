@@ -1,3 +1,140 @@
+2025-12-07 23:17:31.527 INFO [startup] [ServerMain] Loaded config from: config/network_setup.json
+[RequestProcessor] Node A ready
+[SessionManager] init
+[SessionManager] cleanup thread start (timeout=300s)
+[RequestProcessor] Registered team leader: 169.254.239.138:50051 (state=IDLE)
+[RequestProcessor] Registered team leader: 169.254.206.255:50054 (state=IDLE)
+2025-12-07 23:17:31.532 INFO [A] [ServerMain] Node A configured as Leader with team leaders: 169.254.239.138:50051, 169.254.206.255:50054
+E1207 23:17:31.533646500   17151 socket_utils_common_posix.cc:224]     check for SO_REUSEPORT: UNKNOWN:Protocol not available {syscall:"getsockopt(SO_REUSEPORT)", os_error:"Protocol not available", errno:92, created_time:"2025-12-07T23:17:31.5329164-08:00"}
+2025-12-07 23:17:31.534 INFO [A] [ServerMain] Node A listening at 0.0.0.0:50050 (public: 169.254.239.138:50050)
+2025-12-07 23:17:31.534 INFO [A] [ServerMain] Press Ctrl+C to stop
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765178257801-4565 query=test_data/data_1m.csv
+[ClientGateway] background processing for session session-1765178257801-4565
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765178257802-1480 query=test_data/data_1m.csv
+[ClientGateway] background processing for session session-1765178257802-1480
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765178257802-4162 query=test_data/data_1m.csv
+[ClientGateway] background processing for session session-1765178257802-4162
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765178257802-1693 query=test_data/data_1m.csv
+[ClientGateway] background processing for session session-1765178257802-1693
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] GetNext: session-1765178257802-4162 index=0
+[SessionManager] wait chunk 0 in session-1765178257802-4162
+[ClientGateway] GetNext: session-1765178257802-1480 index=0
+[SessionManager] wait chunk 0 in session-1765178257802-1480
+[ClientGateway] GetNext: session-1765178257802-1693 index=0
+[SessionManager] wait chunk 0 in session-1765178257802-1693
+[ClientGateway] GetNext: session-1765178257801-4565 index=0
+[SessionManager] wait chunk 0 in session-1765178257801-4565
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=3
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=3
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=5
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+2025-12-07 23:17:41.535 INFO [A] [Heartbeat] alive #1 | state=OVERLOADED | queue=5 | uptime=10s | requests=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=4
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded to team leader: [Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+2025-12-07 23:17:49.189 WARN [A] [Leader] Partial team failure for request test-strategyB-getnext: 1/2 teams succeeded. Failures: unknown
+[Leader] done (partial): test-strategyB-getnext chunks=9
+[SessionManager] add chunk 1 -> session-1765178257802-1693 total=1
+[SessionManager] got chunk 0 has_more=1
+[SessionManager] add chunk 3 -> session-1765178257802-1693 total=2
+[SessionManager] add chunk 5 -> session-1765178257802-1693 total=3
+[SessionManager] add chunk 0 -> session-1765178257802-1693 total=4
+[SessionManager] add chunk 2 -> session-1765178257802-1693 total=5
+[SessionManager] add chunk 4 -> session-1765178257802-1693 total=6
+[ClientGateway] GetNext: session-1765178257802-1693 index=1
+[SessionManager] add chunk 0 -> session-1765178257802-1693 total=7
+[SessionManager] got chunk 1 has_more=1
+[SessionManager] add chunk 1 -> session-1765178257802-1693 total=8
+[SessionManager] add chunk 2 -> session-1765178257802-1693 total=9
+[SessionManager] done session session-1765178257802-1693 chunks=9
+[ClientGateway] background done for session session-1765178257802-1693
+[ClientGateway] GetNext: session-1765178257802-1693 index=2
+[SessionManager] got chunk 2 has_more=1
+[ClientGateway] GetNext: session-1765178257802-1693 index=3
+[SessionManager] got chunk 3 has_more=1
+[ClientGateway] GetNext: session-1765178257802-1693 index=4
+[SessionManager] got chunk 4 has_more=1
+[ClientGateway] GetNext: session-1765178257802-1693 index=5
+[SessionManager] got chunk 5 has_more=1
+[ClientGateway] GetNext: session-1765178257802-1693 index=6
+[SessionManager] got chunk 6 has_more=1
+2025-12-07 23:17:51.536 INFO [A] [Heartbeat] alive #2 | state=IDLE | queue=0 | uptime=20s | requests=0
+[ClientGateway] GetNext: session-1765178257802-1693 index=7
+[SessionManager] got chunk 7 has_more=1
+[ClientGateway] GetNext: session-1765178257802-1693 index=8
+[SessionManager] got chunk 8 has_more=0
+2025-12-07 23:18:01.205 ERROR [A] [Leader] All teams failed for request test-strategyB-getnext; returning empty result. Reason: Leader timeout (12000ms)
+[Leader] ERROR: All teams failed for test-strategyB-getnext, returning empty result
+[Leader] done: test-strategyB-getnext chunks=0
+[SessionManager] done session session-1765178257802-4162 chunks=0
+[ClientGateway] background done for session session-1765178257802-4162
+[SessionManager] complete, no more chunks
+2025-12-07 23:18:01.205 ERROR [A] [Leader] All teams failed for request test-strategyB-getnext; returning empty result. Reason: Leader timeout (12000ms)
+[Leader] ERROR: All teams failed for test-strategyB-getnext, returning empty result
+[Leader] done: test-strategyB-getnext chunks=0
+[SessionManager] done session session-1765178257801-4565 chunks=0
+[ClientGateway] background done for session session-1765178257801-4565
+2025-12-07 23:18:01.205 ERROR [A] [[SessionManager] complete, no more chunksLeader] 
+All teams failed for request test-strategyB-getnext; returning empty result. Reason: Leader timeout (12000ms)
+[Leader] ERROR: All teams failed for test-strategyB-getnext, returning empty result
+[Leader] done: test-strategyB-getnext chunks=0
+[SessionManager] done session session-1765178257802-1480 chunks=0
+[ClientGateway] background done for session session-1765178257802-1480
+[SessionManager] complete, no more chunks
+2025-12-07 23:18:01.537 INFO [A] [Heartbeat] alive #3 | state=IDLE | queue=0 | uptime=30s | requests=0
+2025-12-07 23:18:11.538 INFO [A] [Heartbeat] alive #4 | state=IDLE | queue=0 | uptime=40s | requests=0
+2025-12-07 23:18:21.538 INFO [A] [Heartbeat] alive #5 | state=IDLE | queue=0 | uptime=50s | requests=0
+2025-12-07 23:18:31.540 INFO [A] [Heartbeat] alive #6 | state=IDLE | queue=0 | uptime=60s | requests=0
+2025-12-07 23:18:41.541 INFO [A] [Heartbeat] alive #7 | state=IDLE | queue=0 | uptime=70s | requests=0
+2025-12-07 23:18:51.542 INFO [A] [Heartbeat] alive #8 | state=IDLE | queue=0 | uptime=80s | requests=0
+2025-12-07 23:19:01.542 INFO [A] [Heartbeat] alive #9 | state=IDLE | queue=0 | uptime=90s | requests=0
+2025-12-07 23:19:11.543 INFO [A] [Heartbeat] alive #10 | state=IDLE | queue=0 | uptime=100s | requests=0
+2025-12-07 23:19:21.544 INFO [A] [Heartbeat] alive #11 | state=IDLE | queue=0 | uptime=110s | requests=0
+2025-12-07 23:19:31.546 INFO [A] [Heartbeat] alive #12 | state=IDLE | queue=0 | uptime=120s | requests=0
+2025-12-07 23:19:41.546 INFO [A] [Heartbeat] alive #13 | state=IDLE | queue=0 | uptime=130s | requests=0
+2025-12-07 23:19:51.547 INFO [A] [Heartbeat] alive #14 | state=IDLE | queue=0 | uptime=140s | requests=0
+2025-12-07 23:20:01.549 INFO [A] [Heartbeat] alive #15 | state=IDLE | queue=0 | uptime=150s | requests=0
+2025-12-07 23:20:11.550 INFO [A] [Heartbeat] alive #16 | state=IDLE | queue=0 | uptime=160s | requests=0
+2025-12-07 23:20:21.551 INFO [A] [Heartbeat] alive #17 | state=IDLE | queue=0 | uptime=170s | requests=0
+2025-12-07 23:20:31.552 INFO [A] [Heartbeat] alive #18 | state=IDLE | queue=0 | uptime=180s | requests=0
+
+
+
 # Combined slice for multiclient_1m at Sun Dec  7 23:18:08 PST 2025
 ===== BEGIN server_C.log =====
 2025-12-07 23:17:42.243 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.0
