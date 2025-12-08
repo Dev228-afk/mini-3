@@ -1,0 +1,11 @@
+file,dataset,rows,scenario,status,ttfb_ms,total_ms,total_chunks,total_bytes,throughput_MBps,worker_C_tasks,worker_D_tasks,worker_F_tasks
+logs_testdata_100k.txt,test_data/data_100k.csv,100000,unknown,ok,,1434.0,9,24770522,16.47,3,2,4
+logs_testdata_10k.txt,test_data/data_10k.csv,10000,unknown,ok,,1285.0,9,2476235,1.84,3,2,4
+logs_testdata_10m.txt,test_data/data_10M.csv,10000000,unknown,ok,,63869.0,9,2476101688,36.97,3,3,3
+logs_testdata_1k.txt,test_data/data_1K.csv,1000,unknown,ok,,4852682.0,9,41513466,0.01,3,4,4
+logs_testdata_1m.txt,test_data/data_1m.csv,1000000,unknown,ok,,5576.0,9,247621635,42.35,3,2,4
+logs_testdata_200k.txt,test_data/data_200k.csv,200000,unknown,ok,,1563.0,9,49513016,30.21,3,1,5
+logs_testdata_500k.txt,test_data/data_500k.csv,500000,unknown,server_only,,3436.0,,113493506,31.5,3,0,5
+logs_testdata_50k.txt,test_data/data_50k.csv,50000,unknown,ok,,1339.0,9,12378132,8.82,3,3,3
+logs_testdata_5k.txt,test_data/data_1K.csv,1000,unknown,ok,,4852682.0,9,41513466,0.01,3,4,4
+logs_testdata_5m.txt,test_data/data_5M.csv,5000000,unknown,ok,,33191.0,9,1238091507,35.57,3,3,3
