@@ -1,0 +1,943 @@
+
+
+# Combined slice for slowCD_500k at Sun Dec  7 18:35:12 PST 2025
+===== BEGIN server_A.log =====
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765161297475-5420 query=test_data/data_500k.csv
+[ClientGateway] background processing for session session-1765161297475-5420
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] GetNext: session-1765161297475-5420 index=0
+[SessionManager] wait chunk 0 in session-1765161297475-5420
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=4
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+2025-12-07 18:35:10.774 WARN [A] [Leader] Partial team failure for request test-strategyB-getnext: 1/2 teams succeeded. Failures: unknown
+[Leader] done (partial): test-strategyB-getnext chunks=5
+[SessionManager] add chunk 2 -> session-1765161297475-5420 total=1
+[SessionManager] got chunk 0 has_more=1
+[SessionManager] add chunk 4 -> session-1765161297475-5420 total=2
+[SessionManager] add chunk 0 -> session-1765161297475-5420 total=3
+[SessionManager] add chunk 1 -> session-1765161297475-5420 total=4
+[SessionManager] add chunk 2 -> session-1765161297475-5420 total=5
+[SessionManager] done session session-1765161297475-5420 chunks=5
+[ClientGateway] background done for session session-1765161297475-5420
+[ClientGateway] GetNext: session-1765161297475-5420 index=1
+[SessionManager] got chunk 1 has_more=1
+[ClientGateway] GetNext: session-1765161297475-5420 index=2
+[SessionManager] got chunk 2 has_more=1
+[ClientGateway] GetNext: session-1765161297475-5420 index=3
+[SessionManager] got chunk 3 has_more=1
+[ClientGateway] GetNext: session-1765161297475-5420 index=4
+[SessionManager] got chunk 4 has_more=0
+===== END server_A.log =====
+
+===== BEGIN server_B.log =====
+2025-12-07 18:34:57.571 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:57.571 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:57.572 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:57.774 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:57.774 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:57.774 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:57.977 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:57.978 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:57.978 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:58.180 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:58.180 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:58.180 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:58.216 DEBUG [B] [NodeControl] Ping from C at 1765161298260
+2025-12-07 18:34:58.383 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:58.383 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:58.383 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:58.584 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:58.585 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:58.585 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:58.787 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:58.787 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:58.788 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:58.990 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:58.990 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:58.990 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:59.193 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:59.193 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:59.193 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:59.395 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:59.395 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:59.395 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:59.596 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:59.597 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:59.597 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:34:59.798 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:34:59.798 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:34:59.798 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:00.000 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:00.001 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:00.001 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:00.203 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:00.203 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:00.204 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:00.406 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:00.407 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:00.407 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:00.609 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:00.609 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:00.609 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:00.811 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:00.811 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:00.811 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.014 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.014 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.014 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.016 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.016 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.016 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.219 DEBUG [B] [NodeControl] Ping from C at 1765161301262
+2025-12-07 18:35:01.219 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.220 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.220 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.221 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.222 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.222 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.230 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.230 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.230 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.243 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.243 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.243 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.265 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.266 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.266 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.309 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.309 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.309 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.391 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.392 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.392 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.554 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.555 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.555 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.758 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.758 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.758 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:01.961 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:01.961 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:01.961 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:02.163 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:02.164 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:02.164 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:02.366 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:02.366 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:02.366 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:02.568 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:02.568 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:02.568 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:02.771 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:02.771 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:02.771 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:02.973 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:02.973 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:02.974 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:03.176 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:03.177 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:03.177 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:03.380 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:03.380 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:03.381 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:03.583 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:03.583 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:03.583 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:03.786 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:03.786 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:03.786 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:03.989 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:03.989 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:03.990 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:04.192 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:04.192 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:04.192 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:04.222 DEBUG [B] [NodeControl] Ping from C at 1765161304265
+2025-12-07 18:35:04.394 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:04.394 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:04.395 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:04.597 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:04.597 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:04.598 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:04.799 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:04.800 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:04.800 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:05.003 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:05.003 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:05.003 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:05.205 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:05.205 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:05.205 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:05.408 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:05.408 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:05.408 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:05.609 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:05.610 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:05.610 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:05.811 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:05.811 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:05.812 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.014 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.014 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.014 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.216 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.216 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.216 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.218 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.218 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.218 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.421 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.421 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.422 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.423 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.424 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.424 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.431 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.431 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.431 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.444 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.444 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.444 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.467 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.467 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.467 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.509 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.509 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.509 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.592 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.592 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.592 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.754 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.754 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.755 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:06.957 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:06.957 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:06.957 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:07.159 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:07.160 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:07.160 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:07.225 DEBUG [B] [NodeControl] Ping from C at 1765161307268
+2025-12-07 18:35:07.362 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:07.362 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:07.362 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:07.564 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:07.564 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:07.564 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:07.766 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:07.766 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:07.766 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:07.972 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:07.972 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:07.972 DEBUG [B] [RequestProcessor] No tasks available for C
+[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
+2025-12-07 18:35:08.019 INFO [B] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+2025-12-07 18:35:08.019 INFO [B] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+[B] Loading dataset from query: test_data/data_500k.csv
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+2025-12-07 18:35:08.189 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:08.189 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:08.189 DEBUG [B] [RequestProcessor] No tasks available for C
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+2025-12-07 18:35:08.262 INFO [B] [TeamLeader] Request test-strategyB-getnext has 1 healthy worker(s) available
+2025-12-07 18:35:08.262 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.0 to worker C (avg_ms=0.000000, queue=1)
+2025-12-07 18:35:08.263 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.1 to worker C (avg_ms=0.000000, queue=2)
+2025-12-07 18:35:08.263 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.2 to worker C (avg_ms=0.000000, queue=3)
+2025-12-07 18:35:08.263 INFO [B] [RequestProcessor] HandleTeamRequest: created and assigned tasks for request_id=test-strategyB-getnext (total_rows=500000)
+2025-12-07 18:35:08.390 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:08.390 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=3)]
+2025-12-07 18:35:08.390 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.0 to worker C from OWN_QUEUE
+2025-12-07 18:35:08.390 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.0 to C
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader B] Received worker result for: test-strategyB-getnext part=0
+2025-12-07 18:35:09.024 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.024 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=2)]
+2025-12-07 18:35:09.024 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.1 to worker C from OWN_QUEUE
+2025-12-07 18:35:09.024 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.1 to C
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader B] Received worker result for: test-strategyB-getnext part=1
+2025-12-07 18:35:09.322 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.322 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=1)]
+2025-12-07 18:35:09.322 DEBUG [B] [RequestProcessor] Assigning task test-strategyB-getnext.2 to worker C from OWN_QUEUE
+2025-12-07 18:35:09.322 DEBUG [B] [TeamIngress] Assigned task test-strategyB-getnext.2 to C
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader B] Received worker result for: test-strategyB-getnext part=2
+2025-12-07 18:35:09.594 INFO [B] [TeamLeader] Received all 3 results for request test-strategyB-getnext
+2025-12-07 18:35:09.594 INFO [B] [TeamLeader] Done processing request: test-strategyB-getnext
+2025-12-07 18:35:09.594 INFO [B] [TeamLeader] Sending results to leader
+2025-12-07 18:35:09.597 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.597 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.597 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.604 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.604 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.604 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.616 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.616 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.616 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.638 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.638 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.638 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.679 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.680 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.680 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.763 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.763 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.763 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.925 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:09.925 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:09.925 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:09.935 DEBUG [B] [TeamLeader] Sent part 0 to leader
+2025-12-07 18:35:10.126 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:10.127 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:10.127 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:10.227 DEBUG [B] [NodeControl] Ping from C at 1765161310271
+2025-12-07 18:35:10.228 DEBUG [B] [Heartbeat] Updated stats for C (healthy=1): avg_ms=12.727680, queue=0
+2025-12-07 18:35:10.329 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:10.329 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:10.329 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:10.478 DEBUG [B] [TeamLeader] Sent part 1 to leader
+2025-12-07 18:35:10.531 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:10.531 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:10.531 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:10.689 DEBUG [B] [TeamLeader] Sent part 2 to leader
+2025-12-07 18:35:10.733 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:10.733 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:10.733 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:10.934 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:10.935 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:10.935 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:11.136 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:11.136 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:11.136 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:11.338 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:11.339 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:11.339 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:11.540 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:11.540 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:11.540 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:11.742 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:11.742 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:11.742 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:11.944 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:11.945 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:11.945 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:12.147 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:12.147 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:12.147 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:12.349 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:12.349 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:12.349 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:12.551 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:12.551 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:12.551 DEBUG [B] [RequestProcessor] No tasks available for C
+2025-12-07 18:35:12.753 DEBUG [B] [TeamIngress] RequestTask from C
+2025-12-07 18:35:12.753 DEBUG [B] [RequestProcessor] RequestTaskForWorker called for worker_id=C | known_workers=[C(healthy=1,queue=0)]
+2025-12-07 18:35:12.753 DEBUG [B] [RequestProcessor] No tasks available for C
+===== END server_B.log =====
+
+===== BEGIN server_D.log =====
+2025-12-07 18:34:57.769 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.0
+2025-12-07 18:34:57.769 DEBUG [D] [Worker] Processing task test-strategyB-getnext.0
+===== END server_D.log =====
+
+
+# Combined slice for slowCD_500k at Sun Dec  7 18:35:13 PST 2025
+===== BEGIN server_C.log =====
+2025-12-07 18:35:08.435 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.0
+2025-12-07 18:35:08.435 DEBUG [C] [Worker] Processing task test-strategyB-getnext.0
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+[DataProcessor] chunk start=0 requested=166667 actual=166667
+[DataProcessor] processed=166667
+2025-12-07 18:35:08.756 DEBUG [C] [Worker] Generated 20637740 bytes for task test-strategyB-getnext.0
+2025-12-07 18:35:08.765 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.0 in 329.228500ms
+2025-12-07 18:35:09.069 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.1
+2025-12-07 18:35:09.069 DEBUG [C] [Worker] Processing task test-strategyB-getnext.1
+[RequestProcessor] Dataset already loaded: test_data/data_500k.csv
+[DataProcessor] chunk start=166667 requested=166667 actual=166667
+[DataProcessor] processed=166667
+2025-12-07 18:35:09.129 DEBUG [C] [Worker] Generated 20632203 bytes for task test-strategyB-getnext.1
+2025-12-07 18:35:09.136 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.1 in 67.280700ms
+2025-12-07 18:35:09.367 DEBUG [C] [WorkerLoop] Pulled task test-strategyB-getnext.2
+2025-12-07 18:35:09.367 DEBUG [C] [Worker] Processing task test-strategyB-getnext.2
+[RequestProcessor] Dataset already loaded: test_data/data_500k.csv
+[DataProcessor] chunk start=333334 requested=166666 actual=166666
+[DataProcessor] processed=166666
+2025-12-07 18:35:09.424 DEBUG [C] [Worker] Generated 20636035 bytes for task test-strategyB-getnext.2
+2025-12-07 18:35:09.430 DEBUG [C] [WorkerLoop] Finished task test-strategyB-getnext.2 in 63.638400ms
+===== END server_C.log =====
+
+===== BEGIN server_E.log =====
+2025-12-07 18:34:52.186 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:52.187 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.187 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:52.203 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:52.203 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.204 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:52.389 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:52.389 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.389 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:52.404 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:52.405 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.405 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:52.592 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:52.592 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.592 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:52.606 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:52.606 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.606 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:52.794 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:52.794 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.794 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:52.806 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:52.806 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.807 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:52.996 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:52.996 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:52.996 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:53.008 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:53.008 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:53.008 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:53.114 DEBUG [E] [NodeControl] Ping from D at 1765161293069
+2025-12-07 18:34:53.114 DEBUG [E] [Heartbeat] Updated stats for D (healthy=1): avg_ms=7.208820, queue=0
+2025-12-07 18:34:53.209 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:53.210 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:53.210 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:53.411 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:53.411 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:53.411 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:53.612 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:53.612 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:53.612 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:53.814 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:53.814 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:53.814 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:53.871 DEBUG [E] [NodeControl] Ping from F at 1765161293870
+2025-12-07 18:34:54.015 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:54.016 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:54.016 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:54.218 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:54.218 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:54.218 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:54.420 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:54.420 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:54.420 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:54.621 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:54.621 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:54.621 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:54.822 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:54.822 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:54.822 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.023 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.023 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.023 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.225 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.225 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.225 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.426 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.427 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.427 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.628 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.628 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.628 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.829 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.829 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.829 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:55.830 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:55.830 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:55.830 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.031 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.031 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.032 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.032 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.032 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.032 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.038 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.038 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.038 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.049 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.049 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.050 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.071 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.071 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.071 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.113 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.113 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.113 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.194 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.194 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.194 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.270 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.271 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.271 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.277 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.277 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.278 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.289 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.289 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.289 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.312 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.312 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.312 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.354 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.354 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.354 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.356 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.356 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.356 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.435 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.436 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.436 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.557 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.557 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.557 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.598 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.598 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.598 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.758 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.758 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.759 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:56.800 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:56.800 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.801 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:56.872 DEBUG [E] [NodeControl] Ping from F at 1765161296872
+2025-12-07 18:34:56.960 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:56.961 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:56.961 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:57.002 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:57.002 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.002 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:57.162 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:57.163 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.163 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:57.204 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:57.205 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.205 DEBUG [E] [RequestProcessor] No tasks available for D
+2025-12-07 18:34:57.364 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:57.364 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.364 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:57.407 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:57.407 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.407 DEBUG [E] [RequestProcessor] No tasks available for D
+[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
+2025-12-07 18:34:57.521 INFO [E] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+2025-12-07 18:34:57.521 INFO [E] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+[E] Loading dataset from query: test_data/data_500k.csv
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+2025-12-07 18:34:57.566 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:57.566 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.566 DEBUG [E] [RequestProcessor] No tasks available for F
+[DataProcessor] Progress: 200000 rows loaded
+2025-12-07 18:34:57.609 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:57.609 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=0),F(healthy=1,queue=0)]
+2025-12-07 18:34:57.609 DEBUG [E] [RequestProcessor] No tasks available for D
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+2025-12-07 18:34:57.725 INFO [E] [TeamLeader] Request test-strategyB-getnext has 2 healthy worker(s) available
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.0 to worker D (avg_ms=7.208820, queue=1)
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.1 to worker D (avg_ms=7.208820, queue=2)
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.2 to worker F (avg_ms=0.000000, queue=1)
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.3 to worker D (avg_ms=7.208820, queue=3)
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.4 to worker F (avg_ms=0.000000, queue=2)
+2025-12-07 18:34:57.725 DEBUG [E] [RequestProcessor] Assigned task test-strategyB-getnext.5 to worker D (avg_ms=7.208820, queue=4)
+2025-12-07 18:34:57.725 INFO [E] [RequestProcessor] HandleTeamRequest: created and assigned tasks for request_id=test-strategyB-getnext (total_rows=500000)
+2025-12-07 18:34:57.768 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:57.768 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=4),F(healthy=1,queue=2)]
+2025-12-07 18:34:57.768 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.2 to worker F from OWN_QUEUE
+2025-12-07 18:34:57.768 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.2 to F
+2025-12-07 18:34:57.812 DEBUG [E] [TeamIngress] RequestTask from D
+2025-12-07 18:34:57.812 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=D | known_workers=[D(healthy=1,queue=4),F(healthy=1,queue=1)]
+2025-12-07 18:34:57.812 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.0 to worker D from OWN_QUEUE
+2025-12-07 18:34:57.812 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.0 to D
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader E] Received worker result for: test-strategyB-getnext part=2
+2025-12-07 18:34:58.081 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.081 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=1)]
+2025-12-07 18:34:58.081 DEBUG [E] [RequestProcessor] Assigning task test-strategyB-getnext.4 to worker F from OWN_QUEUE
+2025-12-07 18:34:58.081 DEBUG [E] [TeamIngress] Assigned task test-strategyB-getnext.4 to F
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
+[TeamLeader E] Received worker result for: test-strategyB-getnext part=4
+2025-12-07 18:34:58.151 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.151 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.151 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.157 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.157 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.158 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.169 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.169 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.169 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.191 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.191 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.191 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.232 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.233 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.233 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.314 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.314 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.314 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.476 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.476 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.477 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.678 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.679 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.679 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:58.881 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:58.881 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:58.881 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:59.083 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:59.083 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:59.083 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:59.270 DEBUG [E] [NodeControl] Ping from D at 1765161299224
+2025-12-07 18:34:59.285 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:59.285 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:59.285 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:59.487 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:59.488 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:59.488 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:59.689 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:59.689 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:59.690 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:34:59.875 DEBUG [E] [NodeControl] Ping from F at 1765161299874
+2025-12-07 18:34:59.875 DEBUG [E] [Heartbeat] Updated stats for F (healthy=1): avg_ms=3.445480, queue=0
+2025-12-07 18:34:59.891 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:34:59.891 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:34:59.891 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:00.093 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:00.093 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:00.093 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:00.295 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:00.296 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:00.296 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:00.497 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:00.498 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:00.498 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:00.699 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:00.699 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:00.699 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:00.900 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:00.900 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:00.900 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:01.103 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:01.103 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:01.103 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:01.304 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:01.305 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:01.305 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:01.506 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:01.506 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:01.506 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:01.708 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:01.708 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:01.708 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:01.910 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:01.910 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:01.910 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:02.112 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:02.112 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:02.112 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:02.273 DEBUG [E] [NodeControl] Ping from D at 1765161302227
+2025-12-07 18:35:02.313 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:02.314 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:02.314 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:02.516 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:02.516 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:02.517 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:02.719 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:02.719 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:02.719 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:02.877 DEBUG [E] [NodeControl] Ping from F at 1765161302876
+2025-12-07 18:35:02.877 DEBUG [E] [Heartbeat] Updated stats for F (healthy=1): avg_ms=6.201864, queue=0
+2025-12-07 18:35:02.921 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:02.921 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:02.921 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.123 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.124 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.124 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.125 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.125 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.125 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.326 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.326 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.326 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.327 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.327 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.327 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.334 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.334 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.334 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.345 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.346 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.346 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.367 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.367 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.367 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.409 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.409 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.409 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.491 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.491 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.491 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.653 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.653 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.653 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:03.855 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:03.855 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:03.855 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:04.056 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:04.057 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:04.057 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:04.258 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:04.258 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:04.258 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:04.459 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:04.460 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:04.460 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:04.661 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:04.661 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:04.661 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:04.863 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:04.864 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:04.864 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.066 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:05.066 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:05.066 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.268 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:05.269 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:05.269 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.275 DEBUG [E] [NodeControl] Ping from D at 1765161305230
+2025-12-07 18:35:05.471 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:05.471 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:05.471 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.673 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:05.673 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:05.673 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.875 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:05.875 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:05.875 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:05.878 DEBUG [E] [NodeControl] Ping from F at 1765161305878
+2025-12-07 18:35:05.878 DEBUG [E] [Heartbeat] Updated stats for F (healthy=1): avg_ms=8.406971, queue=0
+2025-12-07 18:35:06.077 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:06.077 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:06.077 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:06.279 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:06.279 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:06.279 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:06.481 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:06.481 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:06.482 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:06.683 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:06.683 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:06.683 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:06.885 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:06.886 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:06.886 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.088 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:07.088 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:07.088 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.290 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:07.290 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:07.290 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.492 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:07.492 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:07.492 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.694 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:07.694 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:07.694 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.729 WARN [E] [TeamLeader] Timeout waiting for worker results for request test-strategyB-getnext (waited 10000ms)
+2025-12-07 18:35:07.729 INFO [E] [TeamLeader] Done processing request: test-strategyB-getnext
+2025-12-07 18:35:07.729 INFO [E] [TeamLeader] Sending results to leader
+2025-12-07 18:35:07.896 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:07.896 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:07.896 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:07.919 DEBUG [E] [TeamLeader] Sent part 2 to leader
+2025-12-07 18:35:08.060 DEBUG [E] [TeamLeader] Sent part 4 to leader
+2025-12-07 18:35:08.098 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.098 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.098 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.277 DEBUG [E] [NodeControl] Ping from D at 1765161308232
+2025-12-07 18:35:08.299 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.299 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.300 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.300 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.300 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.300 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.502 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.502 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.502 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.503 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.503 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.504 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.510 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.510 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.510 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.522 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.522 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.522 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.544 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.544 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.544 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.585 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.585 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.585 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.667 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.667 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.667 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.829 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:08.829 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:08.829 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:08.880 DEBUG [E] [NodeControl] Ping from F at 1765161308879
+2025-12-07 18:35:08.880 DEBUG [E] [Heartbeat] Updated stats for F (healthy=1): avg_ms=10.171057, queue=0
+2025-12-07 18:35:09.031 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:09.031 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:09.031 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:09.232 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:09.232 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:09.232 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:09.434 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:09.434 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:09.434 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:09.636 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:09.636 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:09.636 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:09.838 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:09.838 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:09.838 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:10.040 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:10.040 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:10.040 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:10.242 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:10.242 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:10.242 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:10.444 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:10.444 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:10.444 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:10.646 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:10.647 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:10.647 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:10.848 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:10.848 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:10.849 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.050 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:11.050 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:11.051 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.252 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:11.253 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:11.253 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.279 DEBUG [E] [NodeControl] Ping from D at 1765161311233
+2025-12-07 18:35:11.454 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:11.454 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:11.454 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.655 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:11.655 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:11.655 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.857 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:11.857 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:11.857 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:11.881 DEBUG [E] [NodeControl] Ping from F at 1765161311880
+2025-12-07 18:35:11.881 DEBUG [E] [Heartbeat] Updated stats for F (healthy=1): avg_ms=11.582326, queue=0
+2025-12-07 18:35:12.059 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:12.059 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:12.059 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:12.261 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:12.261 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:12.261 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:12.463 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:12.463 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:12.463 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:12.665 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:12.665 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:12.665 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:12.866 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:12.866 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:12.866 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.068 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.068 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.068 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.270 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.271 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.271 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.472 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.472 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.473 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.473 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.474 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.474 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.675 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.675 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.675 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.676 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.676 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.676 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.683 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.683 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.683 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.694 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.695 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.695 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.716 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.716 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.716 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.757 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.757 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.757 DEBUG [E] [RequestProcessor] No tasks available for F
+2025-12-07 18:35:13.839 DEBUG [E] [TeamIngress] RequestTask from F
+2025-12-07 18:35:13.839 DEBUG [E] [RequestProcessor] RequestTaskForWorker called for worker_id=F | known_workers=[D(healthy=1,queue=3),F(healthy=1,queue=0)]
+2025-12-07 18:35:13.839 DEBUG [E] [RequestProcessor] No tasks available for F
+===== END server_E.log =====
+
+===== BEGIN server_F.log =====
+2025-12-07 18:34:57.768 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.2
+2025-12-07 18:34:57.768 DEBUG [F] [Worker] Processing task test-strategyB-getnext.2
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+[DataProcessor] chunk start=166668 requested=83334 actual=83334
+[DataProcessor] processed=83334
+2025-12-07 18:34:58.017 DEBUG [F] [Worker] Generated 10315667 bytes for task test-strategyB-getnext.2
+2025-12-07 18:34:58.020 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.2 in 251.821700ms
+2025-12-07 18:34:58.081 DEBUG [F] [WorkerLoop] Pulled task test-strategyB-getnext.4
+2025-12-07 18:34:58.081 DEBUG [F] [Worker] Processing task test-strategyB-getnext.4
+[RequestProcessor] Dataset already loaded: test_data/data_500k.csv
+[DataProcessor] chunk start=333336 requested=83334 actual=83334
+[DataProcessor] processed=83334
+2025-12-07 18:34:58.095 DEBUG [F] [Worker] Generated 10318229 bytes for task test-strategyB-getnext.4
+2025-12-07 18:34:58.098 DEBUG [F] [WorkerLoop] Finished task test-strategyB-getnext.4 in 17.227400ms
+===== END server_F.log =====
+
