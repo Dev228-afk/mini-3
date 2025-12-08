@@ -1,3 +1,97 @@
+
+
+# Combined slice for crashC_500k at Sun Dec  7 18:37:58 PST 2025
+===== BEGIN server_A.log =====
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765161465309-2845 query=test_data/data_500k.csv
+[ClientGateway] background processing for session session-1765161465309-2845
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] GetNext: session-1765161465309-2845 index=0
+[SessionManager] wait chunk 0 in session-1765161465309-2845
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=5
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=3
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=3
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=4
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=4
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+2025-12-07 18:37:57.297 WARN [A] [Leader] Partial team failure for request test-strategyB-getnext: 1/2 teams succeeded. Failures: unknown
+[Leader] done (partial): test-strategyB-getnext chunks=6
+[SessionManager] add chunk 0 -> session-1765161465309-2845 total=1
+[SessionManager] got chunk 0 has_more=1
+[SessionManager] add chunk 1 -> session-1765161465309-2845 total=2
+[SessionManager] add chunk 5 -> session-1765161465309-2845 total=3
+[SessionManager] add chunk 2 -> session-1765161465309-2845 total=4
+[SessionManager] add chunk 3 -> session-1765161465309-2845 total=5
+[SessionManager] add chunk 4 -> session-1765161465309-2845 total=6
+[SessionManager] done session session-1765161465309-2845 chunks=6
+[ClientGateway] background done for session session-1765161465309-2845
+[ClientGateway] GetNext: session-1765161465309-2845 index=1
+[SessionManager] got chunk 1 has_more=1
+[ClientGateway] GetNext: session-1765161465309-2845 index=2
+[SessionManager] got chunk 2 has_more=1
+[ClientGateway] GetNext: session-1765161465309-2845 index=3
+[SessionManager] got chunk 3 has_more=1
+[ClientGateway] GetNext: session-1765161465309-2845 index=4
+[SessionManager] got chunk 4 has_more=1
+[ClientGateway] GetNext: session-1765161465309-2845 index=5
+[SessionManager] got chunk 5 has_more=0
+===== END server_A.log =====
+
+===== BEGIN server_B.log =====
+[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
+2025-12-07 18:37:46.984 INFO [B] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+2025-12-07 18:37:46.984 INFO [B] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_500k.csv
+[B] Loading dataset from query: test_data/data_500k.csv
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+2025-12-07 18:37:47.225 INFO [B] [TeamLeader] Request test-strategyB-getnext has 1 healthy worker(s) available
+2025-12-07 18:37:47.225 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.0 to worker C (avg_ms=0.000000, queue=1)
+2025-12-07 18:37:47.225 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.1 to worker C (avg_ms=0.000000, queue=2)
+2025-12-07 18:37:47.225 DEBUG [B] [RequestProcessor] Assigned task test-strategyB-getnext.2 to worker C (avg_ms=0.000000, queue=3)
+2025-12-07 18:37:47.225 INFO [B] [RequestProcessor] HandleTeamRequest: created and assigned tasks for request_id=test-strategyB-getnext (total_rows=500000)
+2025-12-07 18:37:54.543 WARN [B] [Maintenance] Worker C marked as DEAD (no heartbeat for 11s)
+2025-12-07 18:37:54.543 WARN [B] [TeamLeader] Worker C became unhealthy; reassigning its 3 pending tasks.
+2025-12-07 18:37:57.228 WARN [B] [TeamLeader] Timeout waiting for worker results for request test-strategyB-getnext (waited 10000ms)
+2025-12-07 18:37:57.228 INFO [B] [TeamLeader] Done processing request: test-strategyB-getnext
+2025-12-07 18:37:57.228 INFO [B] [TeamLeader] Sending results to leader
+===== END server_B.log =====
+
+===== BEGIN server_D.log =====
+2025-12-07 18:37:45.613 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.5
+2025-12-07 18:37:45.613 DEBUG [D] [Worker] Processing task test-strategyB-getnext.5
+[RequestProcessor] Loading dataset: test_data/data_500k.csv
+[DataProcessor] loading test_data/data_500k.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] loaded 500000 row(s)
+[RequestProcessor] Dataset loaded successfully: 500000 rows
+[DataProcessor] chunk start=416670 requested=83330 actual=83330
+[DataProcessor] processed=83330
+2025-12-07 18:37:45.907 DEBUG [D] [Worker] Generated 10315510 bytes for task test-strategyB-getnext.5
+2025-12-07 18:37:45.910 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.5 in 297.045400ms
+===== END server_D.log =====
+
+
 # Combined slice for crashC_500k at Sun Dec  7 18:37:59 PST 2025
 ===== BEGIN server_C.log =====
 2025-12-07 18:37:44.887 INFO [C] [Signal] Received signal 15, initiating graceful shutdown...
