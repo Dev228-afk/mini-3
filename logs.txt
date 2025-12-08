@@ -1,3 +1,168 @@
+
+# Combined slice for crashC_5m at Sun Dec  7 18:17:41 PST 2025
+===== BEGIN server_A.log =====
+[ClientGateway] start: test-strategyB-getnext
+[SessionManager] new session session-1765160223901-3465 query=test_data/data_5m.csv
+[ClientGateway] background processing for session session-1765160223901-3465
+[Leader] request: test-strategyB-getnext green=1 pink=1
+[ClientGateway] GetNext: session-1765160223901-3465 index=0
+[SessionManager] wait chunk 0 in session-1765160223901-3465
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=0
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=0
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=5
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=5
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=1
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=1
+[TeamIngress] PushWorkerResult: test-strategyB-getnext part=2
+[TeamLeader A] Received worker result for: test-strategyB-getnext part=2
+[Leader] Forwarded to team leader: 169.254.206.255:50054
+[Leader] Forwarded to team leader: 169.254.239.138:50051
+[Leader] Forwarded request to 2 team leader(s)
+[Leader] waiting for 2 team-leader result(s)
+2025-12-07 18:17:28.907 WARN [A] [Leader] Partial team failure for request test-strategyB-getnext: 1/2 teams succeeded. Failures: unknown
+[Leader] done (partial): test-strategyB-getnext chunks=4
+[SessionManager] add chunk 0 -> session-1765160223901-3465 total=1
+[SessionManager] got chunk 0 has_more=1
+[SessionManager] add chunk 5 -> session-1765160223901-3465 total=2
+[SessionManager] add chunk 1 -> session-1765160223901-3465 total=3
+[SessionManager] add chunk 2 -> session-1765160223901-3465 total=4
+[SessionManager] done session session-1765160223901-3465 chunks=4
+[ClientGateway] background done for session session-1765160223901-3465
+[ClientGateway] GetNext: session-1765160223901-3465 index=1
+[SessionManager] got chunk 1 has_more=1
+[ClientGateway] GetNext: session-1765160223901-3465 index=2
+[SessionManager] got chunk 2 has_more=1
+[ClientGateway] GetNext: session-1765160223901-3465 index=3
+[SessionManager] got chunk 3 has_more=0
+===== END server_A.log =====
+
+===== BEGIN server_B.log =====
+2025-12-07 18:17:12.583 WARN [B] [Maintenance] Worker C marked as DEAD (no heartbeat for 11s)
+[TeamIngress] HandleRequest: test-strategyB-getnext (green=1, pink=1)
+2025-12-07 18:17:25.877 INFO [B] [TeamIngress] HandleRequest: received Request for team leader with request_id=test-strategyB-getnext dataset=test_data/data_5m.csv
+2025-12-07 18:17:25.877 INFO [B] [RequestProcessor] HandleTeamRequest: processing request_id=test-strategyB-getnext dataset=test_data/data_5m.csv
+[B] Loading dataset from query: test_data/data_5m.csv
+[RequestProcessor] Loading dataset: test_data/data_5m.csv
+[DataProcessor] loading test_data/data_5m.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] Progress: 600000 rows loaded
+[DataProcessor] Progress: 700000 rows loaded
+[DataProcessor] Progress: 800000 rows loaded
+[DataProcessor] Progress: 900000 rows loaded
+[DataProcessor] Progress: 1000000 rows loaded
+[DataProcessor] Progress: 1100000 rows loaded
+[DataProcessor] Progress: 1200000 rows loaded
+[DataProcessor] Progress: 1300000 rows loaded
+[DataProcessor] Progress: 1400000 rows loaded
+[DataProcessor] Progress: 1500000 rows loaded
+[DataProcessor] Progress: 1600000 rows loaded
+[DataProcessor] Progress: 1700000 rows loaded
+[DataProcessor] Progress: 1800000 rows loaded
+[DataProcessor] Progress: 1900000 rows loaded
+[DataProcessor] Progress: 2000000 rows loaded
+[DataProcessor] Progress: 2100000 rows loaded
+[DataProcessor] Progress: 2200000 rows loaded
+[DataProcessor] Progress: 2300000 rows loaded
+[DataProcessor] Progress: 2400000 rows loaded
+[DataProcessor] Progress: 2500000 rows loaded
+[DataProcessor] Progress: 2600000 rows loaded
+[DataProcessor] Progress: 2700000 rows loaded
+[DataProcessor] Progress: 2800000 rows loaded
+[DataProcessor] Progress: 2900000 rows loaded
+[DataProcessor] Progress: 3000000 rows loaded
+[DataProcessor] Progress: 3100000 rows loaded
+[DataProcessor] Progress: 3200000 rows loaded
+[DataProcessor] Progress: 3300000 rows loaded
+[DataProcessor] Progress: 3400000 rows loaded
+[DataProcessor] Progress: 3500000 rows loaded
+[DataProcessor] Progress: 3600000 rows loaded
+[DataProcessor] Progress: 3700000 rows loaded
+[DataProcessor] Progress: 3800000 rows loaded
+[DataProcessor] Progress: 3900000 rows loaded
+[DataProcessor] Progress: 4000000 rows loaded
+[DataProcessor] Progress: 4100000 rows loaded
+[DataProcessor] Progress: 4200000 rows loaded
+[DataProcessor] Progress: 4300000 rows loaded
+[DataProcessor] Progress: 4400000 rows loaded
+[DataProcessor] Progress: 4500000 rows loaded
+[DataProcessor] Progress: 4600000 rows loaded
+[DataProcessor] Progress: 4700000 rows loaded
+[DataProcessor] Progress: 4800000 rows loaded
+[DataProcessor] Progress: 4900000 rows loaded
+[DataProcessor] Progress: 5000000 rows loaded
+[DataProcessor] loaded 5000000 row(s)
+[RequestProcessor] Dataset loaded successfully: 5000000 rows
+2025-12-07 18:17:28.423 WARN [B] [TeamLeader] No healthy workers available; failing request test-strategyB-getnext fast
+===== END server_B.log =====
+
+===== BEGIN server_D.log =====
+2025-12-07 18:17:06.170 DEBUG [D] [WorkerLoop] Pulled task test-strategyB-getnext.5
+2025-12-07 18:17:06.170 DEBUG [D] [Worker] Processing task test-strategyB-getnext.5
+[RequestProcessor] Loading dataset: test_data/data_5m.csv
+[DataProcessor] loading test_data/data_5m.csv
+[DataProcessor] Progress: 100000 rows loaded
+[DataProcessor] Progress: 200000 rows loaded
+[DataProcessor] Progress: 300000 rows loaded
+[DataProcessor] Progress: 400000 rows loaded
+[DataProcessor] Progress: 500000 rows loaded
+[DataProcessor] Progress: 600000 rows loaded
+[DataProcessor] Progress: 700000 rows loaded
+[DataProcessor] Progress: 800000 rows loaded
+[DataProcessor] Progress: 900000 rows loaded
+[DataProcessor] Progress: 1000000 rows loaded
+[DataProcessor] Progress: 1100000 rows loaded
+[DataProcessor] Progress: 1200000 rows loaded
+[DataProcessor] Progress: 1300000 rows loaded
+[DataProcessor] Progress: 1400000 rows loaded
+[DataProcessor] Progress: 1500000 rows loaded
+[DataProcessor] Progress: 1600000 rows loaded
+[DataProcessor] Progress: 1700000 rows loaded
+[DataProcessor] Progress: 1800000 rows loaded
+[DataProcessor] Progress: 1900000 rows loaded
+[DataProcessor] Progress: 2000000 rows loaded
+[DataProcessor] Progress: 2100000 rows loaded
+[DataProcessor] Progress: 2200000 rows loaded
+[DataProcessor] Progress: 2300000 rows loaded
+[DataProcessor] Progress: 2400000 rows loaded
+[DataProcessor] Progress: 2500000 rows loaded
+[DataProcessor] Progress: 2600000 rows loaded
+[DataProcessor] Progress: 2700000 rows loaded
+[DataProcessor] Progress: 2800000 rows loaded
+[DataProcessor] Progress: 2900000 rows loaded
+[DataProcessor] Progress: 3000000 rows loaded
+[DataProcessor] Progress: 3100000 rows loaded
+[DataProcessor] Progress: 3200000 rows loaded
+[DataProcessor] Progress: 3300000 rows loaded
+[DataProcessor] Progress: 3400000 rows loaded
+[DataProcessor] Progress: 3500000 rows loaded
+[DataProcessor] Progress: 3600000 rows loaded
+[DataProcessor] Progress: 3700000 rows loaded
+[DataProcessor] Progress: 3800000 rows loaded
+[DataProcessor] Progress: 3900000 rows loaded
+[DataProcessor] Progress: 4000000 rows loaded
+[DataProcessor] Progress: 4100000 rows loaded
+[DataProcessor] Progress: 4200000 rows loaded
+[DataProcessor] Progress: 4300000 rows loaded
+[DataProcessor] Progress: 4400000 rows loaded
+[DataProcessor] Progress: 4500000 rows loaded
+[DataProcessor] Progress: 4600000 rows loaded
+[DataProcessor] Progress: 4700000 rows loaded
+[DataProcessor] Progress: 4800000 rows loaded
+[DataProcessor] Progress: 4900000 rows loaded
+[DataProcessor] Progress: 5000000 rows loaded
+[DataProcessor] loaded 5000000 row(s)
+[RequestProcessor] Dataset loaded successfully: 5000000 rows
+[DataProcessor] chunk start=4166670 requested=833330 actual=833330
+[DataProcessor] processed=833330
+2025-12-07 18:17:09.597 DEBUG [D] [Worker] Generated 103181813 bytes for task test-strategyB-getnext.5
+2025-12-07 18:17:09.630 DEBUG [D] [WorkerLoop] Finished task test-strategyB-getnext.5 in 3459.826000ms
+===== END server_D.log =====
+
+
 # Combined slice for crashC_5m at Sun Dec  7 18:17:44 PST 2025
 ===== BEGIN server_C.log =====
 2025-12-07 18:17:01.615 DEBUG2025-12-07 18:17:01.615 DEBUG [C] [WorkerLoop] RequestTask failed: failed to connect to all addresses; last error: UNKNOWN: ipv4:169.254.239.138:50051: Failed to connect to remote host: Connection refused
