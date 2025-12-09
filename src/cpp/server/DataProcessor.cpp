@@ -1,3 +1,6 @@
+// DataProcessor.cpp - CSV file loading, parsing, and chunking
+// Supports datasets from 1K to 10M rows with efficient memory usage
+
 #include "DataProcessor.h"
 #include <iostream>
 #include <algorithm>

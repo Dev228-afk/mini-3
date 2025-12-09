@@ -1,3 +1,6 @@
+// ServerMain.cpp - Mini-3 server entry point for all 6 nodes (A-F)
+// Runs as leader (A), team leader (B,E), or worker (C,D,F) based on --node flag
+// Used by: start_servers.sh, start_node.sh
 
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"

@@ -1,3 +1,7 @@
+// RequestProcessor.cpp - Core request routing & coordination logic
+// Handles leader (A), team leader (B,E), and worker (C,D,F) roles
+// Features: configurable timeouts, partial success, capacity-aware scheduling
+
 #include "RequestProcessor.h"
 #include "../common/logging.h"
 #include <iostream>

@@ -32,10 +32,3 @@ target_link_libraries(mini2_client PRIVATE mini2_common mini2_proto gRPC::grpc++
 
 add_executable(cpp_unit_tests ../../tests/cpp_unit_tests.cpp)
 target_link_libraries(cpp_unit_tests PRIVATE mini2_common mini2_proto gRPC::grpc++ protobuf::libprotobuf)
-
-# Utility tool to inspect shared memory segments (Phase 4)
-add_executable(inspect_shm tools/inspect_shm.cpp)
-target_link_libraries(inspect_shm PRIVATE pthread)
-if (NOT APPLE)
-    target_link_libraries(inspect_shm PRIVATE rt)
-endif()

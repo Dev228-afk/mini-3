@@ -1,3 +1,6 @@
+// ClientMain.cpp - Mini-3 client implementation
+// Supports Strategy B (GetNextChunk) for sequential chunk retrieval
+// Used by: test_real_data.sh, run_multi_clients.sh
 
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"

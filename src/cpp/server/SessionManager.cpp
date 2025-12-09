@@ -1,3 +1,6 @@
+// SessionManager.cpp - Session tracking & multi-client request correlation
+// Generates unique session IDs to prevent chunk routing collisions
+
 #include "SessionManager.h"
 #include <iostream>
 #include <sstream>

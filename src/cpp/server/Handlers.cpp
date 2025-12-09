@@ -1,3 +1,8 @@
+// Handlers.cpp - gRPC service implementations for all node types
+// ClientGateway: StartRequest, GetNextChunk (used by clients)
+// TeamIngress: HandleRequest, PushWorkerResult (team coordination)
+// WorkerControl: RequestTask, ReportHealth (worker management)
+// NodeControl: Ping, Broadcast, Shutdown (health & control)
 
 #include <grpcpp/grpcpp.h>
 #include "minitwo.grpc.pb.h"
